@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { ThreeDots } from "react-loader-spinner";
+import BeatLoader from "react-spinners/BeatLoader";
 import { RxTrackPrevious, RxTrackNext, RxPause, RxPlay } from "react-icons/rx";
 import { MdErrorOutline } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
@@ -130,7 +130,7 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
           ) : (
             // 'NOT_READY'
             <>
-              <ThreeDots width={50} height={50} color="black" />
+              <BeatLoader size={15} color="#000000" />
             </>
           )}
         </div>

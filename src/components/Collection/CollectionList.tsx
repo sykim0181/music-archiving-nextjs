@@ -69,7 +69,7 @@ const CollectionList = () => {
       </div>
 
       {isFetchingNextPage 
-        ? <Loading width={50} height={50} /> 
+        ? <Loading size={50} /> 
         : <div style={{ width: '100%', height: '100%' }} ref={ref} />
       } 
     </>

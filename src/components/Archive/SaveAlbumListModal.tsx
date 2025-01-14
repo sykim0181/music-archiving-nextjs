@@ -107,7 +107,7 @@ const SaveAlbumListModal = (props: Props) => {
 
           {isSaving && (
             <div className="is_saving">
-              <Loading width={50} height={50} />
+              <Loading size={50} />
               <p className="save_message">저장 중...</p>
             </div>
           )}

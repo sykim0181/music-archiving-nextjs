@@ -120,6 +120,9 @@
   border-radius: 10px;
 }
 
-.collection_album_list_loader {
+.collection_album_list_loader_container {
+  width: 100%;
+  padding: 20px 0;
+  display: flex;
   justify-content: center;
 }

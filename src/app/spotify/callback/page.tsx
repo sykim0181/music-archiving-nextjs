@@ -45,7 +45,7 @@ const Page = () => {
 
   return (
     <div className="center_screen">
-      <Loading width={100} height={100} />
+      <Loading size={100} />
     </div>
   )
 }

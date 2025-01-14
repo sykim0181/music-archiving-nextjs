@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { ThreeDots } from "react-loader-spinner";
+import BeatLoader from "react-spinners/BeatLoader";
 import { FaPlay, FaPause } from "react-icons/fa";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import { IoMdReturnLeft, IoMdLogIn } from "react-icons/io";
@@ -125,7 +125,7 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
           ) : (
             // 'NOT_READY'
             <>
-              <ThreeDots width={25} height={25} color="black" />
+              <BeatLoader size={10} color="#000000" />
             </>
           )}
         </div>

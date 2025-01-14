@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useMemo, useState } from "react";
-import { ThreeDots } from "react-loader-spinner";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import SyncLoader from "react-spinners/SyncLoader";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdPlayArrow } from "react-icons/md";
         
@@ -73,7 +73,9 @@ const Page = () => {
   const albumListElements = useMemo(() => {
     if (albumList === null) {
       return (
-        <ThreeDots color="black" wrapperClass="collection_album_list_loader" width={50} height={50} />
+        <div className="collection_album_list_loader_container">
+          <SyncLoader color="#000000" size={10} />
+        </div>
       );
     }
 
