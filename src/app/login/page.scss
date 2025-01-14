@@ -1,0 +1,59 @@
+@use "../globals";
+
+@include globals.mobile {
+  .button_group {
+    button {
+      font-size: 18px;
+      width: 250px;
+    }
+  }
+}
+
+@include globals.tablet {
+  .button_group {
+    button {
+      font-size: 20px;
+      width: 300px;
+    }
+  }
+}
+
+@include globals.desktop {
+  .button_group {
+    button {
+      font-size: 22px;
+      width: 350px;
+    }
+  }
+}
+
+.login_container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.button_group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  & button {
+    border-radius: 20px;
+    padding: 10px;
+    border: none;
+  }
+}
+
+.kakao_button {
+  background-color: #ffe300;
+  color: #1E1E1E;
+}
+
+.spotify_button {
+  background-color: #1ED760;
+  color: white;
+}

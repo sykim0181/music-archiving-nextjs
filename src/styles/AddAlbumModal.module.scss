@@ -1,0 +1,107 @@
+@use "../app/globals";
+
+@include globals.mobile {
+  .album_item_cover {
+    width: 70px;
+    height: 70px;
+  }
+
+  .album_item_description {
+    width: calc(100% - 70px - 10px);
+    p {
+      font-size: 14px;
+    }
+  }
+}
+
+@include globals.tablet {
+  .album_item_cover {
+    width: 90px;
+    height: 90px;
+  }
+
+  .album_item_description {
+    width: calc(100% - 90px - 10px);
+    p {
+      font-size: 15px;
+    }
+  }
+}
+
+@include globals.desktop {
+  .album_item_cover {
+    width: 100px;
+    height: 100px;
+  }
+
+  .album_item_description {
+    width: calc(100% - 100px - 10px);
+    p {
+      font-size: 16px;
+    }
+  }
+}
+
+.add_song_modal {
+  width: calc(100vw * 0.8);
+  height: calc(500px - 15px * 2);
+  max-width: calc(600px - 15px * 2);
+  min-width: calc(70px * 2 + 10px + 15px * 2);
+}
+
+.search_album {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  width: 80%;
+}
+
+.input_search_album {
+  outline: none;
+  border-width: 0;
+  margin-left: 5px;
+  padding: 10px;
+  width: 100%;
+  height: 30px;
+  font-size: 16px;
+  border-bottom: 1px solid black;
+
+}
+
+.modal_button {
+  padding: 10px 30px;
+  border-radius: 10px;
+}
+
+.search_result_album_list {
+  overflow: auto;
+  width: calc(100% - 15px * 2);
+  height: calc(100% - (30px + 10px) - 40px);
+  position: relative;
+}
+.search_result_album_list::-webkit-scrollbar:horizontal {
+  display: none;
+}
+
+.album_item {
+  display: flex;
+  width: calc(100% - 2 * 2px);
+  cursor: pointer;
+  padding: 10px 0;
+  border: 2px solid white;
+
+  .album_item_cover {
+    position: relative;
+    margin-right: 10px;
+  }
+
+  .album_item_description {
+    p {
+      white-space: nowrap;
+    }
+  }
+}
+
+.selected_album_item {
+  border: 1px solid black;
+}

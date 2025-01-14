@@ -1,0 +1,44 @@
+.save_album_list_modal {
+  width: 280px;
+}
+
+.save_album_list_modal_content_container {
+  padding: 10px 0;
+}
+
+.input_container {
+  display: flex;
+  align-items: center;
+
+  & + & {
+    margin-top: 10px;
+  }
+
+  & input {
+    height: 20px;
+    outline: none;
+    border-width: 0;
+    border-bottom: 1px solid black;
+  }
+}
+
+.title_input {
+  min-width: 80px;
+  margin-right: 10px;
+}
+
+.is_saving {
+  position: absolute;
+  top: 0;
+  background-color: rgba($color: #FFF, $alpha: 0.8);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.save_message {
+  margin-bottom: 0;
+}

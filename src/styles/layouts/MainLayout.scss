@@ -1,0 +1,29 @@
+.main_layout {
+  min-height: 100vh;
+}
+
+.content_container {
+  max-width: 1024px;
+  min-height: calc(100vh - 50px);
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 10px;
+  position: relative;
+
+  & .page_title {
+    margin: 0;
+    padding-top: 20px;
+  }
+
+  .page_divider {
+    width: 100%;
+    height: 2px;
+    background-color: black;
+  }
+
+  .page_sub_divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(99, 99, 99);
+  }
+}

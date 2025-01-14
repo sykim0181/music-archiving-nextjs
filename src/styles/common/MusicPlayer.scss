@@ -1,0 +1,22 @@
+.alert_container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  width: calc(100% - 2 * 20px);
+  height: calc(100% - 2 * 20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.signin_button {
+  background-color: #1ED760;
+}
+
+.album_cover {
+  position: relative;
+  cursor: pointer;
+}

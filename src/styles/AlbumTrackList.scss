@@ -1,0 +1,30 @@
+.track-list {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.track-item {
+  background-color: transparent;
+  color: black;
+  font-size: 15px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgb(220, 220, 220);
+  }
+
+  &--selected {
+    background-color: black;
+    color: white;
+    border-radius: 10px;
+
+    &:hover {
+      background-color: black;
+    }
+  }
+}

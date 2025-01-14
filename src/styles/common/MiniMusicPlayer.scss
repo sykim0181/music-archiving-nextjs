@@ -1,0 +1,123 @@
+#mini_music_player {
+  --padding-size: 15px;
+
+  width: calc(100% - 2 * var(--padding-size));
+  padding: var(--padding-size);
+  height: 100%;
+  position: relative;
+
+  /* Top Content */
+  .top_content {
+    display: flex;
+    align-items: center;
+  }
+
+  .album_cover {
+    width: 100px;
+
+    & img {
+      width: 100%;
+      aspect-ratio: 1;
+      vertical-align: middle;
+      position: relative !important;
+    }
+  }
+
+  .playing_info {
+    width: calc(100% - 2 * 20px - 100px);
+    margin-left: 10px;
+
+    & p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      margin: 0;
+    }
+  }
+
+  .album_info {
+    display: flex;
+    margin-bottom: 20px;
+  }
+
+  .album_name {
+
+  }
+
+  .album_artist {
+
+  }
+
+  .track_name {
+
+  }
+
+  .button_group {
+    & button {
+      font-size: 18px;
+
+      border-radius: 50%;
+      background-color: black;
+      color: white;
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  .play_button {
+
+  }
+
+  /* Bottom Content */
+  .bottom_content {
+    padding-top: 10px;
+    height: 150px;
+  }
+
+  /* Expand Button */
+  #expand_button {
+    position: absolute;
+    width: 25px;
+    height: 12px;
+    top: 0;
+    background-color: black;
+    color: white;
+    left: 50%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+    border-radius: 0 0 8px 8px;
+  }
+
+  /* Alert */
+  .alert_container {
+    flex-direction: row;
+  }
+
+  .alert_message {
+    text-align: center;
+  }
+
+  .alert_button_group {
+    display: flex;
+    margin-left: 10px;
+    gap: 5px;
+
+    & button {
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .signin_button {
+    color: white;
+  }
+
+  .return_button {
+
+  }
+
+  .error_icon {
+    font-size: 20px;
+  }
+}

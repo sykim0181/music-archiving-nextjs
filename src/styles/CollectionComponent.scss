@@ -1,0 +1,54 @@
+.collection_item {
+  width: 100%;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.collection_item_image {
+  // border-radius: 10px;
+  // overflow: hidden;
+  aspect-ratio: 1;
+  width: 100%;
+  position: relative;
+
+  & img {
+    position: relative !important;
+    aspect-ratio: 1;
+  }
+
+  & .blank {
+    aspect-ratio: 1;
+    background-color: transparent;
+  }
+}
+
+.one-image {
+
+}
+
+.four-images {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 0;
+}
+
+.collection_item_description {
+  width: 100%;
+  margin-top: 5px;
+  
+  & p {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin: 0;
+  }
+}
+
+.collection_item_title {
+  font-size: 15px;
+}
+
+.collection_item_artist {
+  font-size: 13px;
+  color: #606060;
+}
