@@ -1,31 +1,25 @@
 'use client'
 
-import { useRouter } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 import Loading from "@/components/Loading";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
 const Page = () => {
-  const urlHash = location.search; 
-  const params = useMemo(() => new URLSearchParams(urlHash), [urlHash]);
-  const iss = params.get('iss');
-  const isSpotify = iss?.includes('spotify');
-
+  const searchParams = useSearchParams();
   const router = useRouter();
 
   useEffect(() => {
+    const iss = searchParams.get('iss');
+    const isSpotify = iss?.includes('spotify');
+
     if (isSpotify) {
       const url = getAuthorizationCodeUrl();
       router.push(url);
     }
-  }, [isSpotify, router]);
+  }, [searchParams, router]);
 
-  if (!isSpotify) {
-    return (
-      <div>Something Wrong...</div>
-    );
-  }
   return (
     <div className="center_screen">
       <Loading size={100} />
