@@ -30,7 +30,7 @@ spotifyAPI.interceptors.response.use((response) => {
     config._retry = true;
     const res = await axios({
       method: 'POST', 
-      url: `${process.env.BASE_URL}/api/spotify/auth/get-access-token?request=true`
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token?request=true`
     });
     if (res.status !== 200) {
       throw new Error(res.data);
@@ -56,7 +56,7 @@ export function getAuthorizationCodeUrl(): string {
   const body = {
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
     response_type: 'code',
-    redirect_uri: `${process.env.BASE_URL}/spotify/callback`,
+    redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/spotify/callback`,
     scope: scope.join(' ')
   };
   url = `${url}?` + queryString.stringify(body);
@@ -110,7 +110,7 @@ export async function getAlbum(
 }
 
 export async function getAccessToken(): Promise<string | null> {
-  const res = await fetch(`${process.env.BASE_URL}/api/spotify/auth/get-access-token`, {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token`, {
     method: 'POST'
   });
   if (res.status !== 200) {

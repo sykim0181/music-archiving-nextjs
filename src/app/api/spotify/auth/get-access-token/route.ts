@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       body: new URLSearchParams({
         grant_type: 'authorization_code',
         code: authorizationCode,
-        redirect_uri: `${process.env.BASE_URL}/spotify/callback`,
+        redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/spotify/callback`,
       })
     };
     const response = await fetch("https://accounts.spotify.com/api/token", payload);
