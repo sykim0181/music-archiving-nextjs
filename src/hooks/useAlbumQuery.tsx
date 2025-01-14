@@ -22,7 +22,7 @@ const useAlbumQuery = (prop: useAlbumQueryProp) => {
       return queryFunc(pageParam);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+    getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {
         return undefined;
       }

@@ -1,7 +1,8 @@
-import { Collection } from "@/types/type";
-import { createClient } from "@/utils/supabase/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+
+import { Collection } from "@/types/type";
+import { createClient } from "@/utils/supabase/client";
 
 interface useCollectionQueryProp {
   limit: number;
@@ -34,7 +35,7 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
       throw new Error(error.message);
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage, allPages, lastPageParam, allPageParams) => {
+    getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {
         return undefined;
       }

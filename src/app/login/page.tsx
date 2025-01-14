@@ -10,7 +10,7 @@ const LoginPage = () => {
   const supabase = createClient();
 
   const onClickKakaoButton = async () => {
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: 'kakao',
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}`
@@ -19,7 +19,7 @@ const LoginPage = () => {
   }
 
   const onClickSpotifyButton = async () =>{
-    const { data, error } = await supabase.auth.signInWithOAuth({
+    await supabase.auth.signInWithOAuth({
       provider: 'spotify',
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/spotify/callback`,

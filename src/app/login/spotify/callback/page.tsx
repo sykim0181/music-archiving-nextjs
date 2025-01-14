@@ -1,15 +1,13 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
 import Loading from "@/components/Loading";
-import { useEffect } from "react";
 import MainLayout from "@/layouts/MainLayout";
 
 const Page = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
 
   const errorCode = searchParams?.get('error_code');
   const isEmailSent = errorCode === 'provider_email_needs_verification';  
