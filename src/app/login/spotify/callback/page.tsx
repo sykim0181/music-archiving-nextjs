@@ -1,16 +1,27 @@
 "use client"
 
-import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
 import Loading from "@/components/Loading";
 import MainLayout from "@/layouts/MainLayout";
 
-const Page = () => {
+const Content = () => {
   const searchParams = useSearchParams();
 
-  const errorCode = searchParams?.get('error_code');
-  const isEmailSent = errorCode === 'provider_email_needs_verification';  
+  const [isEmailSent, setIsEmailSent] = useState(false);  
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const errorCode = searchParams?.get('error_code');
+    if (errorCode === 'provider_email_needs_verification') {
+      setIsEmailSent(true);
+    } else {
+      router.push('/');
+    }
+  }, [searchParams, router]);
 
   if (isEmailSent) {
     return (
@@ -23,8 +34,16 @@ const Page = () => {
   }
   return (
     <div className="center_screen">
-      <Loading size={100} />
+      <Loading size={50} />
     </div>
+  );
+}
+
+const Page = () => {
+  return (
+    <Suspense>
+      <Content />
+    </Suspense>
   );
 }
 

@@ -1,12 +1,12 @@
 'use client'
 
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 
 import Loading from "@/components/Loading";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
-const Page = () => {
+const Content = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -24,6 +24,14 @@ const Page = () => {
     <div className="center_screen">
       <Loading size={100} />
     </div>
+  );
+}
+
+const Page = () => {
+  return (
+    <Suspense>
+      <Content />
+    </Suspense>
   );
 }
 

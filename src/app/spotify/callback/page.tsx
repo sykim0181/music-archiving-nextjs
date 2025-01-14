@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
 import Loading from "@/components/Loading";
 
-const Page = () => {
+const Content = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -48,6 +48,14 @@ const Page = () => {
       <Loading size={100} />
     </div>
   )
+}
+
+const Page = () => {
+  return (
+    <Suspense>
+      <Content />
+    </Suspense>
+  );
 }
 
 export default Page;
