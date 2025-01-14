@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import { Album } from '@/types/type';
-import { getAlbumToPlayFromSessionStorage } from '@/utils/storage';
 
 interface SelectedAlbumState {
   album: Album | null;
@@ -29,7 +28,7 @@ interface MoveVinylPayload {
 const selectedAlbum = createSlice({
   name: 'selectedAlbum',
   initialState: () => {
-    const albumToPlay = getAlbumToPlayFromSessionStorage();
+    const albumToPlay = null;
     const isOnTurntable = albumToPlay !== null;
     return {
       album: albumToPlay,
