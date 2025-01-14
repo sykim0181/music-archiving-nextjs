@@ -2,7 +2,7 @@
 
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
 import { useEffect, useRef } from 'react';
-import React, { PerspectiveCamera, TextureLoader } from 'three';
+import { PerspectiveCamera, TextureLoader } from 'three';
 
 interface Props {
   size: number;
