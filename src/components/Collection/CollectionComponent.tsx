@@ -125,27 +125,9 @@ const CollectionComponent = (props: Props) => {
   }
 
   return (
-    // <div className="collection_item" onClick={onClickItem}> 
-    //   <div className={`collection_item_image ${getClassName()}`}>
-    //     {imagesElement}
-    //   </div>
-      
-    //   <div className="collection_item_description">
-    //     <p className="collection_item_title">{collection.title}</p>
-    //     <p className="collection_item_artist">{getArtistString()}</p>
-    //   </div>
-    // </div>
     <Link 
       className="collection_item"
-      href={{
-        pathname: `collection/${collection.id}`,
-        // query: {
-        //   title: collection.title,
-        //   userId: collection.user_id,
-        //   albumIdList: collection.list_album_id
-        // },
-      }}
-      // as={`collection/${collection.id}`}
+      href={`collection/${collection.id}`}
     >
       <div className={`collection_item_image ${getClassName()}`}>
         {imagesElement}
