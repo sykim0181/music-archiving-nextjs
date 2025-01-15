@@ -17,9 +17,6 @@ const BottomArea = () => {
   const [album, setAlbum] = useState<Album | null>(null);
 
   const isSmallDisplay = useMediaQuery({ query: '(max-width: 560px)' });
-  useEffect(() => {
-    console.log('isSmallDisplay: ', isSmallDisplay);
-  }, [isSmallDisplay]);
   
   useEffect(() => {
     if (albumToPlay !== null) {

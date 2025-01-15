@@ -28,16 +28,13 @@ interface MoveVinylPayload {
 const selectedAlbum = createSlice({
   name: 'selectedAlbum',
   initialState: () => {
-    const albumToPlay = null;
-    const isOnTurntable = albumToPlay !== null;
     return {
-      album: albumToPlay,
+      album: null,
       pos: {
         x: null,
         y: null,
       },
-      isOnTurntable: isOnTurntable,
-      beingPlayed: false,
+      isOnTurntable: false,
     } as SelectedAlbumState;
   },
   reducers: {
@@ -50,7 +47,6 @@ const selectedAlbum = createSlice({
       state.pos.y = null;
     },
     setVinylPosition: (state, action: PayloadAction<SetVinylPositionPayload>) => {
-      console.log(`위치: (${action.payload.posX}, ${action.payload.posY})`);
       state.pos = {
         x: action.payload.posX,
         y: action.payload.posY
