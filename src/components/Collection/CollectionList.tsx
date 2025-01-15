@@ -1,14 +1,21 @@
 'use client'
 
+import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
 import useCollectionQuery from "@/hooks/useCollectionQuery";
 import CollectionComponent from "./CollectionComponent";
 import Loading from "../Loading";
-import { useEffect } from "react";
+import { CollectionItemType } from "@/types/type";
 
-const CollectionList = () => {
-  const limit = 12;
+interface Props {
+  initialData: CollectionItemType[] | undefined;
+  limit: number;
+}
+
+const CollectionList = (props: Props) => {
+  const { initialData, limit } = props;
+
   const {
     collectionList,
     status,
@@ -16,7 +23,7 @@ const CollectionList = () => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage
-  } = useCollectionQuery({ limit });
+  } = useCollectionQuery({ limit, initialData });
 
   const [ref, inView] = useInView();
 
@@ -35,35 +42,35 @@ const CollectionList = () => {
     );
   }
 
-  if (status === 'pending') {
-    // skeleton
-    return (
-      <div className="collections_container">
-        {Array.from({ length: 12 }).map((_, idx) => (
-          <div 
-            key={`collection_item_skeleton_${idx}`} 
-            className="collection_skeleton_item"
-          >
-            <div className="collection_skeleton_image">
+  // if (status === 'pending') {
+  //   // skeleton
+  //   return (
+  //     <div className="collections_container">
+  //       {Array.from({ length: 12 }).map((_, idx) => (
+  //         <div 
+  //           key={`collection_item_skeleton_${idx}`} 
+  //           className="collection_skeleton_item"
+  //         >
+  //           <div className="collection_skeleton_image">
 
-            </div>
-            <div className="collection_skeleton_description">
+  //           </div>
+  //           <div className="collection_skeleton_description">
 
-            </div>
+  //           </div>
             
-          </div>
-        ))}
-      </div>
-    );
-  }
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
       <div className="collections_container">
-        {collectionList.map(collection => (
+        {collectionList.map(item => (
           <CollectionComponent
-            key={collection.id}
-            collection={collection} 
+            key={item.collection.id}
+            collection={item} 
           />
         ))}
       </div>

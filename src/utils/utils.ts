@@ -1,3 +1,6 @@
+import { Collection, CollectionItemType } from "@/types/type";
+import { getAlbum } from "./spotify";
+
 export function msToString(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
   const hours = Math.floor(totalSeconds / 3600);
@@ -26,4 +29,52 @@ export function getRandomNumbersInRange(
   }
 
   return Array.from(numbers);
+}
+
+async function getCollectionRepresentativeAlbums(
+  collection: Collection,
+  accessToken: string
+): Promise<CollectionItemType> {
+  const albumIdList = collection.list_album_id;
+  const repAlbumIds = albumIdList.length <= 4 ? [...albumIdList] : albumIdList.slice(0, 4);
+  
+  const fetchAlbum = async (id: string): Promise<{
+    id: string;
+    name: string;
+    imageUrl: string;
+    artist: string[];
+  } | null> => {
+    
+    const album = await getAlbum(id, accessToken);
+    if (album === null) {
+      return null;
+    }
+    const item = {
+      id: album.id,
+      name: album.name,
+      imageUrl: album.images[0].url,
+      artist: album.artists.map(val => val.name)
+    };
+    return item;
+  };
+
+  const tasks = repAlbumIds.map(id => fetchAlbum(id));
+  const result = await Promise.all(tasks);
+  
+  return {
+    collection: collection,
+    repAlbums: result.filter(val => val !== null)
+  };
+}
+
+export async function getCollectionItemList(
+  collections: Collection[],
+  accessToken: string
+): Promise<CollectionItemType[]> {
+  const collectionItems: CollectionItemType[] = [];
+  for (const collection of collections) {
+    const item = await getCollectionRepresentativeAlbums(collection, accessToken);
+    collectionItems.push(item);
+  }
+  return collectionItems;
 }

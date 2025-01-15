@@ -1,122 +1,77 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import "@/styles/CollectionComponent.scss";
-import { Collection } from "@/types/type";
-import { getAccessToken, getAlbum } from "@/utils/spotify";
-
-type CollectionItemType = {
-  id: string;
-  name: string;
-  imageUrl: string;
-  artist: string[];
-}
+import { CollectionItemType } from "@/types/type";
 
 interface Props {
-  collection: Collection;
+  collection: CollectionItemType;
 }
 
 const CollectionComponent = (props: Props) => {
   const { collection } = props;
-
-  const [items, setItems] = useState<CollectionItemType[] | null>(null);
-
-  useEffect(() => {
-    const albumIdList = collection.list_album_id;
-
-    let repIds: string[] = [];
-    if (albumIdList.length <= 4) {
-      repIds = [...albumIdList];
-    } else {
-      repIds = albumIdList.slice(0, 4);
-    }
-
-    const tasks = repIds.map(id => fetchAlbum(id));
-    Promise.all(tasks).then(result => {
-      const albumItems =  result.filter(val => val !== null);
-      setItems(albumItems);
-    });
-
-  }, [collection]);
-
-  const fetchAlbum = async (id: string): Promise<CollectionItemType | null> => {
-    const accessToken = await getAccessToken();
-    if (accessToken === null) {
-      return null;
-    }
-    const album = await getAlbum(id, accessToken);
-    if (album === null) {
-      return null;
-    }
-    const item: CollectionItemType = {
-      id: album.id,
-      name: album.name,
-      imageUrl: album.images[0].url,
-      artist: album.artists.map(val => val.name)
-    };
-    return item;
-  }
+  const albums = collection.repAlbums;
 
   const imagesElement = useMemo(() => {
-    if (items === null) {
+    if (albums === null) {
       return (
         <div className="blank"></div>
       )
     }
 
-    if (items.length === 0) {
+    if (albums.length === 0) {
       return (
         <Image src={'/Image-not-found.png'} alt="error-image" fill />
       );
-    } else if (items.length === 1) {
+    } else if (albums.length === 1) {
       return (
-        <Image src={items[0].imageUrl} alt={items[0].name} fill />
+        <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
       );
-    } else if (items.length === 2) {
+    } else if (albums.length === 2) {
       return (
         <>
-          <Image src={items[0].imageUrl} alt={items[0].name} fill />
-          <Image src={items[1].imageUrl} alt={items[1].name} fill />
-          <Image src={items[0].imageUrl} alt={items[0].name} fill />
-          <Image src={items[1].imageUrl} alt={items[1].name} fill />
+          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
+          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
         </>
       );
-    } else if (items.length === 3) {
+    } else if (albums.length === 3) {
       return (
         <>
-          <Image src={items[0].imageUrl} alt={items[0].name} fill />
-          <Image src={items[1].imageUrl} alt={items[1].name} fill />
-          <Image src={items[2].imageUrl} alt={items[2].name} fill />
-          <Image src={items[0].imageUrl} alt={items[0].name} fill />
+          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
+          <Image src={albums[2].imageUrl} alt={albums[2].name} fill />
+          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
         </>
       );
     } else {
       // images.length === 4
       return (
         <>
-          <Image src={items[0].imageUrl} alt={items[0].name} fill />
-          <Image src={items[1].imageUrl} alt={items[1].name} fill />
-          <Image src={items[2].imageUrl} alt={items[2].name} fill />
-          <Image src={items[3].imageUrl} alt={items[3].name} fill />
+          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
+          <Image src={albums[2].imageUrl} alt={albums[2].name} fill />
+          <Image src={albums[3].imageUrl} alt={albums[3].name} fill />
         </>
       );
     }
-  }, [items]);
+  }, [albums]);
 
   const getClassName = () => {
-    if (items === null || items.length <=1) {
+    if (albums === null || albums.length <=1) {
       return "one-image";
     }
     return "four-images";
   }
 
   const getArtistString = () => {
-    if (items === null) {
+    if (albums === null) {
       return '';
     }
     const set = new Set<string>();
-    items.forEach(album => {
+    albums.forEach(album => {
       album.artist.forEach(name => {
         set.add(name);
       });
@@ -127,14 +82,14 @@ const CollectionComponent = (props: Props) => {
   return (
     <Link 
       className="collection_item"
-      href={`collection/${collection.id}`}
+      href={`collection/${collection.collection.id}`}
     >
       <div className={`collection_item_image ${getClassName()}`}>
         {imagesElement}
       </div>
       
       <div className="collection_item_description">
-        <p className="collection_item_title">{collection.title}</p>
+        <p className="collection_item_title">{collection.collection.title}</p>
         <p className="collection_item_artist">{getArtistString()}</p>
       </div>
     </Link>
