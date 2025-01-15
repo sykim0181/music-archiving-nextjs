@@ -1,15 +1,22 @@
 @use "../globals";
 
-@include globals.mobile {
+@include globals.mini_mobile {
   .collections_container {
     grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@include globals.regular_mobile {
+  .collections_container {
+    grid-template-columns: repeat(3, 1fr);
     gap: 15px;
   }
 }
 
 @include globals.tablet {
   .collections_container {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 }
