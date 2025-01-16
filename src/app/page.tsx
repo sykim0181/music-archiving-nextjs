@@ -10,6 +10,7 @@ import MainLayout from '@/layouts/MainLayout';
 import { bebasNeue } from './fonts';
 
 const Home = () => {
+  const isMobile = useMediaQuery({ query: "(max-width: 768px)" })
   const isTablet = useMediaQuery({ query: "(min-width: 768px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 992px)" });
 
@@ -18,11 +19,12 @@ const Home = () => {
       return IMAGE_SAMPLE_LIST.slice(0, 15);
     } else if (isTablet) {
       return IMAGE_SAMPLE_LIST.slice(0, 16);
-    } else {
+    } else if (isMobile) {
       return IMAGE_SAMPLE_LIST.slice(0, 12);
+    } else {
+      return IMAGE_SAMPLE_LIST;
     }
-
-  }, [isTablet, isDesktop]);
+  }, [isMobile, isTablet, isDesktop]);
 
   return (
     <MainLayout>
