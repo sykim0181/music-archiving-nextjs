@@ -1,45 +1,40 @@
 "use client";
 
 import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { useEffect, useRef } from 'react';
+import { memo, useEffect, useMemo, useRef } from 'react';
 import { PerspectiveCamera, TextureLoader } from 'three';
 
 interface Props {
   size: number;
   showLp: boolean;
   viewOnTop?: boolean;
-  onRemoveLp?: () => void;
 }
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, '/turntable.png');
 
 const TurntableObject = (prop: Props) => {
   const { 
     size, 
     showLp, 
     viewOnTop, 
-    onRemoveLp,
   } = prop;
-
+  
   const { camera } = useThree();
   const vinylTexture = useLoader(TextureLoader, "/vinyl-black.png");
   const turntableTexture = useLoader(TextureLoader, '/turntable.png')
 
-  const playerSize = size;
-  const lpRadius = playerSize * 0.8 / 2;
-  // const controlRadius = playerSize * 0.1 / 2;
+  const lpRadius = size * 0.8 / 2;
 
   const diskY = 1 / 2 + 0.1 / 2;
 
   const fov = (camera as PerspectiveCamera).fov;
   const fovRadians = (fov * Math.PI) / 180;
-  const yVal = (playerSize / 2) / Math.tan(fovRadians / 2) * 1.2;
+  const yVal = (size / 2) / Math.tan(fovRadians / 2) * 1.2;
 
-  const topViewPosition = [0, yVal, 0];
-  const frontViewPosition = [0, size, size + 1];
-  const targetPosition = useRef(viewOnTop ? topViewPosition : frontViewPosition);
-
-  useEffect(() => {
-    camera.position.set(frontViewPosition[0], frontViewPosition[1], frontViewPosition[2]);
-  }, []);
+  const topViewPosition = useMemo(() => [0, yVal, 0], [yVal]);
+  const frontViewPosition = useMemo(() => [0, size, size + 1], [size]);
+  const targetPosition = useRef<number[]>(viewOnTop ? topViewPosition : frontViewPosition);
 
   useEffect(() => {
     if (viewOnTop) {
@@ -47,9 +42,11 @@ const TurntableObject = (prop: Props) => {
     } else {
       targetPosition.current = frontViewPosition;
     }
-  }, [viewOnTop]);
+  }, [viewOnTop, topViewPosition, frontViewPosition]);
 
   useFrame(() => {
+    if (targetPosition.current === null) return;
+
     const currentPosition = camera.position;
     currentPosition.lerp({
       x: targetPosition.current[0],
@@ -69,21 +66,14 @@ const TurntableObject = (prop: Props) => {
     }
   }
 
-  const onClick = () => {
-    if (showLp) {
-      onRemoveLp?.();
-    }
-  }
-
   return (
     <>
       <group
         onPointerOver={onPointerOver}
         onPointerOut={onPointerOut}
-        onClick={onClick}
       >
         <mesh>
-          <boxGeometry args={[playerSize, 1, playerSize]} />
+          <boxGeometry args={[size, 1, size]} />
           <meshBasicMaterial attach="material-0" color="#DDDDDD" />
           <meshBasicMaterial attach="material-1" color="#DDDDDD" />
           <meshBasicMaterial attach="material-2" map={turntableTexture} />
@@ -107,4 +97,4 @@ const TurntableObject = (prop: Props) => {
   )
 }
 
-export default TurntableObject
+export default memo(TurntableObject);
