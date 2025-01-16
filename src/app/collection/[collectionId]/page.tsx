@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useDispatch } from "react-redux";
 import SyncLoader from "react-spinners/SyncLoader";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { MdPlayArrow } from "react-icons/md";
@@ -13,6 +14,8 @@ import { Album, Collection } from "@/types/type";
 import { getAccessToken, getAlbum } from "@/utils/spotify";
 import { getCollection } from "@/utils/supabase";
 import InteractiveArchive from "@/components/common/InteractiveArchive";
+import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
+import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
 
 const Page = () => {
   const params = useParams<{ collectionId: string }>();
@@ -21,6 +24,8 @@ const Page = () => {
   const [collection, setCollection] = useState<Collection | null>(null);
   const [albumList, setAlbumList] = useState<Album[] | null>(null);
   const [isInteractiveMode, setIsInteractiveMode] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getCollection(collectionId)
@@ -79,25 +84,35 @@ const Page = () => {
       );
     }
 
-    return albumList.map(album => (
-      <li className="album_item" key={album.id}>
-        <div className="album_item_image">
-          <Image src={album.imageUrl} width={70} height={70} alt={album.name} />
-        </div>
+    return (
+      <ul className="list_album">
+        {albumList.map(album => (
+          <li className="album_item" key={album.id}>
+            <div className="album_item_image">
+              <Image src={album.imageUrl} width={70} height={70} alt={album.name} />
+            </div>
 
-        <div className="album_item_info">
-          <p className="album_item_name">{album.name}</p>
-          <div className="album_item_description">
-            <p className="album_item_artist">{album.artists.join(', ')}</p>
-            <p className="album_item_description_divider">·</p>
-            <p className="album_item_track_number">{`${album.total_tracks}곡`}</p>
-          </div>
-        </div>              
-      </li> 
-    ));
+            <div className="album_item_info">
+              <p className="album_item_name">{album.name}</p>
+              <div className="album_item_description">
+                <p className="album_item_artist">{album.artists.join(', ')}</p>
+                <p className="album_item_description_divider">·</p>
+                <p className="album_item_track_number">{`${album.total_tracks}곡`}</p>
+              </div>
+            </div>              
+          </li> 
+        ))}
+      </ul>
+    );
   }, [albumList]);
 
   const showInteractiveMode = albumList !== null && isInteractiveMode;
+
+  const onClickInteractButton = () => {
+    clearAlbumToPlayInSessionStorage();
+    dispatch(clearAlbumToPlay());
+    setIsInteractiveMode(true);
+  }
 
   if (collection === null) {
     return (
@@ -139,7 +154,7 @@ const Page = () => {
           <div className="menu_container menu_container--list">
             <button 
               className="view_button" 
-              onClick={() => setIsInteractiveMode(true)}
+              onClick={onClickInteractButton}
               disabled={albumList === null}
             >
               <MdPlayArrow />
