@@ -75,6 +75,7 @@ export async function POST(request: NextRequest) {
     const response =  await fetch("https://accounts.spotify.com/api/token", payload);
     if (response.status !== 200) {
       console.error("fail to refresh access token");
+      cookieStore.delete(KEY_SPOTIFY_REFRESH_TOKEN);
       return NextResponse.json({ error: "fail to refresh access token" }, { status: response.status });
     }
     const token = await response.json() as Token;
