@@ -169,7 +169,6 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   }
   const floatingVinylPosition = getFloatingVinylPosition();
 
-
   return (
     <div
       className={styles.container}

@@ -1,37 +1,32 @@
 "use client";
 
 import { Canvas } from '@react-three/fiber'
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 import "@/styles/TurntableComponent.scss";
 import TurntableObject from './TurntableObject';
 import TurntableMenuComponent from './TurntableMenuComponent';
 import { useTypedSelector } from '@/lib/redux/store';
 
-interface Prop {
-  viewOnTop: boolean;
-}
-
-const TurntableComponent = (prop: Prop) => {
-  const { viewOnTop } = prop;
-
-  const selectedAlbum = useTypedSelector(state => state.selectedAlbum.album);
+const TurntableComponent = () => {
+  const hasSelectedAlbum = useTypedSelector(state => state.selectedAlbum.album !== null);
   const isLpOnTurntable = useTypedSelector(state => state.selectedAlbum.isOnTurntable);
 
   const [showMenu, setShowMenu] = useState(false);
   
+  const isMovingVinyl = hasSelectedAlbum && !isLpOnTurntable; // lp를 선택하곤있지만 올려놓진 않은 상태
 
   const onTurntableMouseOver = () => {
     if (isLpOnTurntable) {
       setShowMenu(true);
     }
-  }
+  };
 
   const onTurntableMouseOut = () => {
     if (showMenu === true) {
       setShowMenu(false);
     }
-  }
+  };
 
   const onTouchStart = () => {
     if (isLpOnTurntable) {
@@ -41,9 +36,7 @@ const TurntableComponent = (prop: Prop) => {
         setShowMenu(true);
       }
     }
-  }
-
-  const hasSelectedAlbum = selectedAlbum !== null;
+  };
   
   return (
     <div
@@ -74,13 +67,13 @@ const TurntableComponent = (prop: Prop) => {
           <TurntableObject
             size={6}
             showLp={isLpOnTurntable}
-            viewOnTop={viewOnTop}
+            viewOnTop={isMovingVinyl}
           />
         </Canvas>
       </div>
 
       {/* 이벤트 영역 */}
-      {(!isLpOnTurntable && hasSelectedAlbum) && (
+      {isMovingVinyl && (
         <>
           <div
             id='lp-platter'
@@ -100,4 +93,4 @@ const TurntableComponent = (prop: Prop) => {
   )
 }
 
-export default TurntableComponent
+export default TurntableComponent;
