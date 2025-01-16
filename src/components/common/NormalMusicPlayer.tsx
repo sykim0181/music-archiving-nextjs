@@ -8,7 +8,7 @@ import "@/styles/common/NormalMusicPlayer.scss";
 import "@/styles/commonStyle.scss"
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumTrackList from "../AlbumTrackList";
-import AlbumCover from "../AlbumCover";
+import AlbumCover from "./AlbumCover";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
 interface NormalMusicPlayerProps extends defaultPlayerProps {

@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import "./page.scss";
-import AlbumCover from '@/components/AlbumCover';
+import AlbumCover from '@/components/common/AlbumCover';
 import { IMAGE_SAMPLE_LIST } from '@/constants';
 import MainLayout from '@/layouts/MainLayout';
 import { bebasNeue } from './fonts';

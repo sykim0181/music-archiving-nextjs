@@ -5,7 +5,7 @@ import { useInView } from "react-intersection-observer";
 
 import useCollectionQuery from "@/hooks/useCollectionQuery";
 import CollectionComponent from "./CollectionComponent";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import { CollectionItemType } from "@/types/type";
 
 interface Props {

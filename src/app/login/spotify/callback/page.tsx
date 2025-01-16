@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
-import Loading from "@/components/Loading";
+import Loading from "@/components/common/Loading";
 import MainLayout from "@/layouts/MainLayout";
 
 const Content = () => {

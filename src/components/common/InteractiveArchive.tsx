@@ -5,10 +5,9 @@ import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
 import styles from '@/styles/common/InteractiveArchive.module.scss';
-import Providers from "@/lib/redux/Providers";
 import { useTypedSelector } from "@/lib/redux/store";
 import { Album } from "@/types/type";
-import LpComponent from "../LpComponent";
+import LpComponent from "./LpComponent";
 import LpVinyl from "../LpVinyl";
 import AddAlbumModal from "../Archive/AddAlbumModal/AddAlbumModal";
 import BottomArea from "../Archive/BottomArea";
@@ -172,61 +171,59 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
 
 
   return (
-    <Providers>
-      <div
-        className={styles.container}
-        ref={containerRef}
-        onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onTouchMove={onTouchMove}
-        onTouchEnd={onTouchEnd}
-      >
-        <div className={styles.content}>
-          <div className={`${styles.list_lp} ${styles.invisible_scroll}`}>
-            {albumList.map((album, idx) => (
-              <LpComponent 
-                key={`lp-${idx}`}
-                album={album}
-                className={styles.list_lp_item}
-              />
-            ))}
-            {isEditable && (
-              <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
-                <div className={styles.add_album_button}><RxPlus /></div>
-              </div>
-            )}
-          </div>
-
-          <div className={styles.blur} />
-
-          {isEditable && <div className={styles.floating_button_container}>
-            <FloatingButtons />
-          </div>}
+    <div
+      className={styles.container}
+      ref={containerRef}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      <div className={styles.content}>
+        <div className={`${styles.list_lp} ${styles.invisible_scroll}`}>
+          {albumList.map((album, idx) => (
+            <LpComponent 
+              key={`lp-${idx}`}
+              album={album}
+              className={styles.list_lp_item}
+            />
+          ))}
+          {isEditable && (
+            <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
+              <div className={styles.add_album_button}><RxPlus /></div>
+            </div>
+          )}
         </div>
 
-        <BottomArea />
+        <div className={styles.blur} />
 
-        {showFloatingVinyl && (
-        <div
-          ref={floatingVinylRef}
-          className={styles.floating_vinyl}
-          style={{
-            left: `${floatingVinylPosition.x}px`,
-            top: `${floatingVinylPosition.y}px`,
-            width: `${floatingVinylSize}px`,
-            height: `${floatingVinylSize}px`
-          }}
-        >
-          <LpVinyl album={selectedAlbum} />
-        </div> 
-        )}
-
-        {showAddSongModal && (
-          <AddAlbumModal onClose={() => setShowAddSongModal(false)} />
-        )}
-
+        {isEditable && <div className={styles.floating_button_container}>
+          <FloatingButtons />
+        </div>}
       </div>
-    </Providers>
+
+      <BottomArea />
+
+      {showFloatingVinyl && (
+      <div
+        ref={floatingVinylRef}
+        className={styles.floating_vinyl}
+        style={{
+          left: `${floatingVinylPosition.x}px`,
+          top: `${floatingVinylPosition.y}px`,
+          width: `${floatingVinylSize}px`,
+          height: `${floatingVinylSize}px`
+        }}
+      >
+        <LpVinyl album={selectedAlbum} />
+      </div> 
+      )}
+
+      {showAddSongModal && (
+        <AddAlbumModal onClose={() => setShowAddSongModal(false)} />
+      )}
+
+    </div>
   );
 }
 

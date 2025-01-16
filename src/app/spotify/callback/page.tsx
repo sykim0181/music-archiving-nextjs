@@ -4,7 +4,7 @@ import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
-import Loading from "@/components/Loading";
+import Loading from "@/components/common/Loading";
 
 const Content = () => {
   const router = useRouter();
@@ -45,7 +45,7 @@ const Content = () => {
 
   return (
     <div className="center_screen">
-      <Loading size={100} />
+      <Loading size={50} />
     </div>
   )
 }

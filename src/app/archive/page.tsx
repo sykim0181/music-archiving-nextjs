@@ -23,12 +23,6 @@ function Page() {
   const archivedAlbumList = useTypedSelector(state => state.archivedAlbumList.list);
 
   useEffect(() => {
-    fetch('/api/spotify/auth/get-access-token?request=true', {
-      method: 'POST'
-    });
-  }, []);
-
-  useEffect(() => {
     const storedAlbum = getAlbumToPlayFromSessionStorage();
     if (storedAlbum) {
       dispatch(setAlbumToPlay(storedAlbum));

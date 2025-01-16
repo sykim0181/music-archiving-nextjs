@@ -7,7 +7,7 @@ import "@/styles/BottomArea.scss";
 import { Album } from '@/types/type';
 import { useTypedSelector } from '@/lib/redux/store';
 import TurntableComponent from '../TurntableComponent';
-import AlbumPlayer from './AlbumPlayer';
+import AlbumPlayer from '../common/AlbumPlayer';
 
 const BottomArea = () => {
   const selectedAlbum = useTypedSelector(state => state.selectedAlbum.album);

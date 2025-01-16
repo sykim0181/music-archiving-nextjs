@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import PopUpModal from "../PopUpModal";
+import PopUpModal from "../common/PopUpModal";
 import { clearList } from "@/lib/redux/archivedAlbumList";
 import { clearAlbumListInSessionStorage } from "@/utils/storage";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";

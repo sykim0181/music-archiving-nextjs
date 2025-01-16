@@ -10,7 +10,7 @@ import "@/styles/common/MiniMusicPlayer.scss";
 import "@/styles/commonStyle.scss";
 import AlbumTrackList from "../AlbumTrackList";
 import { defaultPlayerProps } from "./MusicPlayer";
-import AlbumCover from "../AlbumCover";
+import AlbumCover from "./AlbumCover";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
 const MiniMusicPlayer = (props: defaultPlayerProps) => {

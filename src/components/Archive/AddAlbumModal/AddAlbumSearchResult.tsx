@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import styles from "@/styles/AddAlbumModal.module.scss";
 import useAlbumQuery from "@/hooks/useAlbumQuery";
 import AlbumListItem from "./AlbumListItem";
-import Loading from "../../Loading";
+import Loading from "../../common/Loading";
 import { getAccessToken, searchAlbum } from "@/utils/spotify";
 
 interface Prop {

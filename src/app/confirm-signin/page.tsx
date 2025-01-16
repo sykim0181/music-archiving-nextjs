@@ -3,7 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
-import Loading from "@/components/Loading";
+import Loading from "@/components/common/Loading";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
 const Content = () => {
@@ -22,7 +22,7 @@ const Content = () => {
 
   return (
     <div className="center_screen">
-      <Loading size={100} />
+      <Loading size={50} />
     </div>
   );
 }

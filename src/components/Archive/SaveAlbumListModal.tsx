@@ -2,9 +2,9 @@ import { FormEvent, useContext, useState } from "react";
 
 import "@/styles/SaveAlbumListModal.scss"
 import { useTypedSelector } from "@/lib/redux/store";
-import PopUpModal from "../PopUpModal";
+import PopUpModal from "../common/PopUpModal";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 
 interface Props {
   onClose: () => void;

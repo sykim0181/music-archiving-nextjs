@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { Album, Track } from "@/types/type";
-import MusicPlayer from "../common/MusicPlayer";
+import MusicPlayer from "./MusicPlayer";
 import { getAccessToken, getAlbumTracks } from "@/utils/spotify";
 
 interface Props {

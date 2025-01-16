@@ -10,7 +10,7 @@ import { AddAlbumContext } from '@/context/AddAlbumContext';
 import { addAlbum } from '@/lib/redux/archivedAlbumList';
 import { Album } from '@/types/type';
 import { addAlbumInSessionStorage } from '@/utils/storage';
-import PopUpModal from '../../PopUpModal';
+import PopUpModal from '../../common/PopUpModal';
 import AddAlbumSearchResult from './AddAlbumSearchResult';
 import useDebounce from '@/hooks/useDebounce';
 

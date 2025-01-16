@@ -5,7 +5,7 @@ import styles from "@/styles/LpComponent.module.scss";
 import { Album } from "@/types/type";
 import { setSelectedAlbum, setVinylPosition } from "@/lib/redux/selectedAlbum";
 import AlbumCover from "./AlbumCover";
-import LpVinyl from "./LpVinyl";
+import LpVinyl from "../LpVinyl";
 import { useTypedSelector } from "@/lib/redux/store";
 
 interface Props {
