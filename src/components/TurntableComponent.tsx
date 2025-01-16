@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from '@react-three/fiber'
-import {  useState } from 'react';
+import { useState } from 'react';
 
 import "@/styles/TurntableComponent.scss";
 import TurntableObject from './TurntableObject';

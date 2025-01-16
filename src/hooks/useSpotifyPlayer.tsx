@@ -26,10 +26,6 @@ const useSpotifyPlayer = (props: Props) => {
   const [state, setState] = useState<PlayerState>('NOT_READY');
 
   useEffect(() => {
-    console.log('확인 - spotify player state:', state);
-  }, [state]);
-
-  useEffect(() => {
     axios({
       method: 'POST',
       url: '/api/spotify/auth/get-access-token'
