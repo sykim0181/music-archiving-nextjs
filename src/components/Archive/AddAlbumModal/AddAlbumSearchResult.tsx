@@ -65,7 +65,7 @@ const AddAlbumSearchResult = (prop: Prop) => {
         justifyContent: 'center'
       }}>
         {isFetchingNextPage 
-          ? <Loading size={50} /> 
+          ? <Loading size={25} /> 
           : <div style={{ width: '100%', height: '100%' }} ref={ref} />
         }
       </div>}
