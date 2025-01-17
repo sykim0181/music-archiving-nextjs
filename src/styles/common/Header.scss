@@ -1,3 +1,81 @@
+@use "../../app/globals.scss" as globals;
+
+@include globals.mini_mobile {
+  .left_header_content {
+    & button {
+      font-size: 13px;
+    }
+  }
+
+  .left_header_content_divider {
+    font-size: 13px;
+  }
+
+  .right_header_content {
+    & button {
+      font-size: 13px;
+      
+    }
+  }
+}
+
+@include globals.regular_mobile {
+  .left_header_content {
+    & button {
+      font-size: 14px;
+    }
+  }
+
+  .left_header_content_divider {
+    font-size: 14px;
+  }
+
+  .right_header_content {
+    & button {
+      font-size: 14px;
+      
+    }
+  }
+}
+
+@include globals.tablet {
+  .left_header_content {
+    & button {
+      font-size: 15px;
+    }
+  }
+
+  .left_header_content_divider {
+    font-size: 15px;
+  }
+
+  .right_header_content {
+    & button {
+      font-size: 15px;
+      
+    }
+  }
+}
+
+@include globals.desktop {
+  .left_header_content {
+    & button {
+      font-size: 16px;
+    }
+  }
+
+  .left_header_content_divider {
+    font-size: 16px;
+  }
+
+  .right_header_content {
+    & button {
+      font-size: 16px;
+      
+    }
+  }
+}
+
 header {
   display: flex;
   background-color: black;
@@ -31,24 +109,14 @@ header {
 .left_header_content {
   display: flex;
   align-items: center;
-
-  & button {
-    font-size: 16px;
-  }
 }
 
 .left_header_content_divider {
   margin: 0 10px;
   color: white;
-  font-size: 16px;
 }
 
 .right_header_content {
   display: flex;
   align-items: center;
-
-  & button {
-    font-size: 16px;
-    
-  }
 }
