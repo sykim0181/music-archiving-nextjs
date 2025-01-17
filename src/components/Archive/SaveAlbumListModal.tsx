@@ -1,3 +1,5 @@
+'use client'
+
 import { FormEvent, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
 
