@@ -85,10 +85,11 @@
 
 .album_item {
   display: flex;
-  width: calc(100% - 2 * 2px);
+  width: calc(100%);
+  box-sizing: border-box;
   cursor: pointer;
   padding: 10px 0;
-  border: 2px solid white;
+  border: 1px solid white;
 
   .album_item_cover {
     position: relative;
