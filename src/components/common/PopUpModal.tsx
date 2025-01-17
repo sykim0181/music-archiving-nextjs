@@ -13,7 +13,7 @@ const PopUpModal = (prop: Prop) => {
 
   return (
     <div
-      className={`modal_popup ${className}`}
+      className={`modal_popup ${className ? className : ""}`}
     >
       <div className="modal_title">
         {title}

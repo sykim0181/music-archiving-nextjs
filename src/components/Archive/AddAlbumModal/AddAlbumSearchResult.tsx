@@ -51,25 +51,28 @@ const AddAlbumSearchResult = (prop: Prop) => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
+  const hasResult = albumList.length > 0;
+
   return (
-    <ul className={styles.search_result_album_list}>
-      {albumList.map((album, idx) => (
-        <li key={`album-${idx}`}>
-          <AlbumListItem album={album} />   
-        </li>
-      ))}
-      {albumList && <div style={{
-        width: '100%',
-        height: '50px',
-        display: 'flex',
-        justifyContent: 'center'
-      }}>
-        {isFetchingNextPage 
-          ? <Loading size={25} /> 
-          : <div style={{ width: '100%', height: '100%' }} ref={ref} />
-        }
-      </div>}
-    </ul>
+    <>
+      <ul className={styles.search_result_album_list}>
+        {albumList.map((album, idx) => (
+          <li key={`album-${idx}`}>
+            <AlbumListItem album={album} />   
+          </li>
+        ))}
+        {hasResult && isFetchingNextPage ? (
+          <div className={styles.loading_container}>
+            <Loading size={25} />
+          </div> 
+        ) : (
+          <div ref={ref} className={styles.inview_ref_container} />
+        )}
+      </ul>
+      {!hasResult && (
+        <div className={styles.blank_space} />
+      )}
+    </>
   )
 }
 

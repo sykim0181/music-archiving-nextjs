@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
@@ -9,10 +9,10 @@ import { useTypedSelector } from "@/lib/redux/store";
 import { Album } from "@/types/type";
 import LpComponent from "./LpComponent";
 import LpVinyl from "../LpVinyl";
-import AddAlbumModal from "../Archive/AddAlbumModal/AddAlbumModal";
 import BottomArea from "../Archive/BottomArea";
 import { clearSelectedAlbum, moveVinyl, setIsLpOnTurntable, setVinylPosition } from "@/lib/redux/selectedAlbum";
 import FloatingButtons from "../Archive/FloatingButtons";
+import { setModalType } from "@/lib/redux/modalInfo";
 
 interface InteractiveArchiveProps {
   albumList: Album[];
@@ -25,8 +25,6 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   const selectedAlbum = useTypedSelector(state => state.selectedAlbum.album);
   const selectedLpPosition = useTypedSelector(state => state.selectedAlbum.pos);
   const lpIsOnTurntable = useTypedSelector(state => state.selectedAlbum.isOnTurntable);
-
-  const [showAddSongModal, setShowAddSongModal] = useState(false);
   
   const floatingVinylRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -136,7 +134,7 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     );
 
   const onClickAddSongBtn = () => {
-    setShowAddSongModal(true);
+    dispatch(setModalType("add_album"));
   };
 
 
@@ -217,11 +215,6 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
         <LpVinyl album={selectedAlbum} />
       </div> 
       )}
-
-      {showAddSongModal && (
-        <AddAlbumModal onClose={() => setShowAddSongModal(false)} />
-      )}
-
     </div>
   );
 }

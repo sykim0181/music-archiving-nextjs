@@ -13,14 +13,9 @@ import { addAlbumInSessionStorage } from '@/utils/storage';
 import PopUpModal from '../../common/PopUpModal';
 import AddAlbumSearchResult from './AddAlbumSearchResult';
 import useDebounce from '@/hooks/useDebounce';
+import { clearModal } from '@/lib/redux/modalInfo';
 
-interface Prop {
-  onClose: () => void;
-}
- 
-const AddAlbumModal = (prop: Prop) => {
-  const { onClose } = prop;
-
+const AddAlbumModal = () => {
   const [input, setInput] = useState('');
   const [albumToAdd, setAlbumToAdd] = useState<Album | null>(null);
   const debouncedInput = useDebounce({
@@ -42,8 +37,8 @@ const AddAlbumModal = (prop: Prop) => {
     }
   }
 
-  const onCloseModal = () => {
-    onClose();
+  const closeModal = () => {
+    dispatch(clearModal());
   }
   
   return (
@@ -77,7 +72,7 @@ const AddAlbumModal = (prop: Prop) => {
             </button>
             <button 
               className={`modal_button bg_black`}
-              onClick={onCloseModal}>
+              onClick={closeModal}>
               취소
             </button>
           </div>

@@ -1,23 +1,25 @@
 import { FormEvent, useContext, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import "@/styles/SaveAlbumListModal.scss"
 import { useTypedSelector } from "@/lib/redux/store";
 import PopUpModal from "../common/PopUpModal";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
 import Loading from "../common/Loading";
+import { clearModal } from "@/lib/redux/modalInfo";
 
-interface Props {
-  onClose: () => void;
-}
-
-const SaveAlbumListModal = (props: Props) => {
-  const { onClose } = props;
-
+const SaveAlbumListModal = () => {
   const [isSaving, setIsSaving] = useState(false);
 
   const sessionContext = useContext(SessionContext);
 
   const archivedAlbumList = useTypedSelector(state => state.archivedAlbumList.list);
+
+  const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(clearModal());
+  }
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -53,7 +55,7 @@ const SaveAlbumListModal = (props: Props) => {
       alert('저장에 실패하였습니다.');
     } else {
       alert('저장 완료!');
-      onClose();
+      closeModal();
     }
   }
 
@@ -98,7 +100,7 @@ const SaveAlbumListModal = (props: Props) => {
               </button>
               <button 
                 className="modal_button bg_black"
-                onClick={onClose}
+                onClick={closeModal}
               >
                 취소
               </button>
@@ -114,14 +116,14 @@ const SaveAlbumListModal = (props: Props) => {
         </>
       ) : (
         <>
-          <div className="content_container">
+          <div>
             <p>로그인이 필요한 기능입니다.</p>
           </div>
 
           <div className="modal_button_container">
             <button 
               className="modal_button bg_black"
-              onClick={onClose}
+              onClick={closeModal}
             >
               확인
             </button>

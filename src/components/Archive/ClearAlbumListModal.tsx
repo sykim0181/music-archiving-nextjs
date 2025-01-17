@@ -1,18 +1,18 @@
 import { useDispatch } from "react-redux";
+
 import PopUpModal from "../common/PopUpModal";
 import { clearList } from "@/lib/redux/archivedAlbumList";
 import { clearAlbumListInSessionStorage } from "@/utils/storage";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
 import { clearSelectedAlbum } from "@/lib/redux/selectedAlbum";
+import { clearModal } from "@/lib/redux/modalInfo";
 
-interface Props {
-  onClose: () => void;
-}
-
-const ClearAlbumListModal = (props: Props) => {
-  const { onClose } = props;
-
+const ClearAlbumListModal = () => {
   const dispatch = useDispatch();
+
+  const closeModal = () => {
+    dispatch(clearModal());
+  }
 
   const clearAlbumList = () => {
     dispatch(clearList());
@@ -20,7 +20,7 @@ const ClearAlbumListModal = (props: Props) => {
     dispatch(clearAlbumToPlay());
     dispatch(clearSelectedAlbum());
 
-    onClose();
+    closeModal();
   };
 
   return (
@@ -35,7 +35,7 @@ const ClearAlbumListModal = (props: Props) => {
         </button>
         <button
           className="modal_button bg_black"
-          onClick={onClose}
+          onClick={closeModal}
         >
           취소
         </button>

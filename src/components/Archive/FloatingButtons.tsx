@@ -1,38 +1,29 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { IoMdClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineSaveAlt, MdPlaylistRemove } from "react-icons/md";
 
-import ModalPortal from "../common/ModalPortal";
-import SaveAlbumListModal from "./SaveAlbumListModal";
-import ClearAlbumListModal from "./ClearAlbumListModal";
 import { useTypedSelector } from "@/lib/redux/store";
+import { setModalType } from "@/lib/redux/modalInfo";
 
 const FloatingButtons = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showSaveModal, setShowSaveModal] = useState(false);
-  const [showClearModal, setShowClearModal] = useState(false);
 
   const hasAlbum = useTypedSelector(state => state.archivedAlbumList.list.length > 0);
+
+  const dispatch = useDispatch();
 
   const toggleShowMenu = () => {
     setShowMenu(!showMenu);
   }
 
   const onClickSaveButton = () => {
-    setShowSaveModal(true);
+    dispatch(setModalType('save_album'));
   }
 
   const onClickRemoveButton = () => {
-    setShowClearModal(true);
-  }
-
-  const closeSaveModal = () => {
-    setShowSaveModal(false);
-  }
-
-  const closeClearModal = () => {
-    setShowClearModal(false);
+    dispatch(setModalType('clear_album_list'));
   }
 
   return showMenu ? (
@@ -44,17 +35,6 @@ const FloatingButtons = () => {
       >
         <IoMdClose />
       </button>
-
-      {showSaveModal && (
-        <ModalPortal>
-          <SaveAlbumListModal onClose={closeSaveModal} />
-        </ModalPortal>
-      )}
-      {showClearModal && (
-        <ModalPortal>
-          <ClearAlbumListModal onClose={closeClearModal} />
-        </ModalPortal>
-      )}
     </>
   ) : (
     <button 

@@ -1,6 +1,7 @@
 import "@/styles/layouts/MainLayout.scss";
 import Header from "@/components/common/Header";
 import { ReactNode } from "react";
+import ModalContainer from "@/components/ModalContainer";
 
 interface Props {
   children: ReactNode;
@@ -19,7 +20,7 @@ const MainLayout = (props: Props) => {
         {children}
       </div>
 
-      <div id="modal" />
+      <ModalContainer />
     </div>
   );
 };
