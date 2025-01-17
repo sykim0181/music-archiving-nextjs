@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useTypedSelector } from "@/lib/redux/store";
 import AddAlbumModal from "./Archive/AddAlbumModal/AddAlbumModal";
 import SaveAlbumListModal from "./Archive/SaveAlbumListModal";
-import ClearAlbumListModal from "./Archive/ClearAlbumListModal";
+import ClearAlbumListModal from "./ClearAlbumListModal";
 
 const ModalContainer = () => {
   const modalType = useTypedSelector(state => state.modalInfo.type);

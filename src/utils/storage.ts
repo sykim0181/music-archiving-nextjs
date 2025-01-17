@@ -1,8 +1,7 @@
 import { Album } from "@/types/type";
 
-export const KEY_ALBUM_LIST = 'list-album';
-export const KEY_ALBUM_TO_PLAY = 'album-to-play';
-export const KEY_SPOTIFY_AUTHORIZATION_CODE = 'spotify-authorization-code';
+const KEY_ALBUM_LIST = 'list-album';
+const KEY_ALBUM_TO_PLAY = 'album-to-play';
 
 // session storage에 앨범 저장
 export function addAlbumInSessionStorage(
@@ -17,6 +16,10 @@ export function addAlbumInSessionStorage(
     const newList = [...list, album];
     window.sessionStorage.setItem(KEY_ALBUM_LIST, JSON.stringify(newList));
   }
+}
+
+export function storeAlbumListInSessionStorage(albumList: Album[]): void {
+  window.sessionStorage.setItem(KEY_ALBUM_LIST, JSON.stringify(albumList));
 }
 
 export function clearAlbumListInSessionStorage() {

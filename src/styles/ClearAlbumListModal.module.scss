@@ -1,0 +1,46 @@
+.clear_album_list_modal {
+  width: calc(100vw * 0.8);
+  max-width: 600px;
+  height: 500px;
+}
+
+.list_album {
+  width: 100%;
+  height: calc(100% - (40px + 10px) - 20px);
+  overflow-y: scroll;
+  cursor: pointer;
+}
+
+.item_list_album {
+  display: flex;
+  padding: 5px;
+}
+
+.selected_item_list_album {
+  background-color: rgb(216, 216, 216);
+}
+
+.album_description {
+  margin-left: 10px;
+  width: calc(100% - 50px - 10px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  & p {
+    margin: 0;
+    font-size: 15px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+.album_name {
+  margin-bottom: 2px !important;
+}
+
+.clear_button {
+  text-decoration: underline;
+}
+
