@@ -1,3 +1,5 @@
+'use client'
+
 import { useMemo } from "react";
 
 import { useTypedSelector } from "@/lib/redux/store";
