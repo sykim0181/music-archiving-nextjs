@@ -78,6 +78,7 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault();
     if (lpIsOnTurntable || selectedAlbum === null) {
       return;
     }

@@ -93,6 +93,8 @@
   margin-left: calc(var(--base-size) * var(--margin-factor));
   margin-right: calc(var(--base-size) * var(--margin-factor));
   margin-bottom: calc(var(--base-size) * var(--margin-factor));
+
+  user-select: none;
 }
 
 .add_album_button {
