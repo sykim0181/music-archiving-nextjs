@@ -7,6 +7,7 @@ export type Album = {
   name: string;
   artists: string[];
   uri: string;
+  releaseDate: string;
 }
 
 export type Track = {

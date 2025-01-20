@@ -20,7 +20,7 @@ const AlbumPlayer = (props: Props) => {
         throw new Error('Failed to get an access token');
       }
       const data = await getAlbumTracks(album.id, accessToken);
-      const trackList = data.map(track => {
+      const trackList: Track[] = data.map(track => {
         return {
           ...track,
           album: {
@@ -28,7 +28,7 @@ const AlbumPlayer = (props: Props) => {
             name: album.name,
             imageUrl: album.imageUrl
           }
-        } as Track;
+        };
       })
       return trackList;
     },

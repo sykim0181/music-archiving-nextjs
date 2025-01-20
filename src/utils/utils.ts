@@ -1,5 +1,5 @@
-import { Collection, CollectionItemType } from "@/types/type";
-import { getAlbum } from "./spotify";
+import { Album, Collection, CollectionItemType } from "@/types/type";
+import { getAccessToken, getAlbum } from "./spotify";
 
 export function msToString(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
@@ -46,14 +46,11 @@ async function getCollectionRepresentativeAlbums(
   } | null> => {
     
     const album = await getAlbum(id, accessToken);
-    if (album === null) {
-      return null;
-    }
     const item = {
       id: album.id,
       name: album.name,
-      imageUrl: album.images[0].url,
-      artist: album.artists.map(val => val.name)
+      imageUrl: album.imageUrl,
+      artist: album.artists
     };
     return item;
   };
@@ -77,4 +74,17 @@ export async function getCollectionItemList(
     collectionItems.push(item);
   }
   return collectionItems;
+}
+
+export async function getCollectionAlbumList(
+  collection: Collection
+): Promise<Album[]> {
+  const accessToken = await getAccessToken();
+  if (accessToken === null) {
+    throw new Error("Failed to fetch an spotify access token");
+  }
+  const albumIdList = collection.list_album_id;
+  const result = await Promise.all(albumIdList.map(albumId => getAlbum(albumId, accessToken)));
+  console.log('앨범 리스트:', result);
+  return result;
 }

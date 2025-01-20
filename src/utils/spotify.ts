@@ -94,7 +94,7 @@ export async function playTrackList(
 export async function getAlbum(
   albumId: string, 
   accessToken: string
-): Promise<AlbumResponseType> {
+): Promise<Album> {
   const response = await spotifyAPI({
     method: 'GET',
     url: `/v1/albums/${albumId}?locale=ko_KR`,
@@ -105,8 +105,16 @@ export async function getAlbum(
   if (response.status !== 200) {
     throw new Error(`"Failed to fetch the album: ${response.data}`);
   }
-  const album = response.data as AlbumResponseType;
-  return album;
+  const data = response.data as AlbumResponseType;
+  return {
+    id: data.id,
+    total_tracks: data.total_tracks,
+    imageUrl: data.images[0].url,
+    name: data.name,
+    artists: data.artists.map(artist => artist.name),
+    uri: data.uri,
+    releaseDate: data.release_date
+  };
 }
 
 export async function getAccessToken(): Promise<string | null> {
@@ -145,15 +153,16 @@ export async function searchAlbum(
     return null;
   }
   const result =  res.data.albums as SearchResponseAlbumsType;
-  const albums =  result.items.map(item => {
+  const albums: Album[] =  result.items.map(item => {
     return {
       id: item.id,
       total_tracks: item.total_tracks,
       imageUrl: item.images?.[0].url ?? '',
       name: item.name,
       artists: item.artists.map(artist => artist.name),
-      uri: item.uri
-    } as Album;
+      uri: item.uri,
+      releaseDate: item.release_date
+    };
   })
   return albums;
 }
@@ -174,7 +183,7 @@ export async function getAlbumTracks(
     throw new Error(res.data);
   }
   const tracks =  res.data.items as SimplifiedTrackObject[];
-  const trackList =  tracks.map(track => {
+  const trackList: GetAlbumTracksReturnType =  tracks.map(track => {
     return {
       artists: track.artists.map(artist => artist.name),
       duration: track.duration_ms,
@@ -183,6 +192,6 @@ export async function getAlbumTracks(
       name: track.name,
       uri: track.uri,
     } 
-  }) as GetAlbumTracksReturnType;
+  });
   return trackList;
 }

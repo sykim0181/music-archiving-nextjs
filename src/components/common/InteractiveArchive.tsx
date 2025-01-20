@@ -12,7 +12,7 @@ import LpVinyl from "../LpVinyl";
 import BottomArea from "../Archive/BottomArea";
 import { clearSelectedAlbum, moveVinyl, setIsLpOnTurntable, setVinylPosition } from "@/lib/redux/selectedAlbum";
 import FloatingButtons from "../Archive/FloatingButtons";
-import { setModalType } from "@/lib/redux/modalInfo";
+import { setModal } from "@/lib/redux/modalInfo";
 
 interface InteractiveArchiveProps {
   albumList: Album[];
@@ -134,7 +134,9 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     );
 
   const onClickAddSongBtn = () => {
-    dispatch(setModalType("add_album"));
+    dispatch(setModal({
+      modalType: "add_album"
+    }));
   };
 
 

@@ -5,7 +5,7 @@ import { IoMenu } from "react-icons/io5";
 import { MdOutlineSaveAlt, MdPlaylistRemove } from "react-icons/md";
 
 import { useTypedSelector } from "@/lib/redux/store";
-import { setModalType } from "@/lib/redux/modalInfo";
+import { setModal } from "@/lib/redux/modalInfo";
 
 const FloatingButtons = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -19,11 +19,15 @@ const FloatingButtons = () => {
   }
 
   const onClickSaveButton = () => {
-    dispatch(setModalType('save_album'));
+    dispatch(setModal({
+      modalType: 'save_album'
+    }));
   }
 
   const onClickRemoveButton = () => {
-    dispatch(setModalType('clear_album_list'));
+    dispatch(setModal({
+      modalType: 'clear_album_list'
+    }));
   }
 
   return showMenu ? (
