@@ -1,6 +1,7 @@
+import { ReactNode } from "react";
+
 import "@/styles/layouts/MainLayout.scss";
 import Header from "@/components/common/Header";
-import { ReactNode } from "react";
 import ModalContainer from "@/components/ModalContainer";
 
 interface Props {
