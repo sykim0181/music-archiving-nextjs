@@ -139,7 +139,6 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     }));
   };
 
-
   const getFloatingVinylSize = () => {
     const listItem = document.getElementsByClassName(styles.list_lp_item)?.[0];
     if (listItem !== undefined) {
