@@ -1,14 +1,19 @@
 "use client"
 
+import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import SyncLoader from "react-spinners/SyncLoader";
+import { useDispatch } from "react-redux";
 
 import "./page.scss";
 import MainLayout from "@/layouts/MainLayout";
 import { getCollection } from "@/utils/supabase";
 import { getCollectionAlbumList } from "@/utils/utils";
+import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
+import { clearSelectedAlbum, setIsLpOnTurntable } from "@/lib/redux/selectedAlbum";
+import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
 
 const InteractiveArchive = dynamic(
   () => import('@/components/common/InteractiveArchive'),
@@ -18,6 +23,17 @@ const InteractiveArchive = dynamic(
 const Page = () => {
   const params = useParams<{ collectionId: string }>();
   const collectionId = params.collectionId;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAlbumToPlay());
+      dispatch(clearSelectedAlbum());
+      dispatch(setIsLpOnTurntable(false));
+      clearAlbumToPlayInSessionStorage();
+    }
+  }, [dispatch]);
 
   const { data, isError, isFetching } = useQuery({
     queryKey: ['collection-album-list', collectionId],
