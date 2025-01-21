@@ -1,5 +1,5 @@
 .main_layout {
-  min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 
   .page_divider {
@@ -17,7 +17,7 @@
 
 .content_container {
   max-width: 1024px;
-  min-height: calc(100vh - 50px);
+  min-height: calc(100dvh - 50px);
   box-sizing: border-box;
   margin: 0 auto;
   padding: 10px;

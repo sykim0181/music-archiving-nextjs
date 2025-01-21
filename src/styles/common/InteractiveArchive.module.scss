@@ -65,7 +65,7 @@
 }
 
 .content {
-  height: calc(100vh - 50px - 2 * 10px - 200px);
+  height: calc(100dvh - 50px - 2 * 10px - 200px);
   width: 100%;
   overflow: hidden;
   position: relative;
