@@ -1,5 +1,37 @@
+@use "../app/globals.scss";
+
+@include globals.mobile {
+  .album_info_modal {
+    width: 300px;
+  }  
+
+  .list_track {
+    height: 150px;
+  }  
+}
+
+@include globals.tablet {
+  .album_info_modal {
+    width: 400px;
+  }
+
+  .list_track {
+    height: 200px;
+  }  
+}
+
+@include globals.desktop {
+  .album_info_modal {
+    width: 500px;
+  }
+
+  .list_track {
+    height: 250px;
+  }
+}
+
 .album_info_modal {
-  width: 500px;
+
 }
 
 .album_info {
@@ -24,7 +56,7 @@
 
 .list_track {
   width: 100%;
-  height: 250px;
+  // height: 250px;
   overflow-y: scroll;
   margin-top: 10px;
 }
