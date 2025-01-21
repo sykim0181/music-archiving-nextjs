@@ -13,6 +13,7 @@ import BottomArea from "../Archive/BottomArea";
 import { clearSelectedAlbum, moveVinyl, setIsLpOnTurntable, setVinylPosition } from "@/lib/redux/selectedAlbum";
 import FloatingButtons from "../Archive/FloatingButtons";
 import { setModal } from "@/lib/redux/modalInfo";
+import { LIMIT_NUM_ALBUM } from "@/constants";
 
 interface InteractiveArchiveProps {
   albumList: Album[];
@@ -135,6 +136,9 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     );
 
   const onClickAddSongBtn = () => {
+    if (albumList.length > LIMIT_NUM_ALBUM) {
+      return
+    }
     dispatch(setModal({
       modalType: "add_album"
     }));

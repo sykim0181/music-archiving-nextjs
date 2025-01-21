@@ -24,3 +24,5 @@ export const IMAGE_SAMPLE_LIST = [
   "bluebeard-the_brook_and_the_bluff.jpg",
   "the_high_tide_club-the_poles.jpg"
 ];
+
+export const LIMIT_NUM_ALBUM = 50;

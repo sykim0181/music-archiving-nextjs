@@ -14,6 +14,8 @@ import PopUpModal from '../../common/PopUpModal';
 import AddAlbumSearchResult from './AddAlbumSearchResult';
 import useDebounce from '@/hooks/useDebounce';
 import { clearModal } from '@/lib/redux/modalInfo';
+import { useTypedSelector } from '@/lib/redux/store';
+import { LIMIT_NUM_ALBUM } from '@/constants';
 
 const AddAlbumModal = () => {
   const [input, setInput] = useState('');
@@ -23,6 +25,8 @@ const AddAlbumModal = () => {
     delay: 200
   });
 
+  const count_album = useTypedSelector(state => state.archivedAlbumList.list.length);
+
   const dispatch = useDispatch();
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,10 +35,11 @@ const AddAlbumModal = () => {
   }
 
   const onSubmit = () => {
-    if (albumToAdd) {
-      dispatch(addAlbum(albumToAdd));
-      addAlbumInSessionStorage(albumToAdd);
-    }
+    if (albumToAdd === null) return;
+    if (count_album >= LIMIT_NUM_ALBUM) return;
+
+    dispatch(addAlbum(albumToAdd));
+    addAlbumInSessionStorage(albumToAdd);
   }
 
   const closeModal = () => {
