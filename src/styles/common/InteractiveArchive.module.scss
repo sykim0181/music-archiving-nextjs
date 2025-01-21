@@ -2,20 +2,19 @@
 
 @include globals.mini_mobile {
   .list_lp {
-    grid-template-columns: repeat(2, 1fr);
-
+    row-gap: 3px;
   }
 }
 
 @include globals.regular_mobile {
   .list_lp {
-    grid-template-columns: repeat(3, 1fr);
+    row-gap: 5px;
   }
 }
 
 @include globals.mobile {
   .list_lp {
-    row-gap: 5px;
+    grid-template-columns: repeat(3, 1fr);
     padding-top: 5px;
   }
 
