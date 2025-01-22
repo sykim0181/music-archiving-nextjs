@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
@@ -31,6 +31,19 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   const dispatch = useDispatch();
+
+  const isMovingVinyl = !lpIsOnTurntable && selectedAlbum;
+
+  useEffect(() => {
+    const elements = document.getElementsByClassName(styles.list_lp);
+    const lpListElement = elements[0] as HTMLDivElement;
+
+    if (isMovingVinyl) {
+      lpListElement.style.overflowY ='hidden';
+    } else {
+      lpListElement.style.overflowY ='scroll';
+    }
+  }, [isMovingVinyl]);
 
   const onMouseMove = (e: React.MouseEvent) => {
     if (lpIsOnTurntable) {
@@ -72,26 +85,17 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     }
   }
 
-  const isMovingVinyl = !lpIsOnTurntable && selectedAlbum;
-
   const onMouseUp = () => {
     if (isMovingVinyl) {
       dispatch(clearSelectedAlbum());
     }
   }
 
-  const onTouchStart = (e: React.TouchEvent) => {
-    if (isMovingVinyl) {
-      e.preventDefault();
-    }
-  }
-
   const onTouchMove = (e: React.TouchEvent) => {
-    e.preventDefault();
-
     if (!isMovingVinyl) {
       return;
     }
+    e.preventDefault();
 
     if (selectedLpPosition.x === null || selectedLpPosition.y === null) {
       return;
@@ -187,12 +191,13 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
       ref={containerRef}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
-      onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
       <div className={styles.content}>
-        <div className={`${styles.list_lp} ${styles.invisible_scroll}`}>
+        <div 
+          className={`${styles.list_lp} ${styles.invisible_scroll}`}
+        >
           {albumList.map((album, idx) => (
             <LpComponent 
               key={`lp-${idx}`}
