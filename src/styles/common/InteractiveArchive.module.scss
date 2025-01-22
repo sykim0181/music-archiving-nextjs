@@ -1,18 +1,18 @@
-@use "../../app/globals.scss" as globals;
+@use "../commonStyle.scss";
 
-@include globals.mini_mobile {
+@include commonStyle.mini_mobile {
   .list_lp {
     row-gap: 3px;
   }
 }
 
-@include globals.regular_mobile {
+@include commonStyle.regular_mobile {
   .list_lp {
     row-gap: 5px;
   }
 }
 
-@include globals.mobile {
+@include commonStyle.mobile {
   .list_lp {
     grid-template-columns: repeat(3, 1fr);
     padding-top: 5px;
@@ -25,7 +25,7 @@
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .list_lp {
     grid-template-columns: repeat(4, 1fr);
     row-gap: 8px;
@@ -39,7 +39,7 @@
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .list_lp {
     grid-template-columns: repeat(5, 1fr);
     row-gap: 10px;

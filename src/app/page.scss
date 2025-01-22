@@ -1,6 +1,6 @@
-@use "./globals";
+@use "../styles/commonStyle.scss";
 
-@include globals.mobile {
+@include commonStyle.mobile {
   .home_content_text {
     font-size: 50px;
   }
@@ -14,7 +14,7 @@
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .home_content_text {
     font-size: 60px;
   }
@@ -28,7 +28,7 @@
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .home_content_text {
     font-size: 75px;
   }

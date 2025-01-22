@@ -1,27 +1,27 @@
-@use "../globals";
+@use "../../styles/commonStyle.scss";
 
-@include globals.mini_mobile {
+@include commonStyle.mini_mobile {
   .collections_container {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 }
 
-@include globals.regular_mobile {
+@include commonStyle.regular_mobile {
   .collections_container {
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .collections_container {
     grid-template-columns: repeat(4, 1fr);
     gap: 20px;
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .collections_container {
     grid-template-columns: repeat(4, 1fr);
     gap: 25px;

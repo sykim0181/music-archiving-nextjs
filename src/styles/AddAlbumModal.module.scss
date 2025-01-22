@@ -1,6 +1,6 @@
-@use "../app/globals";
+@use "./commonStyle.scss";
 
-@include globals.mobile {
+@include commonStyle.mobile {
   .album_item_cover {
     width: 70px;
     height: 70px;
@@ -14,7 +14,7 @@
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .album_item_cover {
     width: 90px;
     height: 90px;
@@ -28,7 +28,7 @@
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .album_item_cover {
     width: 100px;
     height: 100px;

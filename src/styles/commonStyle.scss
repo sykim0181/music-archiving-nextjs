@@ -1,5 +1,35 @@
-* {
-  -webkit-user-drag: none;
+$breakpoint-mobile: 376px;
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 992px;
+
+@mixin mini_mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+@mixin regular_mobile {
+  @media (min-width: #{$breakpoint-mobile}) and (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-tablet}) and (max-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-desktop}) {
+    @content;
+  }
 }
 
 .icon_button {
@@ -29,34 +59,10 @@
   box-shadow: 0 10px 25px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
 
-button {
-  all: unset;
-  cursor: pointer;
-  text-align: center;
-
-  & a {
-    text-decoration: none;
-  }
-}
-
 .center_screen {
   width: 100dvw;
   height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-input {
-  font-family: var(--font-freesentation);
-}
-
-a {
-  all: unset;
 }

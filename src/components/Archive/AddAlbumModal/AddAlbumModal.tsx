@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 
-import "@/app/globals.scss";
 import styles from "@/styles/AddAlbumModal.module.scss";
 import { AddAlbumContext } from '@/context/AddAlbumContext';
 import { addAlbum } from '@/lib/redux/archivedAlbumList';

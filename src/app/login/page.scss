@@ -1,6 +1,6 @@
-@use "../globals";
+@use "../../styles/commonStyle.scss";
 
-@include globals.mobile {
+@include commonStyle.mobile {
   .button_group {
     button {
       font-size: 18px;
@@ -9,7 +9,7 @@
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .button_group {
     button {
       font-size: 20px;
@@ -18,7 +18,7 @@
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .button_group {
     button {
       font-size: 22px;

@@ -1,6 +1,6 @@
-@use "../../app/globals.scss" as globals;
+@use "../commonStyle.scss";
 
-@include globals.mini_mobile {
+@include commonStyle.mini_mobile {
   .left_header_content {
     & button {
       font-size: 13px;
@@ -19,7 +19,7 @@
   }
 }
 
-@include globals.regular_mobile {
+@include commonStyle.regular_mobile {
   .left_header_content {
     & button {
       font-size: 14px;
@@ -38,7 +38,7 @@
   }
 }
 
-@include globals.tablet {
+@include commonStyle.tablet {
   .left_header_content {
     & button {
       font-size: 15px;
@@ -57,7 +57,7 @@
   }
 }
 
-@include globals.desktop {
+@include commonStyle.desktop {
   .left_header_content {
     & button {
       font-size: 16px;
