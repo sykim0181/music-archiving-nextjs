@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
@@ -72,15 +72,24 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     }
   }
 
+  const isMovingVinyl = !lpIsOnTurntable && selectedAlbum;
+
   const onMouseUp = () => {
-    if (!lpIsOnTurntable && selectedAlbum) {
+    if (isMovingVinyl) {
       dispatch(clearSelectedAlbum());
+    }
+  }
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (isMovingVinyl) {
+      e.preventDefault();
     }
   }
 
   const onTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
-    if (lpIsOnTurntable || selectedAlbum === null) {
+
+    if (!isMovingVinyl) {
       return;
     }
 
@@ -123,17 +132,16 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   }
 
   const onTouchEnd = () => {
-    if (!lpIsOnTurntable && selectedAlbum) {
+    if (isMovingVinyl) {
       dispatch(clearSelectedAlbum());
     }
   }
 
   const showFloatingVinyl = 
-    !lpIsOnTurntable && (
-      selectedAlbum !== null &&
-      selectedLpPosition.x !== null &&
-      selectedLpPosition.y !== null
-    );
+    isMovingVinyl && 
+    selectedLpPosition.x !== null &&
+    selectedLpPosition.y !== null
+  ;
 
   const onClickAddSongBtn = () => {
     if (albumList.length > LIMIT_NUM_ALBUM) {
@@ -179,6 +187,7 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
       ref={containerRef}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
+      onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
     >
@@ -215,8 +224,9 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
           left: `${floatingVinylPosition.x}px`,
           top: `${floatingVinylPosition.y}px`,
           width: `${floatingVinylSize}px`,
-          height: `${floatingVinylSize}px`
+          height: `${floatingVinylSize}px`,
         }}
+        onContextMenu={() => { return false }}
       >
         <LpVinyl album={selectedAlbum} />
       </div> 

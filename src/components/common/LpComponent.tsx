@@ -35,6 +35,8 @@ const LpComponent = (props: Props) => {
   }
 
   const onTouchStart = (e: React.TouchEvent) => {
+    e.preventDefault();
+    
     setShowVinyl(false);
     
     if (!hasSelectedAlbum) {
