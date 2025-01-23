@@ -59,6 +59,7 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
       }
       return lastPageParam + limit;
     },
+    staleTime: 1000 * 60 * 5
   });
 
   const collectionList = useMemo(() => {

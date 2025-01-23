@@ -44,7 +44,8 @@ const Page = () => {
       }
       const albumList = await getCollectionAlbumList(collection);
       return albumList;
-    }
+    },
+    staleTime: Infinity
   });
 
   if (isError) {
