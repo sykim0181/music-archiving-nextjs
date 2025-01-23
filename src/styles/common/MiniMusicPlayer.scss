@@ -1,13 +1,39 @@
 #mini_music_player {
   --padding-size: 15px;
+  --button-size: 40px;
 
   width: calc(100% - 2 * var(--padding-size));
   padding: var(--padding-size);
-  height: 100%;
   position: relative;
 
   /* Top Content */
   .top_content {
+    height: calc(200px - 2 * var(--padding-size));
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  .album_info {
+    display: flex;
+    align-items: center;
+
+    & p {
+      margin: 0;
+    }
+  }
+
+  .album_name {
+    font-size: 17px;
+    font-weight: bold;
+  }
+
+  .album_artist {
+    margin-left: 5px !important;
+  }
+
+  .track_info {
     display: flex;
     align-items: center;
   }
@@ -24,7 +50,7 @@
   }
 
   .playing_info {
-    width: calc(100% - 2 * 20px - 100px);
+    width: calc(100% - 100px - 10px - var(--button-size));
     margin-left: 10px;
 
     & p {
@@ -35,24 +61,18 @@
     }
   }
 
-  .album_info {
-    display: flex;
-    margin-bottom: 20px;
-  }
-
-  .album_name {
-
-  }
-
-  .album_artist {
-
-  }
-
   .track_name {
+    margin-bottom: 10px !important;
+  }
+
+  .track_artist {
 
   }
 
   .button_group {
+    display: flex;
+    justify-content: space-between;
+
     & button {
       font-size: 18px;
 
@@ -104,8 +124,8 @@
 
     & button {
       border-radius: 50%;
-      width: 30px;
-      height: 30px;
+      width: var(--button-size);
+      height: var(--button-size);
       display: flex;
       justify-content: center;
       align-items: center;

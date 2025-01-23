@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import BeatLoader from "react-spinners/BeatLoader";
-import { FaPlay, FaPause } from "react-icons/fa";
+import { RxPause, RxPlay } from "react-icons/rx";
 import { MdExpandLess, MdExpandMore } from "react-icons/md";
 import { IoMdReturnLeft, IoMdLogIn } from "react-icons/io";
 import { MdErrorOutline } from "react-icons/md";
@@ -56,28 +56,32 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
   );
 
   return (
-    <div id="mini_music_player">
+    <div id="mini_music_player" className="gradient_bg">
 
       <div className="top_content">
-        <div className="album_cover" onClick={closePlayer}>
-          <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
+        <div className="album_info">
+          <p className="album_name">{currentTrack?.album.name}</p>
+          <p className="album_artist">{`- ${currentTrack?.artists.join(', ')}`}</p>
         </div>
 
-        <div className="playing_info">
-          <div className="album_info">
-            <p className="album_name">{currentTrack?.album.name}</p>
-            <p className="album_artist">{`- ${currentTrack?.artists.join(', ')}`}</p>
+        <div className="track_info">
+          <div className="album_cover" onClick={closePlayer}>
+            <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
           </div>
-          <p className="track_name">{currentTrack?.name}</p>
-        </div>
 
-        <div className="button_group">
-          <button 
-            className="icon_button play_button"
-            onClick={onPlayPauseButtonClick}
-          >
-            {isPlaying ? <FaPause /> : <FaPlay />}
-          </button>
+          <div className="playing_info">
+            <p className="track_name">{currentTrack?.name}</p>
+            <p className="track_artist">{currentTrack?.artists.join(', ')}</p>
+          </div>
+
+          <div className="button_group">
+            <button 
+              className="icon_button play_button"
+              onClick={onPlayPauseButtonClick}
+            >
+              {isPlaying ? <RxPause /> : <RxPlay />}
+            </button>
+          </div>
         </div>
       </div>
 
