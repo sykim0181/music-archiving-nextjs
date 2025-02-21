@@ -19,7 +19,8 @@ const CollectionAlbumList = (props: CollectionAlbumListProps) => {
   const { data, isError, isFetching } = useQuery({
     queryKey: ['collection-album-list', collection.id],
     queryFn: () => getCollectionAlbumList(collection),
-    staleTime: Infinity
+    staleTime: 1000 * 60 * 1,
+    gcTime: 1000 * 60 * 5,
   });
 
   if (isError) {

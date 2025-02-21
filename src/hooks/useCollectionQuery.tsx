@@ -32,11 +32,10 @@ const fetchCollections = async (limit: number, pageParam: number) => {
 
 interface useCollectionQueryProp {
   limit: number;
-  initialData?: CollectionItemType[];
 }
 
 const useCollectionQuery = (props: useCollectionQueryProp) => {
-  const { limit, initialData } = props;
+  const { limit } = props;
 
   const {
     data,
@@ -48,18 +47,15 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
   } = useInfiniteQuery({
     queryKey: ['getAllCollections'],
     queryFn: async ({ pageParam }) => fetchCollections(limit, pageParam),
-    initialData: initialData ? {
-      pages: [initialData],
-      pageParams: [0]
-    } : undefined,
-    initialPageParam: initialData? 1 : 0,
+    initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {
         return undefined;
       }
       return lastPageParam + limit;
     },
-    staleTime: 1000 * 60 * 5
+    staleTime: 1000 * 60 * 1,
+    gcTime: 1000 * 60 * 5,
   });
 
   const collectionList = useMemo(() => {
