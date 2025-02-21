@@ -1,12 +1,16 @@
 "use client";
 
-import { Canvas } from '@react-three/fiber'
+import { Canvas, useLoader } from '@react-three/fiber'
 import React, { useState } from 'react';
+import { TextureLoader } from 'three';
 
 import "@/styles/TurntableComponent.scss";
 import TurntableObject from './TurntableObject';
 import TurntableMenuComponent from './TurntableMenuComponent';
 import { useTypedSelector } from '@/lib/redux/store';
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, '/turntable.png');
 
 const TurntableComponent = () => {
   const hasSelectedAlbum = useTypedSelector(state => state.selectedAlbum.album !== null);

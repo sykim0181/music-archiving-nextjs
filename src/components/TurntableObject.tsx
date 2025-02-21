@@ -10,9 +10,6 @@ interface Props {
   viewOnTop?: boolean;
 }
 
-useLoader.preload(TextureLoader, "/vinyl-black.png");
-useLoader.preload(TextureLoader, '/turntable.png');
-
 const TurntableObject = (prop: Props) => {
   const { 
     size, 
