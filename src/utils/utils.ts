@@ -1,5 +1,5 @@
 import { Album, Collection, CollectionItemType } from "@/types/type";
-import { getAccessToken, getAlbum } from "./spotify";
+import { getAccessToken, getAlbum, getAlbums } from "./spotify";
 
 export function msToString(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
@@ -84,7 +84,19 @@ export async function getCollectionAlbumList(
     throw new Error("Failed to fetch an spotify access token");
   }
   const albumIdList = collection.list_album_id;
-  const result = await Promise.all(albumIdList.map(albumId => getAlbum(albumId, accessToken)));
+  
+  const taskList = [];
+  const chunkSize = 20;
+  for (let i=0; i < albumIdList.length; i+= chunkSize) {
+    const ids = albumIdList.slice(i, i + chunkSize);
+    const task = getAlbums(ids, accessToken);
+    taskList.push(task);
+  }
+  const albumsList = await Promise.all(taskList);
+  let result: Album[] = [];
+  for (const albums of albumsList) {
+    result = [...result, ...albums];
+  }
   console.log('앨범 리스트:', result);
   return result;
 }

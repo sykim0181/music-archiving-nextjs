@@ -117,6 +117,33 @@ export async function getAlbum(
   };
 }
 
+export async function getAlbums(
+  albumIdList: string[],
+  accessToken: string
+): Promise<Album[]> {
+  const response = await spotifyAPI({
+    method: 'GET',
+    url: `/v1/albums?ids=${albumIdList.join(",")}&locale=ko_KR`,
+    headers: {
+      'Authorization': `Bearer ${accessToken}`
+    }
+  });
+  if (response.status !== 200) {
+    throw new Error(`"Failed to fetch the album: ${response.data}`);
+  }
+  const data = response.data.albums as AlbumResponseType[];
+  const albums = data.map(album => ({
+    id: album.id,
+    total_tracks: album.total_tracks,
+    imageUrl: album.images[0].url,
+    name: album.name,
+    artists: album.artists.map(artist => artist.name),
+    uri: album.uri,
+    releaseDate: album.release_date
+  }));
+  return albums;
+}
+
 export async function getAccessToken(): Promise<string | null> {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token`, {
     method: 'POST'
