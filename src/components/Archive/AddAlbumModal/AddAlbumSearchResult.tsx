@@ -1,37 +1,39 @@
 import { useInView } from "react-intersection-observer";
-import { useEffect, useMemo } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import styles from "@/styles/AddAlbumModal.module.scss";
 import useAlbumQuery from "@/hooks/useAlbumQuery";
 import AlbumListItem from "./AlbumListItem";
 import Loading from "../../common/Loading";
 import { getAccessToken, searchAlbum } from "@/utils/spotify";
+import { Album } from "@/types/type";
+
+const limit = 10;
 
 interface Prop {
-  input: string
+  input: string;
+  albumToAddRef: React.RefObject<Album | null>;
 }
 
 const AddAlbumSearchResult = (prop: Prop) => {
-  const { input } = prop;
+  const { input, albumToAddRef } = prop;
+  const [albumToAdd, setAlbumToAdd] = useState<Album | null>(null);
 
   const [ref, inView] = useInView();
 
-  const limit = 10;
-  const queryFunc = useMemo(() => {
-    return async (pageParam: number) => {
-      if (input === undefined || input === '') {
-        return [];
-      }
-      const accessToken = await getAccessToken();
-      if (accessToken === null) {
-        return [];
-      }
-      const result = await searchAlbum(input, accessToken, limit, pageParam)
-      if (result === null) {
-        return [];
-      } 
-      return result;
-    };
+  const queryFunc = useCallback(async (pageParam: number) => {
+    if (input === undefined || input === '') {
+      return [];
+    }
+    const accessToken = await getAccessToken();
+    if (accessToken === null) {
+      return [];
+    }
+    const result = await searchAlbum(input, accessToken, limit, pageParam)
+    if (result === null) {
+      return [];
+    } 
+    return result;
   }, [input]);
 
   const {
@@ -53,12 +55,22 @@ const AddAlbumSearchResult = (prop: Prop) => {
 
   const hasResult = albumList.length > 0;
 
+  const onClickAlbumItem = (album: Album) => {
+    if (albumToAdd === album) {
+      setAlbumToAdd(null);
+      albumToAddRef.current = null;
+    } else {
+      setAlbumToAdd(album);
+      albumToAddRef.current = album;
+    }
+  }
+
   return (
     <>
       <ul className={styles.search_result_album_list}>
-        {albumList.map((album, idx) => (
-          <li key={`album-${idx}`}>
-            <AlbumListItem album={album} />   
+        {albumList.map((album) => (
+          <li key={album.id} onClick={() => onClickAlbumItem(album)}>
+            <AlbumListItem album={album} selected={album.id === albumToAdd?.id} />   
           </li>
         ))}
         {hasResult && isFetchingNextPage ? (
@@ -76,4 +88,4 @@ const AddAlbumSearchResult = (prop: Prop) => {
   )
 }
 
-export default AddAlbumSearchResult
+export default React.memo(AddAlbumSearchResult);

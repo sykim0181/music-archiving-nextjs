@@ -1,11 +1,10 @@
 'use client';
 
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import Image from 'next/image';
 
 import styles from "@/styles/AddAlbumModal.module.scss";
-import { AddAlbumContext } from '@/context/AddAlbumContext';
 import { addAlbum } from '@/lib/redux/archivedAlbumList';
 import { Album } from '@/types/type';
 import { addAlbumInSessionStorage } from '@/utils/storage';
@@ -16,15 +15,28 @@ import { clearModal } from '@/lib/redux/modalInfo';
 import { useTypedSelector } from '@/lib/redux/store';
 import { LIMIT_NUM_ALBUM } from '@/constants';
 
+function isAlreadyInList(albumId: string, albumList: Album[]) {
+  let isExisted = false;
+  albumList.forEach(album => {
+    const id = album.id;
+    if (albumId === id){
+      isExisted = true;
+      return false;
+    }
+  });
+  return isExisted;
+}
+
 const AddAlbumModal = () => {
   const [input, setInput] = useState('');
-  const [albumToAdd, setAlbumToAdd] = useState<Album | null>(null);
+  const albumToAddRef = useRef<Album | null>(null);
   const debouncedInput = useDebounce({
     value: input,
     delay: 200
   });
 
-  const count_album = useTypedSelector(state => state.archivedAlbumList.list.length);
+  const albumList = useTypedSelector(state => state.archivedAlbumList.list);
+  const count_album = albumList.length;
 
   const dispatch = useDispatch();
 
@@ -34,8 +46,11 @@ const AddAlbumModal = () => {
   }
 
   const onSubmit = () => {
+    const albumToAdd = albumToAddRef.current;
+
     if (albumToAdd === null) return;
     if (count_album >= LIMIT_NUM_ALBUM) return;
+    if (isAlreadyInList(albumToAdd.id, albumList)) return;
 
     dispatch(addAlbum(albumToAdd));
     addAlbumInSessionStorage(albumToAdd);
@@ -46,44 +61,41 @@ const AddAlbumModal = () => {
   }
   
   return (
-    <AddAlbumContext.Provider value={{ albumToAdd, setAlbumToAdd }}>
-      <PopUpModal className={styles.add_song_modal} title='SEARCH THE ALBUM'>
-        <>
-          <div className={styles.search_album}>
-            <Image 
-              className={styles.icon_search} 
-              src='/icon_search.png' 
-              alt='icon-search' 
-              width={25} 
-              height={25}
-            />
-            <input
-              className={styles.input_search_album} 
-              value={input} 
-              onChange={onInputChange} 
-            />
-          </div>
+    <PopUpModal className={styles.add_song_modal} title='SEARCH THE ALBUM'>
+      <>
+        <div className={styles.search_album}>
+          <Image 
+            className={styles.icon_search} 
+            src='/icon_search.png' 
+            alt='icon-search' 
+            width={25} 
+            height={25}
+          />
+          <input
+            className={styles.input_search_album} 
+            value={input} 
+            onChange={onInputChange} 
+          />
+        </div>
 
-          <AddAlbumSearchResult input={debouncedInput} />
+        <AddAlbumSearchResult input={debouncedInput} albumToAddRef={albumToAddRef}/>
 
-          <div className='modal_button_container'>
-            <button
-              className={`modal_button bg_black`}
-              onClick={onSubmit}
-              disabled={albumToAdd === null}
-            >
-              추가
-            </button>
-            <button 
-              className={`modal_button bg_black`}
-              onClick={closeModal}>
-              취소
-            </button>
-          </div>
-        </>
-      </PopUpModal>
-    </AddAlbumContext.Provider>
+        <div className='modal_button_container'>
+          <button
+            className={`modal_button bg_black`}
+            onClick={onSubmit}
+          >
+            추가
+          </button>
+          <button 
+            className={`modal_button bg_black`}
+            onClick={closeModal}>
+            취소
+          </button>
+        </div>
+      </>
+    </PopUpModal>
   )
 }
 
-export default AddAlbumModal
+export default AddAlbumModal;
