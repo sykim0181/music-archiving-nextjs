@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
@@ -147,15 +147,6 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
     selectedLpPosition.y !== null
   ;
 
-  const onClickAddSongBtn = () => {
-    if (albumList.length > LIMIT_NUM_ALBUM) {
-      return
-    }
-    dispatch(setModal({
-      modalType: "add_album"
-    }));
-  };
-
   const getFloatingVinylSize = () => {
     const listItem = document.getElementsByClassName(styles.list_lp_item)?.[0];
     if (listItem !== undefined) {
@@ -185,6 +176,36 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
   }
   const floatingVinylPosition = getFloatingVinylPosition();
 
+  const AlbumList = useMemo(() => {
+    const onClickAddSongBtn = () => {
+      if (albumList.length > LIMIT_NUM_ALBUM) {
+        return
+      }
+      dispatch(setModal({
+        modalType: "add_album"
+      }));
+    };
+
+    return (
+      <div 
+        className={`${styles.list_lp} ${styles.invisible_scroll}`}
+      >
+      {albumList.map((album) => (
+        <LpComponent 
+          key={album.id}
+          album={album}
+          className={styles.list_lp_item}
+        />
+      ))}
+      {isEditable && (
+        <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
+          <div className={styles.add_album_button}><RxPlus /></div>
+        </div>
+      )}
+    </div>
+    );
+  }, [albumList, isEditable, dispatch]);
+
   return (
     <div
       className={styles.container}
@@ -195,22 +216,7 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
       onTouchEnd={onTouchEnd}
     >
       <div className={styles.content}>
-        <div 
-          className={`${styles.list_lp} ${styles.invisible_scroll}`}
-        >
-          {albumList.map((album, idx) => (
-            <LpComponent 
-              key={`lp-${idx}`}
-              album={album}
-              className={styles.list_lp_item}
-            />
-          ))}
-          {isEditable && (
-            <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
-              <div className={styles.add_album_button}><RxPlus /></div>
-            </div>
-          )}
-        </div>
+        {AlbumList}
 
         <div className={styles.blur} />
 
@@ -226,8 +232,7 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
         ref={floatingVinylRef}
         className={styles.floating_vinyl}
         style={{
-          left: `${floatingVinylPosition.x}px`,
-          top: `${floatingVinylPosition.y}px`,
+          transform: `translate(${floatingVinylPosition.x}px, ${floatingVinylPosition.y}px)`,
           width: `${floatingVinylSize}px`,
           height: `${floatingVinylSize}px`,
         }}
