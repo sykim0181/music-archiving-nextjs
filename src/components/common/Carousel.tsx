@@ -59,6 +59,11 @@ const Carousel = (props: CarouselProps) => {
             classname = styles.carousel_next_item;
           } else if (index === (currentIndex - 1 + imageList.length) % imageList.length) {
             classname = styles.carousel_prev_item;
+          } else if (
+            index === (currentIndex + 2) % imageList.length || 
+            index === (currentIndex - 2 + imageList.length) % imageList.length
+          ) {
+            classname = styles.carousel_hidden_item;
           }
 
           return (

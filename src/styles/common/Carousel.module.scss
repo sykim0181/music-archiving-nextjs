@@ -45,6 +45,10 @@
 }
 
 .carousel_other_item {
+  display: none;
+}
+
+.carousel_hidden_item {
   transform: scale(0.8) translateZ(-100px);
   opacity: 0;
 }
