@@ -4,15 +4,18 @@ import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { MdPlayArrow } from "react-icons/md";
+import SyncLoader from "react-spinners/SyncLoader";
         
 import "./page.scss";
 import MainLayout from "@/layouts/MainLayout";
 import { getCollection } from "@/utils/supabase";
-import CollectionAlbumList from "@/components/Collection/CollectionAlbumList";
+import CollectionContent from "@/components/Collection/CollectionContent";
 
 const Page = () => {
   const params = useParams<{ collectionId: string }>();
   const collectionId = params.collectionId;
+
+  const router = useRouter();
 
   const { data: collection, isError, isFetching } = useQuery({
     queryKey: ['collection', collectionId],
@@ -23,18 +26,27 @@ const Page = () => {
       }
       return collection;
     },
-    staleTime: Infinity
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 10,
   });
-
-  const router = useRouter();
 
   if (isError) {
     return (
-      <p>해당 컬렉션을 불러오는 과정에서 문제가 발생하였습니다.</p>
+      <MainLayout>
+        <div className="collection_alternative_content">
+          <p>해당 컬렉션을 불러오는 과정에서 문제가 발생하였습니다.</p>
+        </div>
+      </MainLayout>
     );
   }
   if (isFetching || collection === undefined) {
-    return <></>;
+    return (
+      <MainLayout>
+        <div className="collection_alternative_content">
+          <SyncLoader color="#000000" size={10} />
+        </div>
+      </MainLayout>
+    );
   }
 
   const onClickInteractButton = () => {
@@ -61,11 +73,7 @@ const Page = () => {
         </button>
       </div>
 
-      <div className="page_divider" />
-
-      <p className="list_album_text">앨범 목록</p>
-      <div className="page_sub_divider" />
-      <CollectionAlbumList collection={collection} />
+      <CollectionContent collection={collection} />
     </MainLayout>
   );
 };

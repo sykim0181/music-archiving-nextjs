@@ -1,3 +1,5 @@
+@use "../../../styles/variables" as *;
+
 .collection_title {
   margin: 0;
   margin-bottom: 10px;
@@ -133,4 +135,12 @@
   padding: 20px 0;
   display: flex;
   justify-content: center;
+}
+
+.collection_alternative_content {
+  width: 100%;
+  height: calc(100dvh - #{$header-size});
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
