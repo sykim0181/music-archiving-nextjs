@@ -56,7 +56,7 @@ const CollectionList = (props: Props) => {
     // skeleton
     return (
       <div className="collections_container">
-        {Array.from({ length: 12 }).map((_, idx) => (
+        {Array.from({ length: limit }).map((_, idx) => (
           <div 
             key={`collection_item_skeleton_${idx}`} 
             className="collection_skeleton_item"

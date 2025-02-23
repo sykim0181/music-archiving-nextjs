@@ -3,7 +3,7 @@ import CollectionList from "@/components/Collection/CollectionList";
 import MainLayout from "@/layouts/MainLayout";
 
 const Page = async () => {
-  const limit = 12;
+  const limit = 8;
 
   return (
     <MainLayout>
