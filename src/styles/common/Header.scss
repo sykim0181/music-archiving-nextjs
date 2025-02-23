@@ -1,3 +1,4 @@
+@use "../variables" as *;
 @use "../commonStyle.scss";
 
 @include commonStyle.mini_mobile {
@@ -79,7 +80,7 @@
 header {
   display: flex;
   background-color: black;
-  height: 50px;
+  height: $header-size;
   align-items: center;
   justify-content: center;
   position: sticky;

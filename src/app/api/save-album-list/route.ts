@@ -30,8 +30,9 @@ export async function POST(request: NextRequest) {
     if (error) {
       return NextResponse.json({ error }, { status: 500 });
     }
-    console.log("Succeed to insert the data:", data);
-    return NextResponse.json({ success: true }, { status: 200 });
+    const collection = data[0];
+    console.log("Succeed to insert the data:", collection);
+    return NextResponse.json({ collection }, { status: 200 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error('Failed to save the list of the albums');

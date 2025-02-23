@@ -2,6 +2,7 @@
 
 import { FormEvent, useContext, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import "@/styles/SaveAlbumListModal.scss"
 import { useTypedSelector } from "@/lib/redux/store";
@@ -9,6 +10,7 @@ import PopUpModal from "../common/PopUpModal";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
 import Loading from "../common/Loading";
 import { clearModal } from "@/lib/redux/modalInfo";
+import { clearAlbumListInSessionStorage } from "@/utils/storage";
 
 const SaveAlbumListModal = () => {
   const [isSaving, setIsSaving] = useState(false);
@@ -18,6 +20,7 @@ const SaveAlbumListModal = () => {
   const archivedAlbumList = useTypedSelector(state => state.archivedAlbumList.list);
 
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const closeModal = () => {
     dispatch(clearModal());
@@ -58,6 +61,8 @@ const SaveAlbumListModal = () => {
     } else {
       alert('저장 완료!');
       closeModal();
+      clearAlbumListInSessionStorage();
+      router.push(`/collection/${data.collection.id}`);
     }
   }
 
