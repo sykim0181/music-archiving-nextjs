@@ -22,7 +22,8 @@ export const IMAGE_SAMPLE_LIST = [
   "wanna_be-redoor.jpg",
   "love_happening-so_soo_bin.jpg",
   "bluebeard-the_brook_and_the_bluff.jpg",
-  "the_high_tide_club-the_poles.jpg"
+  "the_high_tide_club-the_poles.jpg",
+  "hit_me_hard_and_soft-billie_eilish.jpg"
 ];
 
 export const LIMIT_NUM_ALBUM = 50;

@@ -13,24 +13,6 @@ export function msToString(ms: number) {
   return `${minutes}:${seconds.toString().padStart(2, '0')}`;
 }
 
-export function getRandomNumbersInRange(
-  min: number, 
-  max: number, 
-  n: number
-) {
-  if (n > max - min + 1) {
-      throw new Error("wrong parameters");
-  }
-
-  const numbers = new Set<number>();
-  while (numbers.size < n) {
-      const num = Math.floor(Math.random() * (max - min + 1)) + min;
-      numbers.add(num);
-  }
-
-  return Array.from(numbers);
-}
-
 async function getCollectionRepresentativeAlbums(
   collection: Collection,
   accessToken: string
@@ -99,4 +81,13 @@ export async function getCollectionAlbumList(
   }
   console.log('앨범 리스트:', result);
   return result;
+}
+
+export function shuffleNumber(n: number) {
+  const array = Array.from({ length: n }, (_, i) => i + 1);
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
 }

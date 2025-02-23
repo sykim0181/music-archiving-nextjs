@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 
 import "./page.scss";
@@ -8,30 +8,39 @@ import AlbumCover from '@/components/common/AlbumCover';
 import { IMAGE_SAMPLE_LIST } from '@/constants';
 import MainLayout from '@/layouts/MainLayout';
 import { bebasNeue } from './fonts';
+import { shuffleNumber } from '@/utils/utils';
 
 const Home = () => {
-  const isMobile = useMediaQuery({ query: "(max-width: 768px)" })
+  const [images, setImages] = useState<string[]>([]);
+  // const isMobile = useMediaQuery({ query: "(max-width: 768px)" })
   const isTablet = useMediaQuery({ query: "(min-width: 768px)" });
   const isDesktop = useMediaQuery({ query: "(min-width: 992px)" });
 
-  const albumImageList = useMemo(() => {
+  useEffect(() => {
     if (isDesktop) {
-      return IMAGE_SAMPLE_LIST.slice(0, 15);
+      setImages(IMAGE_SAMPLE_LIST.slice(0, 20));
     } else if (isTablet) {
-      return IMAGE_SAMPLE_LIST.slice(0, 16);
-    } else if (isMobile) {
-      return IMAGE_SAMPLE_LIST.slice(0, 12);
+      setImages(IMAGE_SAMPLE_LIST.slice(0, 20));
     } else {
-      return IMAGE_SAMPLE_LIST;
+      // isMobile
+      setImages(IMAGE_SAMPLE_LIST.slice(0, 21));
     }
-  }, [isMobile, isTablet, isDesktop]);
+  }, [isTablet, isDesktop]);
+
+  const randomNumbers = shuffleNumber(images.length);
 
   return (
     <MainLayout>
       <div className='home_content'>
         <div className='sample-list'>
-          {albumImageList.map((src, idx) => (
-            <div key={`sample-album-${idx}`} className='sample-list-item'>
+          {images.map((src, idx) => (
+            <div 
+              key={`sample-album-${idx}`} 
+              className='sample-list-item'
+              style={{
+                animationDelay: `${100 * randomNumbers[idx]}ms`
+              }}
+            >
               <AlbumCover imgSrc={`/home/${src}`} />
             </div>
           ))}
