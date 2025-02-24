@@ -5,6 +5,7 @@ import Providers from "@/lib/redux/Providers";
 import SupabaseAuthProvider from "@/lib/supabase/SupabaseAuthProvider";
 import { freesentation } from "./fonts";
 import QueryClientContextProvider from "@/components/QueryClientContextProvider";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: "Music-Archiving",
@@ -19,6 +20,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="preconnect" href="https://api.spotify.com" />
+      </Head>
       <body className={freesentation.className} style={{ margin: 0 }}>
         <QueryClientContextProvider>
           <Providers>
