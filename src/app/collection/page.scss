@@ -31,6 +31,7 @@
 .collections_container {
   display: grid;
   width: 100%;
+  margin-top: 20px;
   margin-bottom: 30px;
 }
 
@@ -41,7 +42,7 @@
 }
 
 .page_divider {
-  margin: 30px 0;
+  margin: 30px 0 20px 0;
 }
 
 .collection_skeleton_item {
@@ -62,4 +63,17 @@
   margin-top: 5px;
   background-color: rgba(176, 176, 176, 0.5);
   border-radius: 10px;
+}
+
+.collection_category {
+  display: flex;
+}
+
+.collection_category_item {
+  padding: 10px;
+  cursor: pointer;
+
+  &.selected {
+    border-bottom: 2px solid black;
+  }
 }

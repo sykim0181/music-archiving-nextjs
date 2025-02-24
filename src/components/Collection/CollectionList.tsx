@@ -1,11 +1,28 @@
 'use client'
 
-import { useEffect, useMemo } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-import useCollectionQuery from "@/hooks/useCollectionQuery";
+import useCollectionQuery, { TCategory } from "@/hooks/useCollectionQuery";
 import CollectionComponent from "./CollectionComponent";
 import Loading from "../common/Loading";
+import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
+
+type TCategoryItem = {
+  category: TCategory;
+  name: string;
+}
+
+const categories: TCategoryItem[] = [
+  { 
+    category: "all-collections",
+    name: "구경하기"
+  },
+  {
+    category: "my-collections",
+    name: "내컬렉션"
+  }
+];
 
 interface Props {
   limit: number;
@@ -14,6 +31,11 @@ interface Props {
 const CollectionList = (props: Props) => {
   const { limit } = props;
 
+  const [category, setCategory] = useState<TCategory>("all-collections");
+
+  const sessionContext = useContext(SessionContext);
+  const userId = sessionContext.session?.user.id;
+
   const {
     collectionList,
     status,
@@ -21,7 +43,7 @@ const CollectionList = (props: Props) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage
-  } = useCollectionQuery({ limit });
+  } = useCollectionQuery({ limit, category, userId });
 
   const [ref, inView] = useInView();
 
@@ -33,52 +55,76 @@ const CollectionList = (props: Props) => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  const Collections = useMemo(() => {
-    return collectionList.map(item => (
-      <CollectionComponent
-        key={item.collection.id}
-        collection={item} 
-      />
-    ));
-  }, [collectionList]);
+  const Content = useMemo(() => {
+    if (status === "error") {
+      console.log(error);
+      return (
+        <div>
+          <p>문제가 발생하였습니다.</p>
+        </div>
+      );
+    }
 
+    if (status === 'pending') {
+      // skeleton
+      return (
+        <div className="collections_container">
+          {Array.from({ length: limit }).map((_, idx) => (
+            <div 
+              key={`collection_item_skeleton_${idx}`} 
+              className="collection_skeleton_item"
+            >
+              <div className="collection_skeleton_image">
+  
+              </div>
+              <div className="collection_skeleton_description">
+  
+              </div>
+              
+            </div>
+          ))}
+        </div>
+      );
+    }
 
-  if (status === "error") {
-    console.log(error);
-    return (
-      <div>
-        <p>문제가 발생하였습니다.</p>
-      </div>
-    );
-  }
-
-  if (status === 'pending') {
-    // skeleton
     return (
       <div className="collections_container">
-        {Array.from({ length: limit }).map((_, idx) => (
-          <div 
-            key={`collection_item_skeleton_${idx}`} 
-            className="collection_skeleton_item"
-          >
-            <div className="collection_skeleton_image">
-
-            </div>
-            <div className="collection_skeleton_description">
-
-            </div>
-            
-          </div>
+        {collectionList.map(item => (
+          <CollectionComponent
+            key={item.collection.id}
+            collection={item} 
+          />
         ))}
       </div>
-    );
-  }
+    )
+  }, [status, collectionList, error, limit]);
 
   return (
     <>
-      <div className="collections_container">
-        {Collections}
+      <div className="collection_category">
+        {categories.map((item, idx) => {
+          if (item.category === "my-collections" && userId === undefined) {
+            return;
+
+          }
+          let classname = "collection_category_item";
+          if (item.category === category) {
+            classname += " selected";
+          }
+          return (
+            <div 
+              key={`category-${idx}`} 
+              className={classname}
+              onClick={() => setCategory(item.category)}
+            > 
+              {item.name}
+            </div>
+          );
+        })}
       </div>
+      <div className="page_sub_divider" />
+
+      {Content}
       
       {isFetchingNextPage 
         ? (
