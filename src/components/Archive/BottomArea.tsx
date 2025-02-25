@@ -1,13 +1,16 @@
-// "use client";
-
 import { useEffect, useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
+import { TextureLoader } from 'three';
+import { useLoader } from '@react-three/fiber';
 
 import "@/styles/BottomArea.scss";
 import { Album } from '@/types/type';
 import { useTypedSelector } from '@/lib/redux/store';
 import TurntableComponent from '../TurntableComponent';
 import AlbumPlayer from '../common/AlbumPlayer';
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, '/turntable.png');
 
 const BottomArea = () => {
   const albumToPlay = useTypedSelector(state => state.playerInfo.album);
