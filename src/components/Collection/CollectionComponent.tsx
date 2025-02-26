@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -12,64 +11,55 @@ interface Props {
 const CollectionComponent = (props: Props) => {
   const { collection } = props;
   const albums = collection.repAlbums;
-
-  const imagesElement = useMemo(() => {
-    if (albums === null) {
-      return (
-        <div className="blank"></div>
-      )
-    }
-
+  
+  const getCollectionImageElements = () => {
     if (albums.length === 0) {
       return (
-        <Image src={'/Image-not-found.png'} alt="error-image" fill />
+        <CollectionItemImage src={'/Image-not-found.png'} alt="error-image" isOne />
       );
     } else if (albums.length === 1) {
       return (
-        <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+        <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} isOne />
       );
     } else if (albums.length === 2) {
       return (
         <>
-          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
-          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
-          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
-          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
+          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
+          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
+          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
+          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
         </>
       );
     } else if (albums.length === 3) {
       return (
         <>
-          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
-          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
-          <Image src={albums[2].imageUrl} alt={albums[2].name} fill />
-          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
+          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
+          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
+          <CollectionItemImage src={albums[2].imageUrl} alt={albums[2].name} />
+          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
         </>
       );
     } else {
       // images.length === 4
       return (
         <>
-          <Image src={albums[0].imageUrl} alt={albums[0].name} fill />
-          <Image src={albums[1].imageUrl} alt={albums[1].name} fill />
-          <Image src={albums[2].imageUrl} alt={albums[2].name} fill />
-          <Image src={albums[3].imageUrl} alt={albums[3].name} fill />
+          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
+          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
+          <CollectionItemImage src={albums[2].imageUrl} alt={albums[2].name} />
+          <CollectionItemImage src={albums[3].imageUrl} alt={albums[3].name} />
         </>
       );
     }
-  }, [albums]);
+  }
 
   const getClassName = () => {
-    if (albums === null || albums.length <=1) {
+    if (albums.length <=1) {
       return "one-image";
     }
     return "four-images";
   }
 
   const getArtistString = () => {
-    if (albums === null) {
-      return '';
-    }
     const set = new Set<string>();
     albums.forEach(album => {
       album.artist.forEach(name => {
@@ -85,7 +75,7 @@ const CollectionComponent = (props: Props) => {
       href={`collection/${collection.collection.id}`}
     >
       <div className={`collection_item_image ${getClassName()}`}>
-        {imagesElement}
+        {getCollectionImageElements()}
       </div>
       
       <div className="collection_item_description">
@@ -97,3 +87,22 @@ const CollectionComponent = (props: Props) => {
 };
 
 export default CollectionComponent;
+
+interface CollectionItemImageProps {
+  src: string;
+  alt: string;
+  isOne?: boolean;
+}
+
+const CollectionItemImage = (props: CollectionItemImageProps) => {
+  const { src, alt, isOne } = props;
+
+  // 768px 이상 -> 4열, 376px 이상 -> 3열, 그 아래는 -> 2열 (최대너비는 1024px)
+  const sizes = isOne 
+    ? "(max-width: 376px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 256px" 
+    : "(max-width: 376px) 25vw, (max-width: 768px) 17vw, (max-width: 1024px) 13vw, 128px";
+
+  return (
+    <Image src={src} alt={alt} fill sizes={sizes} />
+  );
+};
