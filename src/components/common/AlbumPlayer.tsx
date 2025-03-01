@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 
 import { Album, Track } from "@/types/type";
 import MusicPlayer from "./MusicPlayer";
-import { getAccessToken, getAlbumTracks } from "@/utils/spotify";
+import { getAlbumTracks } from "@/utils/spotify";
+import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
 
 interface Props {
   album: Album;
@@ -12,14 +13,12 @@ interface Props {
 const AlbumPlayer = (props: Props) => {
   const { album, isMini } = props;
 
+  const { accessToken } = useSpotifyAccessToken();
+
   const { data: trackList, isError, isFetching } = useQuery({
     queryKey: ['album-tracks', album.id],
     queryFn: async () => {
-      const accessToken = await getAccessToken();
-      if (accessToken === null) {
-        throw new Error('Failed to get an access token');
-      }
-      const data = await getAlbumTracks(album.id, accessToken);
+      const data = await getAlbumTracks(album.id);
       const trackList: Track[] = data.map(track => {
         return {
           ...track,
@@ -32,8 +31,10 @@ const AlbumPlayer = (props: Props) => {
       })
       return trackList;
     },
-    staleTime: Infinity
+    staleTime: Infinity,
+    enabled: accessToken !== null
   });
+  
   if (isFetching) {
     console.log('fetching tracks of the album...');
   }

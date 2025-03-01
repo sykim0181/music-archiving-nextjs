@@ -7,7 +7,7 @@ import styles from '@/styles/AlbumInfoModal.module.scss';
 import { Album, Track } from "@/types/type";
 import PopUpModal from "./common/PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
-import { getAccessToken, getAlbumTracks } from "@/utils/spotify";
+import { getAlbumTracks } from "@/utils/spotify";
 
 export interface AlbumInfoModalProps {
   album: Album;
@@ -21,11 +21,7 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
   const { data: trackList, isError, isFetching } = useQuery({
     queryKey: ['album-tracks', album.id],
     queryFn: async () => {
-      const accessToken = await getAccessToken();
-      if (accessToken === null) {
-        throw new Error('Failed to get an access token');
-      }
-      const data = await getAlbumTracks(album.id, accessToken);
+      const data = await getAlbumTracks(album.id);
       const trackList: Track[] = data.map(track => {
         return {
           ...track,

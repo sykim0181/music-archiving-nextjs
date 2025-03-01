@@ -2,14 +2,20 @@
 
 import { useContext } from "react";
 import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 import "@/styles/common/Header.scss";
 import "@/styles/commonStyle.scss"
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
 import { createClient } from "@/utils/supabase/client";
+import { setAccessToken } from "@/lib/redux/spotify";
 
 const Header = () => {
   const sessionContext = useContext(SessionContext);
+  
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const onClickLogoutButton = async () => {
     const supabase = createClient();
@@ -17,7 +23,16 @@ const Header = () => {
     if (error) {
       console.log("Failed to sign out:", error);
     } else {
+      const response = await fetch(`/api/auth/logout`, {
+        method: 'POST'
+      });
+      const data = await response.json();
+      console.log("/api/auth/logout", data);
+      if (data.token) {
+        dispatch(setAccessToken(data.token));
+      }
       alert("로그아웃 완료");
+      router.push('/');
     }
   };
 

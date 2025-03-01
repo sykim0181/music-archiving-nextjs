@@ -14,6 +14,7 @@ import { getCollectionAlbumList } from "@/utils/utils";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
 import { clearSelectedAlbum, setIsLpOnTurntable } from "@/lib/redux/selectedAlbum";
 import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
+import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
 
 const InteractiveArchive = dynamic(
   () => import('@/components/common/InteractiveArchive'),
@@ -25,6 +26,8 @@ const Page = () => {
   const collectionId = params.collectionId;
 
   const dispatch = useDispatch();
+
+  const { accessToken } = useSpotifyAccessToken();
 
   useEffect(() => {
     return () => {
@@ -46,7 +49,8 @@ const Page = () => {
       return albumList;
     },
     staleTime: 1000 * 60 * 1,
-    gcTime: 1000 * 60 * 5,  
+    gcTime: 1000 * 60 * 5,
+    enabled: accessToken !== null
   });
 
   if (isError) {

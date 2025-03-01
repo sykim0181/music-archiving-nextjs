@@ -4,8 +4,8 @@ import { PostgrestFilterBuilder } from "@supabase/postgrest-js";
 
 import { Collection, CollectionItemType } from "@/types/type";
 import { createClient } from "@/utils/supabase/client";
-import { getAccessToken } from "@/utils/spotify";
 import { getCollectionItemList } from "@/utils/utils";
+import useSpotifyAccessToken from "./useSpotifyAccessToken";
 
 export type TCategory = "all-collections" | "my-collections";
 
@@ -33,14 +33,9 @@ const fetchCollections = async (
   if (error) {
     throw new Error(error.message);
   }
-
-  const accessToken = await getAccessToken();
-  if (accessToken === null) {
-    throw new Error("Failed to get Access Token");
-  }
-
+  
   const collections = data as Collection[];
-  const itemList = await getCollectionItemList(collections, accessToken);
+  const itemList = await getCollectionItemList(collections);
   return itemList;
 }
 
@@ -70,6 +65,8 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     ? ['getAllCollections'] 
     : ['getMyCollections', userId]
 
+  const { accessToken } = useSpotifyAccessToken();
+
   const {
     data,
     isFetchingNextPage,
@@ -89,6 +86,7 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     },
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
+    enabled: accessToken !== null
   });
 
   const collectionList = useMemo(() => {

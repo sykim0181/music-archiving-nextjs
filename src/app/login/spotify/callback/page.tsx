@@ -6,22 +6,26 @@ import { useSearchParams, useRouter } from "next/navigation";
 import "@/styles/commonStyle.scss";
 import Loading from "@/components/common/Loading";
 import MainLayout from "@/layouts/MainLayout";
+import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
 const Content = () => {
   const searchParams = useSearchParams();
+  const errorCode = searchParams?.get('error_code');
+  const code = searchParams.get('code');
 
   const [isEmailSent, setIsEmailSent] = useState(false);  
 
   const router = useRouter();
 
   useEffect(() => {
-    const errorCode = searchParams?.get('error_code');
     if (errorCode === 'provider_email_needs_verification') {
       setIsEmailSent(true);
+    } else if (code) {
+      router.push(getAuthorizationCodeUrl());
     } else {
       router.push('/');
     }
-  }, [searchParams, router]);
+  }, [searchParams, router, code, errorCode]);
 
   if (isEmailSent) {
     return (

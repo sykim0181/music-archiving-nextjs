@@ -10,12 +10,15 @@ import "./page.scss";
 import MainLayout from "@/layouts/MainLayout";
 import { getCollection } from "@/utils/supabase";
 import CollectionContent from "@/components/Collection/CollectionContent";
+import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
 
 const Page = () => {
   const params = useParams<{ collectionId: string }>();
   const collectionId = params.collectionId;
 
   const router = useRouter();
+
+  const { accessToken } = useSpotifyAccessToken();
 
   const { data: collection, isError, isFetching } = useQuery({
     queryKey: ['collection', collectionId],
@@ -28,6 +31,7 @@ const Page = () => {
     },
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
+    enabled: accessToken !== null
   });
 
   if (isError) {

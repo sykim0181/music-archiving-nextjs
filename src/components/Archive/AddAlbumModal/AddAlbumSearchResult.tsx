@@ -5,7 +5,7 @@ import styles from "@/styles/AddAlbumModal.module.scss";
 import useAlbumQuery from "@/hooks/useAlbumQuery";
 import AlbumListItem from "./AlbumListItem";
 import Loading from "../../common/Loading";
-import { getAccessToken, searchAlbum } from "@/utils/spotify";
+import { searchAlbum } from "@/utils/spotify";
 import { Album } from "@/types/type";
 
 const limit = 10;
@@ -25,11 +25,7 @@ const AddAlbumSearchResult = (prop: Prop) => {
     if (input === undefined || input === '') {
       return [];
     }
-    const accessToken = await getAccessToken();
-    if (accessToken === null) {
-      return [];
-    }
-    const result = await searchAlbum(input, accessToken, limit, pageParam)
+    const result = await searchAlbum(input, limit, pageParam);
     if (result === null) {
       return [];
     } 

@@ -1,5 +1,5 @@
 import { Album, Collection, CollectionItemType } from "@/types/type";
-import { getAccessToken, getAlbum, getAlbums } from "./spotify";
+import { getAlbum, getAlbums } from "./spotify";
 
 export function msToString(ms: number) {
   const totalSeconds = Math.floor(ms / 1000);
@@ -15,7 +15,6 @@ export function msToString(ms: number) {
 
 async function getCollectionRepresentativeAlbums(
   collection: Collection,
-  accessToken: string
 ): Promise<CollectionItemType> {
   const albumIdList = collection.list_album_id;
   const repAlbumIds = albumIdList.length <= 4 ? [...albumIdList] : albumIdList.slice(0, 4);
@@ -27,7 +26,7 @@ async function getCollectionRepresentativeAlbums(
     artist: string[];
   } | null> => {
     
-    const album = await getAlbum(id, accessToken);
+    const album = await getAlbum(id);
     const item = {
       id: album.id,
       name: album.name,
@@ -48,11 +47,10 @@ async function getCollectionRepresentativeAlbums(
 
 export async function getCollectionItemList(
   collections: Collection[],
-  accessToken: string
 ): Promise<CollectionItemType[]> {
   const collectionItems: CollectionItemType[] = [];
   for (const collection of collections) {
-    const item = await getCollectionRepresentativeAlbums(collection, accessToken);
+    const item = await getCollectionRepresentativeAlbums(collection);
     collectionItems.push(item);
   }
   return collectionItems;
@@ -61,17 +59,13 @@ export async function getCollectionItemList(
 export async function getCollectionAlbumList(
   collection: Collection
 ): Promise<Album[]> {
-  const accessToken = await getAccessToken();
-  if (accessToken === null) {
-    throw new Error("Failed to fetch an spotify access token");
-  }
   const albumIdList = collection.list_album_id;
   
   const taskList = [];
   const chunkSize = 20;
   for (let i=0; i < albumIdList.length; i+= chunkSize) {
     const ids = albumIdList.slice(i, i + chunkSize);
-    const task = getAlbums(ids, accessToken);
+    const task = getAlbums(ids);
     taskList.push(task);
   }
   const albumsList = await Promise.all(taskList);

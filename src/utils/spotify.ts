@@ -1,7 +1,7 @@
 import axios from "axios";
 import queryString from "query-string";
 
-import { Album, Track } from "@/types/type";
+import { Album, Token, Track } from "@/types/type";
 import { AlbumResponseType, SearchResponseAlbumsType, SimplifiedTrackObject } from "@/types/spotifyTypes";
 
 export type GetAlbumTracksReturnType = {
@@ -25,18 +25,16 @@ spotifyAPI.interceptors.response.use((response) => {
   // onRejected
   const { config, response, message } = error;
   console.log(`에러 확인: ${message} (${response.status}), ${config.url}`);
-  console.log(`에러 확인(token): ${config.headers.Authorization}`)
   if (response.status === 401 && !config._retry) {
     config._retry = true;
-    const res = await axios({
-      method: 'POST', 
-      url: `${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token?request=true`
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token`, {
+      method: 'GET'
     });
+    const data = await res.json();
     if (res.status !== 200) {
-      throw new Error(res.data);
+      throw new Error(data);
     }
-    const accessToken = res.data.accessToken;
-    console.log('토큰 발급:', accessToken);
+    const accessToken = data.token.access_token;
     config.headers.Authorization = `Bearer ${accessToken}`;
     return spotifyAPI(config);
   }
@@ -64,7 +62,6 @@ export function getAuthorizationCodeUrl(): string {
 }
 
 export async function playTrackList(
-  accessToken: string,
   deviceId: string,
   trackList: Track[],
   trackIdx?: number
@@ -81,7 +78,6 @@ export async function playTrackList(
       "position_ms": 0
     }),
     headers: {
-      'Authorization': `Bearer ${accessToken}`,
       'Content-Type': 'application/json'
     }
   });
@@ -93,14 +89,10 @@ export async function playTrackList(
 
 export async function getAlbum(
   albumId: string, 
-  accessToken: string
 ): Promise<Album> {
   const response = await spotifyAPI({
     method: 'GET',
     url: `/v1/albums/${albumId}?locale=ko_KR`,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
   });
   if (response.status !== 200) {
     throw new Error(`"Failed to fetch the album: ${response.data}`);
@@ -119,14 +111,10 @@ export async function getAlbum(
 
 export async function getAlbums(
   albumIdList: string[],
-  accessToken: string
 ): Promise<Album[]> {
   const response = await spotifyAPI({
     method: 'GET',
     url: `/v1/albums?ids=${albumIdList.join(",")}&locale=ko_KR`,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
   });
   if (response.status !== 200) {
     throw new Error(`"Failed to fetch the album: ${response.data}`);
@@ -144,23 +132,10 @@ export async function getAlbums(
   return albums;
 }
 
-export async function getAccessToken(): Promise<string | null> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token`, {
-    method: 'POST'
-  });
-  if (res.status !== 200) {
-    console.log((await res.json()))
-    return null;
-  }
-  const accessToken = (await res.json()).accessToken as string;
-  return accessToken;
-}
-
 export async function searchAlbum(
   query: string,
-  accessToken: string,
   limit: number,
-  offset: number
+  offset: number,
 ): Promise<Album[] | null> {
   console.log('검색:', query);
   const res = await spotifyAPI({
@@ -172,9 +147,6 @@ export async function searchAlbum(
       offset,
       locale: 'ko_KR'
     }),
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
   });
   if (res.status !== 200) {
     return null;
@@ -197,14 +169,10 @@ export async function searchAlbum(
 
 export async function getAlbumTracks(
   albumId: string,
-  accessToken: string
 ): Promise<GetAlbumTracksReturnType> {
   const res = await spotifyAPI({
     method: 'GET',
     url: `/v1/albums/${albumId}/tracks`,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
   });
   if (res.status !== 200) {
     throw new Error(res.data);
@@ -221,4 +189,42 @@ export async function getAlbumTracks(
     } 
   });
   return trackList;
+}
+
+export async function getAccessToken(
+  authorizationCode?: string
+): Promise<string> {
+  let url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/get-access-token`;
+  if (authorizationCode) {
+    url += `?code=${authorizationCode}`;
+  }
+  const res = await fetch(url, {
+    method: 'GET'
+  });
+  const data = await res.json();
+  if (res.status !== 200) {
+    throw new Error(data.error);
+  }
+  const token = data.token as Token;
+  onSuccessFetchAccessToken(token);
+  return token.access_token;
+}
+
+export async function refreshAccessToken(): Promise<string> {
+  console.log("토큰 리프레시");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/spotify/auth/refresh-access-token`, {
+    method: 'GET'
+  });
+  const data = await res.json();
+  if (res.status !== 200) {
+    throw new Error(data.error);
+  }
+  const token = data.token as Token;
+  onSuccessFetchAccessToken(token);
+  return token.access_token;
+}
+
+function onSuccessFetchAccessToken(token: Token) {
+  spotifyAPI.defaults.headers.common['Authorization'] = `Bearer ${token.access_token}`;
+  setTimeout(refreshAccessToken, token.expires_in * 1000 - 60 * 1000); // 1분전 리프레시
 }

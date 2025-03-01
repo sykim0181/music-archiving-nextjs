@@ -23,7 +23,6 @@ const LoginPage = () => {
       provider: 'spotify',
       options: {
         redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/spotify/callback`,
-        
       }
     });
   }
