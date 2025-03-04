@@ -56,10 +56,11 @@ interface useCollectionQueryProp {
   limit: number;
   category: TCategory;
   userId?: string;
+  initialData?: CollectionItemType[];
 }
 
 const useCollectionQuery = (props: useCollectionQueryProp) => {
-  const { limit, category, userId } = props;
+  const { limit, category, userId, initialData } = props;
 
   const qKey = category === "all-collections"
     ? ['getAllCollections'] 
@@ -86,7 +87,11 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     },
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
-    enabled: accessToken !== null
+    enabled: accessToken !== null,
+    initialData: initialData ? {
+      pages: [initialData],
+      pageParams: [0]
+    } : undefined
   });
 
   const collectionList = useMemo(() => {

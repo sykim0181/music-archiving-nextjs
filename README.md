@@ -4,7 +4,7 @@
 Spotify Web API를 활용해 앨범을 저장하고 재생할 수 있습니다.
 
 **링크**: [https://music-archiving.vercel.app/](https://music-archiving.vercel.app/)   
-
+**기록**: [https://sykim.gitbook.io/music-archiving/](https://sykim.gitbook.io/music-archiving/)
 
 ## 기술 스택
 - React

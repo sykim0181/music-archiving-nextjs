@@ -7,6 +7,7 @@ import useCollectionQuery, { TCategory } from "@/hooks/useCollectionQuery";
 import CollectionComponent from "./CollectionComponent";
 import Loading from "../common/Loading";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
+import { CollectionItemType } from "@/types/type";
 
 type TCategoryItem = {
   category: TCategory;
@@ -26,10 +27,11 @@ const categories: TCategoryItem[] = [
 
 interface Props {
   limit: number;
+  initialData?: CollectionItemType[];
 }
 
 const CollectionList = (props: Props) => {
-  const { limit } = props;
+  const { limit, initialData } = props;
 
   const [category, setCategory] = useState<TCategory>("all-collections");
 
@@ -43,7 +45,7 @@ const CollectionList = (props: Props) => {
     hasNextPage,
     fetchNextPage,
     isFetchingNextPage
-  } = useCollectionQuery({ limit, category, userId });
+  } = useCollectionQuery({ limit, category, userId, initialData });
 
   const [ref, inView] = useInView();
 
@@ -65,27 +67,27 @@ const CollectionList = (props: Props) => {
       );
     }
 
-    if (status === 'pending') {
-      // skeleton
-      return (
-        <div className="collections_container">
-          {Array.from({ length: limit }).map((_, idx) => (
-            <div 
-              key={`collection_item_skeleton_${idx}`} 
-              className="collection_skeleton_item"
-            >
-              <div className="collection_skeleton_image">
+    // if (status === 'pending') {
+    //   // skeleton
+    //   return (
+    //     <div className="collections_container">
+    //       {Array.from({ length: limit }).map((_, idx) => (
+    //         <div 
+    //           key={`collection_item_skeleton_${idx}`} 
+    //           className="collection_skeleton_item"
+    //         >
+    //           <div className="collection_skeleton_image">
   
-              </div>
-              <div className="collection_skeleton_description">
+    //           </div>
+    //           <div className="collection_skeleton_description">
   
-              </div>
+    //           </div>
               
-            </div>
-          ))}
-        </div>
-      );
-    }
+    //         </div>
+    //       ))}
+    //     </div>
+    //   );
+    // }
 
     return (
       <div className="collections_container">
@@ -97,7 +99,7 @@ const CollectionList = (props: Props) => {
         ))}
       </div>
     )
-  }, [status, collectionList, error, limit]);
+  }, [status, collectionList, error]);
 
   return (
     <>
