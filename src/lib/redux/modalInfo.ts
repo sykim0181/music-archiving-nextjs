@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AlbumInfoModalProps } from "@/components/AlbumInfoModal";
+import { AlbumInfoModalProps } from "@/components/common/AlbumInfoModal";
 
 type ModalType = 
   'add_album' |

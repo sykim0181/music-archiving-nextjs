@@ -17,7 +17,7 @@ import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
 import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
 
 const InteractiveArchive = dynamic(
-  () => import('@/components/common/InteractiveArchive'),
+  () => import('@/components/Archive/InteractiveArchive'),
   { ssr: false }
 )
 

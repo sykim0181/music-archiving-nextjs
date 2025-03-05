@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
-import "@/styles/common/Header.scss";
+import "@/styles/Header.scss";
 import "@/styles/commonStyle.scss"
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
 import { createClient } from "@/utils/supabase/client";

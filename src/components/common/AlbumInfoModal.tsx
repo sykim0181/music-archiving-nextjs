@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import styles from '@/styles/AlbumInfoModal.module.scss';
 import { Album, Track } from "@/types/type";
-import PopUpModal from "./common/PopUpModal";
+import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
 import { getAlbumTracks } from "@/utils/spotify";
 

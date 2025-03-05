@@ -5,7 +5,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 import styles from "@/styles/ClearAlbumListModal.module.scss";
-import PopUpModal from "./common/PopUpModal";
+import PopUpModal from "../common/PopUpModal";
 import { setAlbumList } from "@/lib/redux/archivedAlbumList";
 import { storeAlbumListInSessionStorage } from "@/utils/storage";
 import { clearModal } from "@/lib/redux/modalInfo";

@@ -6,8 +6,8 @@ import { useLoader } from '@react-three/fiber';
 import "@/styles/BottomArea.scss";
 import { Album } from '@/types/type';
 import { useTypedSelector } from '@/lib/redux/store';
-import TurntableComponent from '../TurntableComponent';
-import AlbumPlayer from '../common/AlbumPlayer';
+import TurntableComponent from './TurntableComponent';
+import AlbumPlayer from '../common/Player/AlbumPlayer';
 
 useLoader.preload(TextureLoader, "/vinyl-black.png");
 useLoader.preload(TextureLoader, '/turntable.png');

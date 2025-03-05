@@ -3,9 +3,9 @@
 import { useEffect, useMemo } from "react";
 
 import { useTypedSelector } from "@/lib/redux/store";
-import AddAlbumModal from "./Archive/AddAlbumModal/AddAlbumModal";
-import SaveAlbumListModal from "./Archive/SaveAlbumListModal";
-import ClearAlbumListModal from "./ClearAlbumListModal";
+import AddAlbumModal from "../Archive/AddAlbumModal/AddAlbumModal";
+import SaveAlbumListModal from "../Archive/SaveAlbumListModal";
+import ClearAlbumListModal from "../Archive/ClearAlbumListModal";
 import AlbumInfoModal from "./AlbumInfoModal";
 
 const ModalContainer = () => {

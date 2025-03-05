@@ -13,7 +13,7 @@ import MainLayout from '@/layouts/MainLayout';
 import { setIsLpOnTurntable, setSelectedAlbum } from '@/lib/redux/selectedAlbum';
 
 const InteractiveArchive = dynamic(
-  () => import('@/components/common/InteractiveArchive'),
+  () => import('@/components/Archive/InteractiveArchive'),
   { ssr: false }
 )
 

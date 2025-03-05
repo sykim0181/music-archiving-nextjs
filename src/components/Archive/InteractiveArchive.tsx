@@ -4,12 +4,12 @@ import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
-import styles from '@/styles/common/InteractiveArchive.module.scss';
+import styles from '@/styles/InteractiveArchive.module.scss';
 import { Album } from "@/types/type";
-import LpComponent from "./LpComponent";
-import LpVinyl from "../LpVinyl";
-import BottomArea from "../Archive/BottomArea";
-import FloatingButtons from "../Archive/FloatingButtons";
+import LpComponent from "../common/LpComponent";
+import LpVinyl from "../common/LpVinyl";
+import BottomArea from "./BottomArea";
+import FloatingButtons from "./FloatingButtons";
 import { setModal } from "@/lib/redux/modalInfo";
 import { LIMIT_NUM_ALBUM } from "@/constants";
 import useInteractiveArchive from "@/hooks/useInteractiveArchive";

@@ -1,5 +1,5 @@
-@use "../variables" as *;
-@use "../commonStyle.scss";
+@use "./variables" as *;
+@use "./commonStyle.scss";
 
 @include commonStyle.mini_mobile {
   .left_header_content {

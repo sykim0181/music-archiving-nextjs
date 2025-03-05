@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 
-import "@/styles/common/MusicPlayer.scss";
+import "@/styles/MusicPlayer.scss";
 import useSpotifyPlayer, { PlayerState } from "@/hooks/useSpotifyPlayer";
 import { Track } from "@/types/type";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";

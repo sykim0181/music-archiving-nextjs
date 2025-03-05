@@ -1,36 +1,33 @@
-import { useMemo } from "react";
-import BeatLoader from "react-spinners/BeatLoader";
-import { RxTrackPrevious, RxTrackNext, RxPause, RxPlay } from "react-icons/rx";
-import { MdErrorOutline } from "react-icons/md";
+import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import BeatLoader from "react-spinners/BeatLoader";
+import { RxPause, RxPlay } from "react-icons/rx";
+import { MdExpandLess, MdExpandMore } from "react-icons/md";
+import { IoMdReturnLeft, IoMdLogIn } from "react-icons/io";
+import { MdErrorOutline } from "react-icons/md";
 
-import "@/styles/common/NormalMusicPlayer.scss";
-import "@/styles/commonStyle.scss"
-import { defaultPlayerProps } from "./MusicPlayer";
-import AlbumTrackList from "../AlbumTrackList";
-import AlbumCover from "./AlbumCover";
+import "@/styles/MiniMusicPlayer.scss";
+import "@/styles/commonStyle.scss";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
+import { defaultPlayerProps } from "./MusicPlayer";
+import AlbumCover from "../AlbumCover";
+import AlbumTrackList from "./AlbumTrackList";
 
-interface NormalMusicPlayerProps extends defaultPlayerProps {
-  onPrevButtonClick: () => void;
-  onNextButtonClick: () => void;
-}
-
-const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
+const MiniMusicPlayer = (props: defaultPlayerProps) => {
   const { 
     trackList,
     isPlaying,
     curTrackIdx,
     state,
     onPlayPauseButtonClick,
-    onPrevButtonClick,
-    onNextButtonClick,
     onTrackClick,
     closePlayer,
   } = props;
 
-  const router = useRouter();
-  const pathname = usePathname();
+  const [isExpanded, setIsExpanded] = useState(false);
+
+    const router = useRouter();
+    const pathname = usePathname();
 
   const currentTrack = useMemo(() => {
     if (curTrackIdx < 0 || curTrackIdx >= trackList.length) {
@@ -39,6 +36,10 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
     return trackList[curTrackIdx];
   }, [trackList, curTrackIdx]);
 
+  const onExpandButtonClick = () => {
+    setIsExpanded(!isExpanded);
+  }
+
   const onClickSignInButton = () => {
     window.sessionStorage.setItem('redirectUrl', pathname);
     router.push(getAuthorizationCodeUrl());
@@ -46,64 +47,62 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
 
   const showAlert = state !== 'READY';
   const returnButton = (
-    <button
-      className="bg_black return_button"
+    <button 
+      className="return_button bg_black icon_button"
       onClick={closePlayer}
     >
-      Return
+      <IoMdReturnLeft />
     </button>
   );
 
   return (
-    <div id="normal_album_player" className="gradient_bg">
-      {/* Left */}
-      <div className="left_content">
-        <div 
-          className="album_cover"
-          onClick={closePlayer}
-        >
-          <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
-        </div>
+    <div id="mini_music_player" className="gradient_bg">
 
-        <div className="button_group">
-          <button 
-            className="icon_button prev_button"
-            onClick={onPrevButtonClick}
-          >
-            <RxTrackPrevious />
-          </button>
-          <button
-            className="icon_button play_button"
-            onClick={onPlayPauseButtonClick}
-          >
-            {isPlaying ? <RxPause /> : <RxPlay />}
-          </button>
-          <button
-            className="icon_button next_button"
-            onClick={onNextButtonClick}
-          >
-            <RxTrackNext />
-          </button>
-        </div>
-      </div>
-
-      {/* Right */}
-      <div className="right_content">
+      <div className="top_content">
         <div className="album_info">
           <p className="album_name">{currentTrack?.album.name}</p>
           <p className="album_artist">{`- ${currentTrack?.artists.join(', ')}`}</p>
         </div>
 
-        <div className="track_list_container">
-          <AlbumTrackList 
+        <div className="track_info">
+          <div className="album_cover" onClick={closePlayer}>
+            <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
+          </div>
+
+          <div className="playing_info">
+            <p className="track_name">{currentTrack?.name}</p>
+            <p className="track_artist">{currentTrack?.artists.join(', ')}</p>
+          </div>
+
+          <div className="button_group">
+            <button 
+              className="icon_button play_button"
+              onClick={onPlayPauseButtonClick}
+            >
+              {isPlaying ? <RxPause /> : <RxPlay />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {isExpanded && (
+        <div className="bottom_content track-list-container">
+          <AlbumTrackList
             tracks={trackList}
             onTrackClick={onTrackClick}
             selectedTrackIdx={curTrackIdx}
           />
         </div>
+      )}
+
+      <div
+        id="expand_button"
+        className="icon_button"
+        onClick={onExpandButtonClick}
+      >
+        {isExpanded ? <MdExpandMore /> : <MdExpandLess />}
       </div>
 
-      {/* Alert */}
       {showAlert && (
         <div className="alert_container">
           {state === 'USER_NOT_SIGNED_IN' ? (
@@ -111,7 +110,7 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
               <p className="alert_message">Spotify 프리미엄 멤버십 구독자에게 제공되는 기능입니다.</p>
               <div className="alert_button_group">
                 <button className="signin_button" onClick={onClickSignInButton}>
-                  Sign In
+                  <IoMdLogIn />
                 </button>
                 {returnButton}
               </div>
@@ -125,12 +124,12 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
             </>
           ) : state === 'UNKNOWN_ERROR' ? (
             <>
-              <MdErrorOutline className="error_icon"/>
+              <MdErrorOutline className="error_icon" />
             </>
           ) : (
             // 'NOT_READY'
             <>
-              <BeatLoader size={15} color="#000000" />
+              <BeatLoader size={10} color="#000000" />
             </>
           )}
         </div>
@@ -139,4 +138,4 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
   );
 }
 
-export default NormalMusicPlayer;
+export default MiniMusicPlayer;

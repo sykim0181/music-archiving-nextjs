@@ -1,7 +1,7 @@
 
 import Image from "next/image";
 
-import styles from "../../styles/common/Carousel.module.scss";
+import styles from "../../styles/Carousel.module.scss";
 import useCarousel from '@/hooks/useCarousel';
 
 interface CarouselProps {

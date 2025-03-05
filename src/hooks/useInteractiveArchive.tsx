@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import { useTypedSelector } from "@/lib/redux/store";
-import styles from "@/styles/common/InteractiveArchive.module.scss";
+import styles from "@/styles/InteractiveArchive.module.scss";
 import { clearSelectedAlbum, moveVinyl, setIsLpOnTurntable, setVinylPosition } from "@/lib/redux/selectedAlbum";
 
 const useInteractiveArchive = () => {
