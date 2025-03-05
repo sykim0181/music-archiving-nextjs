@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import SyncLoader from "react-spinners/SyncLoader";
 import { useDispatch } from "react-redux";
+import { TextureLoader } from "three";
+import { useLoader } from "@react-three/fiber";
 
 import "./page.scss";
 import MainLayout from "@/layouts/MainLayout";
@@ -15,6 +17,9 @@ import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
 import { clearSelectedAlbum, setIsLpOnTurntable } from "@/lib/redux/selectedAlbum";
 import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
 import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, '/turntable.png');
 
 const InteractiveArchive = dynamic(
   () => import('@/components/Archive/InteractiveArchive'),

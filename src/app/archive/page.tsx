@@ -3,6 +3,8 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import dynamic from 'next/dynamic';
+import { TextureLoader } from "three";
+import { useLoader } from "@react-three/fiber";
 
 import "./page.scss";
 import { getAlbumListFromSessionStorage, getAlbumToPlayFromSessionStorage } from '@/utils/storage';
@@ -11,6 +13,9 @@ import { setAlbumToPlay } from '@/lib/redux/playerInfo';
 import { setAlbumList } from '@/lib/redux/archivedAlbumList';
 import MainLayout from '@/layouts/MainLayout';
 import { setIsLpOnTurntable, setSelectedAlbum } from '@/lib/redux/selectedAlbum';
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, '/turntable.png');
 
 const InteractiveArchive = dynamic(
   () => import('@/components/Archive/InteractiveArchive'),
