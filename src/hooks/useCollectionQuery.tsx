@@ -9,7 +9,6 @@ import useSpotifyAccessToken from "./useSpotifyAccessToken";
 
 export type TCategory = "all-collections" | "my-collections";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TSupabaseQuery = PostgrestFilterBuilder<
   any,
   any,
