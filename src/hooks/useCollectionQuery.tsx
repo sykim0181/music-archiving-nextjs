@@ -13,9 +13,11 @@ export type TCategory = "all-collections" | "my-collections";
 type TSupabaseQuery = PostgrestFilterBuilder<
   any,
   any,
+  any,
   any[],
   "collection-album-list",
-  unknown
+  unknown,
+  "GET"
 >;
 
 const supabase = createClient();
