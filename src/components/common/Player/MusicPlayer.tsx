@@ -35,7 +35,7 @@ const MusicPlayer = (props: Props) => {
     skipToPrevious,
     skipToIdx,
   } = useSpotifyPlayer({
-    trackList
+    trackList,
   });
 
   const dispatch = useDispatch();
@@ -46,45 +46,47 @@ const MusicPlayer = (props: Props) => {
     } else {
       play();
     }
-  }
+  };
 
   const onPrevButtonClick = () => {
     skipToPrevious();
-  }
+  };
 
   const onNextButtonClick = () => {
     skipToNext();
-  }
+  };
 
   const removePlayer = () => {
     dispatch(clearAlbumToPlay());
-  }
+  };
 
   const onTrackClick = (idx: number) => {
     skipToIdx(idx);
-  }
+  };
 
-  return isMini 
-    ? <MiniMusicPlayer 
-        trackList={trackList}
-        isPlaying={isPlaying}
-        curTrackIdx={curTrackIdx}
-        state={state}
-        onPlayPauseButtonClick={onPlayPauseButtonClick}
-        onTrackClick={onTrackClick}
-        closePlayer={removePlayer}
-      /> 
-    : <NormalMusicPlayer
-        trackList={trackList}
-        isPlaying={isPlaying}
-        curTrackIdx={curTrackIdx}
-        state={state}
-        onPlayPauseButtonClick={onPlayPauseButtonClick}
-        onPrevButtonClick={onPrevButtonClick}
-        onNextButtonClick={onNextButtonClick}
-        onTrackClick={onTrackClick}
-        closePlayer={removePlayer}
-      />
-}
+  return isMini ? (
+    <MiniMusicPlayer
+      trackList={trackList}
+      isPlaying={isPlaying}
+      curTrackIdx={curTrackIdx}
+      state={state}
+      onPlayPauseButtonClick={onPlayPauseButtonClick}
+      onTrackClick={onTrackClick}
+      closePlayer={removePlayer}
+    />
+  ) : (
+    <NormalMusicPlayer
+      trackList={trackList}
+      isPlaying={isPlaying}
+      curTrackIdx={curTrackIdx}
+      state={state}
+      onPlayPauseButtonClick={onPlayPauseButtonClick}
+      onPrevButtonClick={onPrevButtonClick}
+      onNextButtonClick={onNextButtonClick}
+      onTrackClick={onTrackClick}
+      closePlayer={removePlayer}
+    />
+  );
+};
 
 export default MusicPlayer;

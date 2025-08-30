@@ -6,12 +6,12 @@ interface SpotifyState {
 }
 
 export const fetchAccessToken = createAsyncThunk(
-  'spotify/fetchAccessToken',
+  "spotify/fetchAccessToken",
   async () => {
     try {
       const token = await getAccessToken();
       return token;
-    } catch(error) {
+    } catch (error) {
       console.log(error);
       return null;
     }
@@ -19,10 +19,10 @@ export const fetchAccessToken = createAsyncThunk(
 );
 
 const spotify = createSlice({
-  name: 'spotify',
+  name: "spotify",
   initialState: () => {
     const state: SpotifyState = {
-      accessToken: null
+      accessToken: null,
     };
     return state;
   },
@@ -32,18 +32,15 @@ const spotify = createSlice({
     },
     clearAccessToken: (state) => {
       state.accessToken = null;
-    }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchAccessToken.fulfilled, (state, action) => {
       state.accessToken = action.payload;
     });
-  }
+  },
 });
 
-export const {
-  setAccessToken,
-  clearAccessToken
-} = spotify.actions;
+export const { setAccessToken, clearAccessToken } = spotify.actions;
 
 export default spotify;

@@ -1,19 +1,23 @@
 "use client";
 
-import { Canvas } from '@react-three/fiber'
-import React, { useState } from 'react';
+import { Canvas } from "@react-three/fiber";
+import React, { useState } from "react";
 
 import "@/styles/TurntableComponent.scss";
-import TurntableObject from './TurntableObject';
-import TurntableMenuComponent from './TurntableMenuComponent';
-import { useTypedSelector } from '@/lib/redux/store';
+import TurntableObject from "./TurntableObject";
+import TurntableMenuComponent from "./TurntableMenuComponent";
+import { useTypedSelector } from "@/lib/redux/store";
 
 const TurntableComponent = () => {
-  const hasSelectedAlbum = useTypedSelector(state => state.selectedAlbum.album !== null);
-  const isLpOnTurntable = useTypedSelector(state => state.selectedAlbum.isOnTurntable);
+  const hasSelectedAlbum = useTypedSelector(
+    (state) => state.selectedAlbum.album !== null
+  );
+  const isLpOnTurntable = useTypedSelector(
+    (state) => state.selectedAlbum.isOnTurntable
+  );
 
   const [showMenu, setShowMenu] = useState(false);
-  
+
   const isMovingVinyl = hasSelectedAlbum && !isLpOnTurntable; // lp를 선택하곤있지만 올려놓진 않은 상태
 
   const onTurntableMouseOver = () => {
@@ -37,12 +41,12 @@ const TurntableComponent = () => {
       }
     }
   };
-  
+
   return (
     <div
-      id='turntable'
+      id="turntable"
       style={{
-        cursor: isLpOnTurntable ? 'pointer' : 'default',
+        cursor: isLpOnTurntable ? "pointer" : "default",
       }}
       onMouseOver={onTurntableMouseOver}
       onMouseOut={onTurntableMouseOut}
@@ -50,19 +54,19 @@ const TurntableComponent = () => {
     >
       <div
         style={{
-          position: 'absolute',
+          position: "absolute",
           left: 0,
-          top: 0
+          top: 0,
         }}
       >
         <Canvas
           camera={{ fov: 60, near: 0.1, far: 1000 }}
           gl={{ alpha: true }}
-          style={{ 
-            background: 'transparent',
+          style={{
+            background: "transparent",
             width: "200px",
-            height: '200px'
-           }}
+            height: "200px",
+          }}
         >
           <TurntableObject
             size={6}
@@ -76,9 +80,9 @@ const TurntableComponent = () => {
       {isMovingVinyl && (
         <>
           <div
-            id='lp-platter'
+            id="lp-platter"
             style={{
-              position: 'absolute',
+              position: "absolute",
               left: `${200 * 0.05}px`,
               top: `${200 * 0.05}px`,
               width: `${200 * 0.9}px`,
@@ -90,7 +94,7 @@ const TurntableComponent = () => {
 
       <TurntableMenuComponent showMenu={showMenu} />
     </div>
-  )
-}
+  );
+};
 
 export default TurntableComponent;

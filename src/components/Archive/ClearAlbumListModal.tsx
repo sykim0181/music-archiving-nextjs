@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -15,18 +15,20 @@ import { Album } from "@/types/type";
 type ItemType = {
   album: Album;
   selected: boolean;
-}
+};
 
 const ClearAlbumListModal = () => {
-  const archivedAlbumList = useTypedSelector(state => state.archivedAlbumList.list);
+  const archivedAlbumList = useTypedSelector(
+    (state) => state.archivedAlbumList.list
+  );
 
   const [albumItemList, setAlbumItemList] = useState<ItemType[]>(() => {
-    const items: ItemType[] = archivedAlbumList.map(album => {
+    const items: ItemType[] = archivedAlbumList.map((album) => {
       return {
         album,
-        selected: false
+        selected: false,
       };
-    })
+    });
     return items;
   });
 
@@ -37,18 +39,18 @@ const ClearAlbumListModal = () => {
   };
 
   const selectAll = () => {
-    const items: ItemType[] = archivedAlbumList.map(album => {
+    const items: ItemType[] = archivedAlbumList.map((album) => {
       return {
         album,
-        selected: true
+        selected: true,
       };
-    })
+    });
     setAlbumItemList(items);
   };
 
   const deleteAlbumList = () => {
     const newList: Album[] = [];
-    albumItemList.forEach(item => {
+    albumItemList.forEach((item) => {
       if (item.selected === false) {
         newList.push(item.album);
       }
@@ -64,14 +66,11 @@ const ClearAlbumListModal = () => {
     const list = [...albumItemList];
     list[idx].selected = !item.selected;
     setAlbumItemList(list);
-  }
+  };
 
   return (
     <PopUpModal title="EDIT THE LIST" className={styles.clear_album_list_modal}>
-      <button 
-        className={styles.clear_button}
-        onClick={selectAll}
-      >
+      <button className={styles.clear_button} onClick={selectAll}>
         전체 선택
       </button>
 
@@ -87,32 +86,30 @@ const ClearAlbumListModal = () => {
               className={classname}
               onClick={() => onClickItem(item, idx)}
             >
-              <Image src={item.album.imageUrl} width={50} height={50} alt={item.album.name} />
+              <Image
+                src={item.album.imageUrl}
+                width={50}
+                height={50}
+                alt={item.album.name}
+              />
               <div className={styles.album_description}>
                 <p className={styles.album_name}>{item.album.name}</p>
                 <p>{item.album.artists}</p>
               </div>
             </li>
-          )
+          );
         })}
       </ul>
 
       <div className="modal_button_container">
-        <button
-          className="modal_button bg_black"
-          onClick={deleteAlbumList}
-        >
+        <button className="modal_button bg_black" onClick={deleteAlbumList}>
           삭제
         </button>
 
-        <button
-          className="modal_button bg_black"
-          onClick={closeModal}
-        >
+        <button className="modal_button bg_black" onClick={closeModal}>
           취소
         </button>
       </div>
-
     </PopUpModal>
   );
 };

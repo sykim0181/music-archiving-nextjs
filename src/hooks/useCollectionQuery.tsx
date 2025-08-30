@@ -10,45 +10,51 @@ import useSpotifyAccessToken from "./useSpotifyAccessToken";
 export type TCategory = "all-collections" | "my-collections";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type TSupabaseQuery = PostgrestFilterBuilder<any, any, any[], "collection-album-list", unknown>;
+type TSupabaseQuery = PostgrestFilterBuilder<
+  any,
+  any,
+  any[],
+  "collection-album-list",
+  unknown
+>;
 
 const supabase = createClient();
 
 const fetchCollections = async (
-  limit: number, 
+  limit: number,
   pageParam: number,
   category: TCategory,
   userId?: string
 ) => {
   let getCollection = supabase
-    .from('collection-album-list')
+    .from("collection-album-list")
     .select()
-    .order('created_at')
+    .order("created_at")
     .range(pageParam, pageParam + limit - 1);
 
-    getCollection = getFilteredQuery(getCollection, category, userId);
-    
+  getCollection = getFilteredQuery(getCollection, category, userId);
+
   const { data, error } = await getCollection;
 
   if (error) {
     throw new Error(error.message);
   }
-  
+
   const collections = data as Collection[];
   const itemList = await getCollectionItemList(collections);
   return itemList;
-}
+};
 
 const getFilteredQuery = (
   query: TSupabaseQuery,
-  category: TCategory, 
+  category: TCategory,
   userId?: string
 ): TSupabaseQuery => {
   if (category === "all-collections") {
-    return query.eq('is_public', true);
+    return query.eq("is_public", true);
   } else {
     // category === "my-collections"
-    return query.eq('user_id', userId);
+    return query.eq("user_id", userId);
   }
 };
 
@@ -62,9 +68,10 @@ interface useCollectionQueryProp {
 const useCollectionQuery = (props: useCollectionQueryProp) => {
   const { limit, category, userId, initialData } = props;
 
-  const qKey = category === "all-collections"
-    ? ['getAllCollections'] 
-    : ['getMyCollections', userId]
+  const qKey =
+    category === "all-collections"
+      ? ["getAllCollections"]
+      : ["getMyCollections", userId];
 
   const { accessToken } = useSpotifyAccessToken();
 
@@ -74,10 +81,11 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     fetchNextPage,
     hasNextPage,
     status,
-    error
+    error,
   } = useInfiniteQuery({
     queryKey: qKey,
-    queryFn: async ({ pageParam }) => fetchCollections(limit, pageParam, category, userId),
+    queryFn: async ({ pageParam }) =>
+      fetchCollections(limit, pageParam, category, userId),
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {
@@ -88,10 +96,12 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
     enabled: accessToken !== null,
-    initialData: initialData ? {
-      pages: [initialData],
-      pageParams: [0]
-    } : undefined
+    initialData: initialData
+      ? {
+          pages: [initialData],
+          pageParams: [0],
+        }
+      : undefined,
   });
 
   const collectionList = useMemo(() => {
@@ -110,8 +120,8 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
     fetchNextPage,
     hasNextPage,
     status,
-    error
-  }
+    error,
+  };
 };
 
 export default useCollectionQuery;

@@ -1,8 +1,8 @@
 "use client";
 
-import { useFrame, useLoader, useThree } from '@react-three/fiber';
-import { memo, useEffect, useMemo, useRef } from 'react';
-import { PerspectiveCamera, TextureLoader } from 'three';
+import { useFrame, useLoader, useThree } from "@react-three/fiber";
+import { memo, useEffect, useMemo, useRef } from "react";
+import { PerspectiveCamera, TextureLoader } from "three";
 
 interface Props {
   size: number;
@@ -11,27 +11,25 @@ interface Props {
 }
 
 const TurntableObject = (prop: Props) => {
-  const { 
-    size, 
-    showLp, 
-    viewOnTop, 
-  } = prop;
-  
+  const { size, showLp, viewOnTop } = prop;
+
   const { camera } = useThree();
   const vinylTexture = useLoader(TextureLoader, "/vinyl-black.png");
-  const turntableTexture = useLoader(TextureLoader, '/turntable.png')
+  const turntableTexture = useLoader(TextureLoader, "/turntable.png");
 
-  const lpRadius = size * 0.8 / 2;
+  const lpRadius = (size * 0.8) / 2;
 
   const diskY = 1 / 2 + 0.1 / 2;
 
   const fov = (camera as PerspectiveCamera).fov;
   const fovRadians = (fov * Math.PI) / 180;
-  const yVal = (size / 2) / Math.tan(fovRadians / 2) * 1.2;
+  const yVal = (size / 2 / Math.tan(fovRadians / 2)) * 1.2;
 
   const topViewPosition = useMemo(() => [0, yVal, 0], [yVal]);
   const frontViewPosition = useMemo(() => [0, size, size + 1], [size]);
-  const targetPosition = useRef<number[]>(viewOnTop ? topViewPosition : frontViewPosition);
+  const targetPosition = useRef<number[]>(
+    viewOnTop ? topViewPosition : frontViewPosition
+  );
 
   useEffect(() => {
     if (viewOnTop) {
@@ -45,30 +43,30 @@ const TurntableObject = (prop: Props) => {
     if (targetPosition.current === null) return;
 
     const currentPosition = camera.position;
-    currentPosition.lerp({
-      x: targetPosition.current[0],
-      y: targetPosition.current[1],
-      z: targetPosition.current[2]
-    }, 0.1);
+    currentPosition.lerp(
+      {
+        x: targetPosition.current[0],
+        y: targetPosition.current[1],
+        z: targetPosition.current[2],
+      },
+      0.1
+    );
     camera.lookAt(0, 0, 0);
   });
 
   const onPointerOver = () => {
     targetPosition.current = topViewPosition;
-  }
+  };
 
   const onPointerOut = () => {
     if (!viewOnTop) {
       targetPosition.current = frontViewPosition;
     }
-  }
+  };
 
   return (
     <>
-      <group
-        onPointerOver={onPointerOver}
-        onPointerOut={onPointerOut}
-      >
+      <group onPointerOver={onPointerOver} onPointerOut={onPointerOut}>
         <mesh>
           <boxGeometry args={[size, 1, size]} />
           <meshBasicMaterial attach="material-0" color="#DDDDDD" />
@@ -86,12 +84,16 @@ const TurntableObject = (prop: Props) => {
         {showLp && (
           <mesh position={[0, diskY, 0]}>
             <cylinderGeometry args={[lpRadius, lpRadius, 0.2]} />
-            <meshBasicMaterial attach="material" map={vinylTexture} transparent={true} />
+            <meshBasicMaterial
+              attach="material"
+              map={vinylTexture}
+              transparent={true}
+            />
           </mesh>
         )}
       </group>
     </>
-  )
-}
+  );
+};
 
 export default memo(TurntableObject);

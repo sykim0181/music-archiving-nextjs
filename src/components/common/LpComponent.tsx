@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react"
+import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import styles from "@/styles/LpComponent.module.scss";
@@ -15,10 +15,12 @@ interface Props {
 
 const LpComponent = (props: Props) => {
   const { album, className } = props;
-  
+
   const [showVinyl, setShowVinyl] = useState<boolean>(false);
 
-  const hasSelectedAlbum = useTypedSelector(state => state.selectedAlbum.album !== null);
+  const hasSelectedAlbum = useTypedSelector(
+    (state) => state.selectedAlbum.album !== null
+  );
 
   const dispatch = useDispatch();
 
@@ -32,16 +34,16 @@ const LpComponent = (props: Props) => {
 
   const onMouseOut = () => {
     setShowVinyl(false);
-  }
+  };
 
   const onTouchStart = (e: React.TouchEvent) => {
     e.preventDefault();
-    
+
     setShowVinyl(false);
-    
+
     if (!hasSelectedAlbum) {
       dispatch(setSelectedAlbum({ album }));
-      
+
       if (coverRef.current) {
         const boundingrect = coverRef.current.getBoundingClientRect();
         const width = boundingrect.width;
@@ -51,11 +53,11 @@ const LpComponent = (props: Props) => {
         dispatch(setVinylPosition({ posX, posY }));
       }
     }
-  }
+  };
 
   return (
     <div
-      className={`${styles.lp_component} ${className ? className : ''}`}
+      className={`${styles.lp_component} ${className ? className : ""}`}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
       onTouchStart={onTouchStart}
@@ -63,13 +65,13 @@ const LpComponent = (props: Props) => {
       <div ref={coverRef} className={styles.lp_cover}>
         <AlbumCover imgSrc={album.imageUrl} />
       </div>
-      {showVinyl &&
+      {showVinyl && (
         <div className={styles.vinyl_behind_cover}>
           <LpVinyl album={album} />
         </div>
-      }
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default LpComponent
+export default LpComponent;

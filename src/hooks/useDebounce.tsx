@@ -8,7 +8,7 @@ interface Props {
 const useDebounce = (props: Props) => {
   const { value, delay } = props;
 
-  const [debouncedValue, setDebouncedValue] = useState<string>('');
+  const [debouncedValue, setDebouncedValue] = useState<string>("");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -17,10 +17,10 @@ const useDebounce = (props: Props) => {
 
     return () => {
       clearTimeout(timer);
-    }
+    };
   }, [value, delay]);
 
   return debouncedValue;
-}
+};
 
 export default useDebounce;

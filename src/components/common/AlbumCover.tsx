@@ -6,13 +6,9 @@ interface Props {
 }
 
 const AlbumCover = (props: Props) => {
-  const { 
-    imgSrc,
-  } = props;
+  const { imgSrc } = props;
 
-  return (
-    <Image src={imgSrc} alt="" fill/>
-  )
-}
+  return <Image src={imgSrc} alt="" fill />;
+};
 
 export default React.memo(AlbumCover);

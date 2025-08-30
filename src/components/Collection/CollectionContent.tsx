@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
@@ -19,16 +18,14 @@ const CollectionContent = (props: CollectionContentProps) => {
   const dispatch = useDispatch();
 
   const { data, isError, isFetching } = useQuery({
-    queryKey: ['collection-album-list', collection.id],
+    queryKey: ["collection-album-list", collection.id],
     queryFn: () => getCollectionAlbumList(collection),
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
   });
 
   if (isError) {
-    return (
-      <p>앨범 목록을 불러오는데 실패했습니다.</p>
-    );
+    return <p>앨범 목록을 불러오는데 실패했습니다.</p>;
   }
 
   if (isFetching || data === undefined) {
@@ -40,18 +37,20 @@ const CollectionContent = (props: CollectionContentProps) => {
   }
 
   const onClickAlbumItem = (album: Album) => {
-    dispatch(setModal({
-      modalType: 'album_info',
-      modalProp: { album }
-    }));
+    dispatch(
+      setModal({
+        modalType: "album_info",
+        modalProp: { album },
+      })
+    );
   };
 
   return (
     <>
-      <Carousel   
-        imageList={data.map(album => album.imageUrl)} 
-        width="100%" 
-        onClickItem={idx => onClickAlbumItem(data[idx])}
+      <Carousel
+        imageList={data.map((album) => album.imageUrl)}
+        width="100%"
+        onClickItem={(idx) => onClickAlbumItem(data[idx])}
       />
 
       <div className="page_divider" />
@@ -65,24 +64,31 @@ const CollectionContent = (props: CollectionContentProps) => {
           }
 
           return (
-            <li 
-              className="album_item" 
-              key={album.id} 
+            <li
+              className="album_item"
+              key={album.id}
               onClick={() => onClickAlbumItem(album)}
             >
               <p className="album_item_index">{idx + 1}</p>
               <div className="album_item_image">
-                <Image src={album.imageUrl} width={70} height={70} alt={album.name} />
+                <Image
+                  src={album.imageUrl}
+                  width={70}
+                  height={70}
+                  alt={album.name}
+                />
               </div>
 
               <div className="album_item_info">
                 <p className="album_item_name">{album.name}</p>
                 <div className="album_item_description">
-                  <p className="album_item_artist">{album.artists.join(', ')}</p>
+                  <p className="album_item_artist">
+                    {album.artists.join(", ")}
+                  </p>
                   <p className="album_item_description_divider">·</p>
                   <p className="album_item_track_number">{`${album.total_tracks}곡`}</p>
                 </div>
-              </div>        
+              </div>
             </li>
           );
         })}

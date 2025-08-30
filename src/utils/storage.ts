@@ -1,12 +1,10 @@
 import { Album } from "@/types/type";
 
-const KEY_ALBUM_LIST = 'list-album';
-const KEY_ALBUM_TO_PLAY = 'album-to-play';
+const KEY_ALBUM_LIST = "list-album";
+const KEY_ALBUM_TO_PLAY = "album-to-play";
 
 // session storage에 앨범 저장
-export function addAlbumInSessionStorage(
-  album: Album
-): void {
+export function addAlbumInSessionStorage(album: Album): void {
   const albumList = window.sessionStorage.getItem(KEY_ALBUM_LIST);
   if (albumList === null) {
     const list = [album];
@@ -36,9 +34,7 @@ export function getAlbumListFromSessionStorage(): Album[] {
   }
 }
 
-export function storeAlbumToPlayInSessionStorage(
-  album: Album
-) {
+export function storeAlbumToPlayInSessionStorage(album: Album) {
   window.sessionStorage.setItem(KEY_ALBUM_TO_PLAY, JSON.stringify(album));
 }
 

@@ -15,7 +15,10 @@ export async function POST() {
   cookieStore.delete(KEY_SPOTIFY_REFRESH_TOKEN);
   const { token, error } = await getClientCredentialsToken();
   if (error || token === undefined) {
-    return NextResponse.json({ error: 'fail to get client credentials token' }, { status: 500 });
+    return NextResponse.json(
+      { error: "fail to get client credentials token" },
+      { status: 500 }
+    );
   }
   return NextResponse.json({ token }, { status: 200 });
 }

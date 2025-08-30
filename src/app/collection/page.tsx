@@ -5,13 +5,15 @@ import { Collection, CollectionItemType } from "@/types/type";
 import { getCollectionItemList } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
 
-const getInitialCollections = async (limit: number): Promise<CollectionItemType[] | undefined> => {
+const getInitialCollections = async (
+  limit: number
+): Promise<CollectionItemType[] | undefined> => {
   const supabase = await createClient();
   const { data, error } = await supabase
-    .from('collection-album-list')
+    .from("collection-album-list")
     .select()
-    .eq('is_public', true)
-    .order('created_at')
+    .eq("is_public", true)
+    .order("created_at")
     .range(0, limit - 1);
 
   if (error) {
@@ -21,7 +23,7 @@ const getInitialCollections = async (limit: number): Promise<CollectionItemType[
   const collections = data as Collection[];
   const itemList = await getCollectionItemList(collections);
   return itemList;
-}
+};
 
 const Page = async () => {
   const limit = 8;

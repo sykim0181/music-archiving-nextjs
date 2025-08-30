@@ -13,13 +13,14 @@ const MainLayout = (props: Props) => {
   const { children, backgroundColor } = props;
 
   return (
-    <div className="main_layout" style={{
-      backgroundColor: backgroundColor ?? '#EBEBEB'
-    }}>
+    <div
+      className="main_layout"
+      style={{
+        backgroundColor: backgroundColor ?? "#EBEBEB",
+      }}
+    >
       <Header />
-      <div className="content_container">
-        {children}
-      </div>
+      <div className="content_container">{children}</div>
 
       <ModalContainer />
     </div>

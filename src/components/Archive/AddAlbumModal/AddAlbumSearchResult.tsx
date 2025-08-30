@@ -21,27 +21,26 @@ const AddAlbumSearchResult = (prop: Prop) => {
 
   const [ref, inView] = useInView();
 
-  const queryFunc = useCallback(async (pageParam: number) => {
-    if (input === undefined || input === '') {
-      return [];
-    }
-    const result = await searchAlbum(input, limit, pageParam);
-    if (result === null) {
-      return [];
-    } 
-    return result;
-  }, [input]);
+  const queryFunc = useCallback(
+    async (pageParam: number) => {
+      if (input === undefined || input === "") {
+        return [];
+      }
+      const result = await searchAlbum(input, limit, pageParam);
+      if (result === null) {
+        return [];
+      }
+      return result;
+    },
+    [input]
+  );
 
-  const {
-    albumList,
-    isFetchingNextPage,
-    fetchNextPage,
-    hasNextPage,
-  } = useAlbumQuery({
-    limit,
-    queryFunc,
-    queryKey: [input]
-  });
+  const { albumList, isFetchingNextPage, fetchNextPage, hasNextPage } =
+    useAlbumQuery({
+      limit,
+      queryFunc,
+      queryKey: [input],
+    });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -59,29 +58,30 @@ const AddAlbumSearchResult = (prop: Prop) => {
       setAlbumToAdd(album);
       albumToAddRef.current = album;
     }
-  }
+  };
 
   return (
     <>
       <ul className={styles.search_result_album_list}>
         {albumList.map((album) => (
           <li key={album.id} onClick={() => onClickAlbumItem(album)}>
-            <AlbumListItem album={album} selected={album.id === albumToAdd?.id} />   
+            <AlbumListItem
+              album={album}
+              selected={album.id === albumToAdd?.id}
+            />
           </li>
         ))}
         {hasResult && isFetchingNextPage ? (
           <div className={styles.loading_container}>
             <Loading size={25} />
-          </div> 
+          </div>
         ) : (
           <div ref={ref} className={styles.inview_ref_container} />
         )}
       </ul>
-      {!hasResult && (
-        <div className={styles.blank_space} />
-      )}
+      {!hasResult && <div className={styles.blank_space} />}
     </>
-  )
-}
+  );
+};
 
 export default React.memo(AddAlbumSearchResult);

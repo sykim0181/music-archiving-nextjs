@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { Album } from '@/types/type';
+import { Album } from "@/types/type";
 
 interface SelectedAlbumState {
   album: Album | null;
@@ -26,7 +26,7 @@ interface MoveVinylPayload {
 }
 
 const selectedAlbum = createSlice({
-  name: 'selectedAlbum',
+  name: "selectedAlbum",
   initialState: () => {
     return {
       album: null,
@@ -46,10 +46,13 @@ const selectedAlbum = createSlice({
       state.pos.x = null;
       state.pos.y = null;
     },
-    setVinylPosition: (state, action: PayloadAction<SetVinylPositionPayload>) => {
+    setVinylPosition: (
+      state,
+      action: PayloadAction<SetVinylPositionPayload>
+    ) => {
       state.pos = {
         x: action.payload.posX,
-        y: action.payload.posY
+        y: action.payload.posY,
       };
     },
     moveVinyl: (state, action: PayloadAction<MoveVinylPayload>) => {
@@ -63,7 +66,7 @@ const selectedAlbum = createSlice({
     setIsLpOnTurntable: (state, action: PayloadAction<boolean>) => {
       state.isOnTurntable = action.payload;
     },
-  }
+  },
 });
 
 export const {

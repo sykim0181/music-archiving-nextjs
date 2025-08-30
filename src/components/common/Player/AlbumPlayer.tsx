@@ -15,41 +15,43 @@ const AlbumPlayer = (props: Props) => {
 
   const { accessToken } = useSpotifyAccessToken();
 
-  const { data: trackList, isError, isFetching } = useQuery({
-    queryKey: ['album-tracks', album.id],
+  const {
+    data: trackList,
+    isError,
+    isFetching,
+  } = useQuery({
+    queryKey: ["album-tracks", album.id],
     queryFn: async () => {
       const data = await getAlbumTracks(album.id);
-      const trackList: Track[] = data.map(track => {
+      const trackList: Track[] = data.map((track) => {
         return {
           ...track,
           album: {
             id: album.id,
             name: album.name,
-            imageUrl: album.imageUrl
-          }
+            imageUrl: album.imageUrl,
+          },
         };
-      })
+      });
       return trackList;
     },
     staleTime: Infinity,
-    enabled: accessToken !== null
+    enabled: accessToken !== null,
   });
-  
+
   if (isFetching) {
-    console.log('fetching tracks of the album...');
+    console.log("fetching tracks of the album...");
   }
 
   if (isError) {
-    console.log('error occured while fetching tracks of the album!');
+    console.log("error occured while fetching tracks of the album!");
   }
 
   if (!trackList) {
     return <></>;
   }
 
-  return (
-    <MusicPlayer trackList={trackList} isMini={isMini} />
-  );
-}
+  return <MusicPlayer trackList={trackList} isMini={isMini} />;
+};
 
 export default AlbumPlayer;

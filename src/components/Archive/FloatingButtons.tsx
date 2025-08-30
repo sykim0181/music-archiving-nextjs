@@ -10,43 +10,53 @@ import { setModal } from "@/lib/redux/modalInfo";
 const FloatingButtons = () => {
   const [showMenu, setShowMenu] = useState(false);
 
-  const hasAlbum = useTypedSelector(state => state.archivedAlbumList.list.length > 0);
+  const hasAlbum = useTypedSelector(
+    (state) => state.archivedAlbumList.list.length > 0
+  );
 
   const dispatch = useDispatch();
 
   const toggleShowMenu = () => {
     setShowMenu(!showMenu);
-  }
+  };
 
   const onClickSaveButton = () => {
-    dispatch(setModal({
-      modalType: 'save_album'
-    }));
-  }
+    dispatch(
+      setModal({
+        modalType: "save_album",
+      })
+    );
+  };
 
   const onClickRemoveButton = () => {
-    dispatch(setModal({
-      modalType: 'clear_album_list'
-    }));
-  }
+    dispatch(
+      setModal({
+        modalType: "clear_album_list",
+      })
+    );
+  };
 
   return showMenu ? (
     <>
-      {hasAlbum && <button onClick={onClickRemoveButton}><MdPlaylistRemove /></button>}
-      {hasAlbum && <button onClick={onClickSaveButton}><MdOutlineSaveAlt /></button>}
-      <button
-        onClick={toggleShowMenu}
-      >
+      {hasAlbum && (
+        <button onClick={onClickRemoveButton}>
+          <MdPlaylistRemove />
+        </button>
+      )}
+      {hasAlbum && (
+        <button onClick={onClickSaveButton}>
+          <MdOutlineSaveAlt />
+        </button>
+      )}
+      <button onClick={toggleShowMenu}>
         <IoMdClose />
       </button>
     </>
   ) : (
-    <button 
-      onClick={toggleShowMenu}
-    >
+    <button onClick={toggleShowMenu}>
       <IoMenu />
     </button>
-  )
+  );
 };
 
 export default FloatingButtons;

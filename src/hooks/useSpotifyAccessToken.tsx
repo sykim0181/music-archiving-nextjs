@@ -5,7 +5,7 @@ import { fetchAccessToken } from "@/lib/redux/spotify";
 import { AppDispatch, useTypedSelector } from "@/lib/redux/store";
 
 const useSpotifyAccessToken = () => {
-  const accessToken = useTypedSelector(state => state.spotify.accessToken);
+  const accessToken = useTypedSelector((state) => state.spotify.accessToken);
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {

@@ -8,7 +8,7 @@ export type Album = {
   artists: string[];
   uri: string;
   releaseDate: string;
-}
+};
 
 export type Track = {
   artists: string[];
@@ -16,13 +16,13 @@ export type Track = {
     id: string;
     name: string;
     imageUrl: string;
-  }
+  };
   duration: number;
   id: string;
   is_playable: boolean;
   name: string;
   uri: string;
-}
+};
 
 export type Token = {
   access_token: string;
@@ -32,7 +32,7 @@ export type Token = {
   token_type: string;
 };
 
-export type Collection = Tables<'collection-album-list'>;
+export type Collection = Tables<"collection-album-list">;
 
 export type CollectionItemType = {
   collection: Collection;

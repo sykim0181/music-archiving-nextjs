@@ -7,12 +7,7 @@ interface Prop {
 const Loading = (prop: Prop) => {
   const { size } = prop;
 
-  return (
-    <MoonLoader 
-      color="#000000"
-      size={size}
-    />
-  )
-}
+  return <MoonLoader color="#000000" size={size} />;
+};
 
-export default Loading
+export default Loading;

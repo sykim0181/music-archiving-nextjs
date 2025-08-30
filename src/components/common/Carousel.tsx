@@ -1,8 +1,7 @@
-
 import Image from "next/image";
 
 import styles from "../../styles/Carousel.module.scss";
-import useCarousel from '@/hooks/useCarousel';
+import useCarousel from "@/hooks/useCarousel";
 
 interface CarouselProps {
   imageList: string[];
@@ -23,25 +22,25 @@ const Carousel = (props: CarouselProps) => {
     handleMouseUp,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd
+    handleTouchEnd,
   } = useCarousel({ imageList });
 
   return (
-    <div 
+    <div
       className={styles.carousel_container}
       style={{
-        width: width ?? '600px',
+        width: width ?? "600px",
         height: height,
-        aspectRatio: height? undefined : 10/4
+        aspectRatio: height ? undefined : 10 / 4,
       }}
     >
-      <button 
-        className={`${styles.carousel_button} ${styles.prev_button}`} 
+      <button
+        className={`${styles.carousel_button} ${styles.prev_button}`}
         onClick={toPrev}
       >
         ◀
       </button>
-      <div 
+      <div
         className={styles.carousel}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
@@ -57,10 +56,13 @@ const Carousel = (props: CarouselProps) => {
             classname = styles.carousel_current_item;
           } else if (index === (currentIndex + 1) % imageList.length) {
             classname = styles.carousel_next_item;
-          } else if (index === (currentIndex - 1 + imageList.length) % imageList.length) {
+          } else if (
+            index ===
+            (currentIndex - 1 + imageList.length) % imageList.length
+          ) {
             classname = styles.carousel_prev_item;
           } else if (
-            index === (currentIndex + 2) % imageList.length || 
+            index === (currentIndex + 2) % imageList.length ||
             index === (currentIndex - 2 + imageList.length) % imageList.length
           ) {
             classname = styles.carousel_hidden_item;
@@ -77,7 +79,7 @@ const Carousel = (props: CarouselProps) => {
           );
         })}
       </div>
-      <button 
+      <button
         className={`${styles.carousel_button} ${styles.next_button}`}
         onClick={toNext}
       >

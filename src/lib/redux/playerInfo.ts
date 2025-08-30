@@ -7,7 +7,7 @@ interface PlayerInfoState {
 }
 
 const playerInfo = createSlice({
-  name: 'albumToPlay',
+  name: "albumToPlay",
   initialState: () => {
     return {
       album: null,
@@ -19,13 +19,10 @@ const playerInfo = createSlice({
     },
     clearAlbumToPlay: (state) => {
       state.album = null;
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setAlbumToPlay,
-  clearAlbumToPlay,
-} = playerInfo.actions;
+export const { setAlbumToPlay, clearAlbumToPlay } = playerInfo.actions;
 
 export default playerInfo;

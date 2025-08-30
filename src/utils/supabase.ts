@@ -6,10 +6,10 @@ export async function getCollection(
 ): Promise<Collection | null> {
   const supabase = createClient();
   const { data, error } = await supabase
-    .from('collection-album-list')
+    .from("collection-album-list")
     .select()
-    .eq('id', collectionId);
-  
+    .eq("id", collectionId);
+
   if (error) {
     return null;
   }

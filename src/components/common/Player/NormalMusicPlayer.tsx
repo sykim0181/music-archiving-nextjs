@@ -5,7 +5,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
 
 import "@/styles/NormalMusicPlayer.scss";
-import "@/styles/commonStyle.scss"
+import "@/styles/commonStyle.scss";
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumTrackList from "./AlbumTrackList";
 import AlbumCover from "../AlbumCover";
@@ -17,7 +17,7 @@ interface NormalMusicPlayerProps extends defaultPlayerProps {
 }
 
 const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
-  const { 
+  const {
     trackList,
     isPlaying,
     curTrackIdx,
@@ -40,16 +40,13 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
   }, [trackList, curTrackIdx]);
 
   const onClickSignInButton = () => {
-    window.sessionStorage.setItem('redirectUrl', pathname);
+    window.sessionStorage.setItem("redirectUrl", pathname);
     router.push(getAuthorizationCodeUrl());
-  }
+  };
 
-  const showAlert = state !== 'READY';
+  const showAlert = state !== "READY";
   const returnButton = (
-    <button
-      className="bg_black return_button"
-      onClick={closePlayer}
-    >
+    <button className="bg_black return_button" onClick={closePlayer}>
       Return
     </button>
   );
@@ -58,15 +55,14 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
     <div id="normal_album_player" className="gradient_bg">
       {/* Left */}
       <div className="left_content">
-        <div 
-          className="album_cover"
-          onClick={closePlayer}
-        >
-          <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
+        <div className="album_cover" onClick={closePlayer}>
+          <AlbumCover
+            imgSrc={currentTrack?.album.imageUrl ?? "/Image-not-found.png"}
+          />
         </div>
 
         <div className="button_group">
-          <button 
+          <button
             className="icon_button prev_button"
             onClick={onPrevButtonClick}
           >
@@ -91,11 +87,13 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
       <div className="right_content">
         <div className="album_info">
           <p className="album_name">{currentTrack?.album.name}</p>
-          <p className="album_artist">{`- ${currentTrack?.artists.join(', ')}`}</p>
+          <p className="album_artist">{`- ${currentTrack?.artists.join(
+            ", "
+          )}`}</p>
         </div>
 
         <div className="track_list_container">
-          <AlbumTrackList 
+          <AlbumTrackList
             tracks={trackList}
             onTrackClick={onTrackClick}
             selectedTrackIdx={curTrackIdx}
@@ -106,9 +104,11 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
       {/* Alert */}
       {showAlert && (
         <div className="alert_container">
-          {state === 'USER_NOT_SIGNED_IN' ? (
+          {state === "USER_NOT_SIGNED_IN" ? (
             <>
-              <p className="alert_message">Spotify 프리미엄 멤버십 구독자에게 제공되는 기능입니다.</p>
+              <p className="alert_message">
+                Spotify 프리미엄 멤버십 구독자에게 제공되는 기능입니다.
+              </p>
               <div className="alert_button_group">
                 <button className="signin_button" onClick={onClickSignInButton}>
                   Sign In
@@ -116,16 +116,16 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
                 {returnButton}
               </div>
             </>
-          ) : state === 'NOT_PREMIUM_USER' ? (
+          ) : state === "NOT_PREMIUM_USER" ? (
             <>
-              <p className="alert_message">Spotify 프리미엄 멤버십 구독자가 아닙니다.</p>
-              <div className="alert_button_group">
-                {returnButton}
-              </div>
+              <p className="alert_message">
+                Spotify 프리미엄 멤버십 구독자가 아닙니다.
+              </p>
+              <div className="alert_button_group">{returnButton}</div>
             </>
-          ) : state === 'UNKNOWN_ERROR' ? (
+          ) : state === "UNKNOWN_ERROR" ? (
             <>
-              <MdErrorOutline className="error_icon"/>
+              <MdErrorOutline className="error_icon" />
             </>
           ) : (
             // 'NOT_READY'
@@ -137,6 +137,6 @@ const NormalMusicPlayer = (props: NormalMusicPlayerProps) => {
       )}
     </div>
   );
-}
+};
 
 export default NormalMusicPlayer;

@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
 import { useMemo } from "react";
 import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
-import styles from '@/styles/InteractiveArchive.module.scss';
+import styles from "@/styles/InteractiveArchive.module.scss";
 import { Album } from "@/types/type";
 import LpComponent from "../common/LpComponent";
 import LpVinyl from "../common/LpVinyl";
@@ -24,46 +24,48 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
 
   const dispatch = useDispatch();
 
-  const { 
+  const {
     floatingVinylRef,
     containerRef,
     handleMouseMove,
-    handleMouseUp, 
+    handleMouseUp,
     handleTouchMove,
     handleTouchEnd,
     showFloatingVinyl,
     floatingVinylPosition,
     floatingVinylSize,
-    selectedAlbum
+    selectedAlbum,
   } = useInteractiveArchive();
 
   const AlbumList = useMemo(() => {
     const onClickAddSongBtn = () => {
       if (albumList.length > LIMIT_NUM_ALBUM) {
-        return
+        return;
       }
-      dispatch(setModal({
-        modalType: "add_album"
-      }));
+      dispatch(
+        setModal({
+          modalType: "add_album",
+        })
+      );
     };
 
     return (
-      <div 
-        className={`${styles.list_lp} ${styles.invisible_scroll}`}
-      >
-      {albumList.map((album) => (
-        <LpComponent 
-          key={album.id}
-          album={album}
-          className={styles.list_lp_item}
-        />
-      ))}
-      {isEditable && (
-        <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
-          <div className={styles.add_album_button}><RxPlus /></div>
-        </div>
-      )}
-    </div>
+      <div className={`${styles.list_lp} ${styles.invisible_scroll}`}>
+        {albumList.map((album) => (
+          <LpComponent
+            key={album.id}
+            album={album}
+            className={styles.list_lp_item}
+          />
+        ))}
+        {isEditable && (
+          <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
+            <div className={styles.add_album_button}>
+              <RxPlus />
+            </div>
+          </div>
+        )}
+      </div>
     );
   }, [albumList, isEditable, dispatch]);
 
@@ -81,29 +83,33 @@ const InteractiveArchive = (props: InteractiveArchiveProps) => {
 
         <div className={styles.blur} />
 
-        {isEditable && <div className={styles.floating_button_container}>
-          <FloatingButtons />
-        </div>}
+        {isEditable && (
+          <div className={styles.floating_button_container}>
+            <FloatingButtons />
+          </div>
+        )}
       </div>
 
       <BottomArea />
 
       {showFloatingVinyl && (
-      <div
-        ref={floatingVinylRef}
-        className={styles.floating_vinyl}
-        style={{
-          transform: `translate(${floatingVinylPosition.x}px, ${floatingVinylPosition.y}px)`,
-          width: `${floatingVinylSize}px`,
-          height: `${floatingVinylSize}px`,
-        }}
-        onContextMenu={() => { return false }}
-      >
-        <LpVinyl album={selectedAlbum!} />
-      </div> 
+        <div
+          ref={floatingVinylRef}
+          className={styles.floating_vinyl}
+          style={{
+            transform: `translate(${floatingVinylPosition.x}px, ${floatingVinylPosition.y}px)`,
+            width: `${floatingVinylSize}px`,
+            height: `${floatingVinylSize}px`,
+          }}
+          onContextMenu={() => {
+            return false;
+          }}
+        >
+          <LpVinyl album={selectedAlbum!} />
+        </div>
       )}
     </div>
   );
-}
+};
 
 export default InteractiveArchive;

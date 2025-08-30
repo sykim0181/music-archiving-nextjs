@@ -20,8 +20,8 @@ export type SearchResponseAlbumsType = {
     type: string;
     uri: string;
     artists: SimplifiedArtistObject[];
-  }[]
-}
+  }[];
+};
 
 export type SimplifiedArtistObject = {
   external_urls: ExternalUrl;
@@ -30,7 +30,7 @@ export type SimplifiedArtistObject = {
   name: string;
   type: string;
   uri: string;
-}
+};
 
 export type AlbumResponseType = {
   album_type: string;
@@ -66,7 +66,7 @@ type ImageObject = {
 
 type Restrictions = {
   reason: string;
-}
+};
 
 export type Tracks = {
   href: string;

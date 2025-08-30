@@ -12,7 +12,6 @@ export const metadata: Metadata = {
   description: "Archive Your Music",
 };
 
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,9 +25,7 @@ export default function RootLayout({
       <body className={freesentation.className} style={{ margin: 0 }}>
         <QueryClientContextProvider>
           <Providers>
-            <SupabaseAuthProvider>
-              {children}
-            </SupabaseAuthProvider>
+            <SupabaseAuthProvider>{children}</SupabaseAuthProvider>
           </Providers>
         </QueryClientContextProvider>
       </body>

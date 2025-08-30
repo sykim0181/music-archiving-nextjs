@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AlbumInfoModalProps } from "@/components/common/AlbumInfoModal";
 
-type ModalType = 
-  'add_album' |
-  'save_album' |
-  'clear_album_list' |
-  'album_info';
+type ModalType = "add_album" | "save_album" | "clear_album_list" | "album_info";
 
 interface anyinferface {
   dkdk: string;
@@ -15,19 +11,19 @@ type ModalProp = AlbumInfoModalProps | anyinferface;
 
 interface SetModalInterface {
   modalType: ModalType;
-  modalProp?: ModalProp
+  modalProp?: ModalProp;
 }
 
 type ModalInfoState = {
   type: ModalType | null;
   prop: ModalProp | null;
-}
+};
 
 const modalInfo = createSlice({
-  name: 'modalInfo',
+  name: "modalInfo",
   initialState: {
     type: null,
-    prop: null
+    prop: null,
   } as ModalInfoState,
   reducers: {
     setModal: (state, action: PayloadAction<SetModalInterface>) => {
@@ -38,13 +34,10 @@ const modalInfo = createSlice({
     },
     clearModal: (state) => {
       state.type = null;
-    }
-  }
+    },
+  },
 });
 
-export const {
-  setModal,
-  clearModal
-} = modalInfo.actions;
+export const { setModal, clearModal } = modalInfo.actions;
 
 export default modalInfo;

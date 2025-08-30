@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
@@ -11,8 +11,8 @@ const Content = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const iss = searchParams.get('iss');
-    const isSpotify = iss?.includes('spotify');
+    const iss = searchParams.get("iss");
+    const isSpotify = iss?.includes("spotify");
 
     if (isSpotify) {
       const url = getAuthorizationCodeUrl();
@@ -25,7 +25,7 @@ const Content = () => {
       <Loading size={50} />
     </div>
   );
-}
+};
 
 const Page = () => {
   return (
@@ -33,6 +33,6 @@ const Page = () => {
       <Content />
     </Suspense>
   );
-}
+};
 
 export default Page;

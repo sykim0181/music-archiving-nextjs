@@ -13,15 +13,15 @@ export default function Loading() {
 
       <div className="collections_container">
         {Array.from({ length: 8 }).map((_, idx) => (
-          <div 
-            key={`collection_item_skeleton_${idx}`} 
+          <div
+            key={`collection_item_skeleton_${idx}`}
             className="collection_skeleton_item"
           >
             <div className="collection_skeleton_image" />
-            <div className="collection_skeleton_description" />          
+            <div className="collection_skeleton_description" />
           </div>
         ))}
-      </div>  
+      </div>
     </MainLayout>
   );
 }

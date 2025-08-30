@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
@@ -14,17 +14,20 @@ import MainLayout from "@/layouts/MainLayout";
 import { getCollection } from "@/utils/supabase";
 import { getCollectionAlbumList } from "@/utils/utils";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
-import { clearSelectedAlbum, setIsLpOnTurntable } from "@/lib/redux/selectedAlbum";
+import {
+  clearSelectedAlbum,
+  setIsLpOnTurntable,
+} from "@/lib/redux/selectedAlbum";
 import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
 import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
 
 useLoader.preload(TextureLoader, "/vinyl-black.png");
-useLoader.preload(TextureLoader, '/turntable.png');
+useLoader.preload(TextureLoader, "/turntable.png");
 
 const InteractiveArchive = dynamic(
-  () => import('@/components/Archive/InteractiveArchive'),
+  () => import("@/components/Archive/InteractiveArchive"),
   { ssr: false }
-)
+);
 
 const Page = () => {
   const params = useParams<{ collectionId: string }>();
@@ -40,11 +43,11 @@ const Page = () => {
       dispatch(clearSelectedAlbum());
       dispatch(setIsLpOnTurntable(false));
       clearAlbumToPlayInSessionStorage();
-    }
+    };
   }, [dispatch]);
 
   const { data, isError, isFetching } = useQuery({
-    queryKey: ['collection-album-list', collectionId],
+    queryKey: ["collection-album-list", collectionId],
     queryFn: async () => {
       const collection = await getCollection(collectionId);
       if (collection === null) {
@@ -55,13 +58,11 @@ const Page = () => {
     },
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
-    enabled: accessToken !== null
+    enabled: accessToken !== null,
   });
 
   if (isError) {
-    return (
-      <p>문제가 발생하였습니다.</p>
-    );
+    return <p>문제가 발생하였습니다.</p>;
   }
 
   if (isFetching || data === undefined) {
@@ -71,7 +72,7 @@ const Page = () => {
           <SyncLoader color="#000000" size={15} />
         </div>
       </MainLayout>
-    )
+    );
   }
 
   return (

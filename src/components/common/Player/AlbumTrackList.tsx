@@ -10,37 +10,49 @@ interface Prop {
 
 const AlbumTrackList = (prop: Prop) => {
   const { tracks, onTrackClick, selectedTrackIdx } = prop;
-  
+
   return (
-    <div
-    className="track-list invisible_scroll"
-    >
+    <div className="track-list invisible_scroll">
       <ul>
         {tracks.map((track, index) => {
           const isSelected = index === selectedTrackIdx;
           return (
-            <li 
-              className={`track-item ${isSelected ? 'track-item--selected' : ""}`}
+            <li
+              className={`track-item ${
+                isSelected ? "track-item--selected" : ""
+              }`}
               key={`album-track-${index}`}
               onClick={() => onTrackClick(index)}
             >
-              <p style={{
-                margin: '0 20px 0 0',
-                padding: 0
-              }}>{index + 1}</p>
-              <p style={{
-                margin: 0,
-                width: '100%'
-              }}>{track.name}</p>
-              <p style={{
-                marginLeft: '20px',
-              }}>{msToString(track.duration)}</p>
+              <p
+                style={{
+                  margin: "0 20px 0 0",
+                  padding: 0,
+                }}
+              >
+                {index + 1}
+              </p>
+              <p
+                style={{
+                  margin: 0,
+                  width: "100%",
+                }}
+              >
+                {track.name}
+              </p>
+              <p
+                style={{
+                  marginLeft: "20px",
+                }}
+              >
+                {msToString(track.duration)}
+              </p>
             </li>
-          )
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default AlbumTrackList
+export default AlbumTrackList;

@@ -75,7 +75,7 @@ const useCarousel = (props: useCarouselProps) => {
   const handleTouchEnd = () => {
     isDragging.current = false;
   };
-  
+
   return {
     currentIndex,
     toPrev,
@@ -85,7 +85,7 @@ const useCarousel = (props: useCarouselProps) => {
     handleMouseUp,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd
+    handleTouchEnd,
   };
 };
 

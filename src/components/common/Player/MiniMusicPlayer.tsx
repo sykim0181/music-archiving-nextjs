@@ -14,7 +14,7 @@ import AlbumCover from "../AlbumCover";
 import AlbumTrackList from "./AlbumTrackList";
 
 const MiniMusicPlayer = (props: defaultPlayerProps) => {
-  const { 
+  const {
     trackList,
     isPlaying,
     curTrackIdx,
@@ -26,8 +26,8 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
 
   const [isExpanded, setIsExpanded] = useState(false);
 
-    const router = useRouter();
-    const pathname = usePathname();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const currentTrack = useMemo(() => {
     if (curTrackIdx < 0 || curTrackIdx >= trackList.length) {
@@ -38,16 +38,16 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
 
   const onExpandButtonClick = () => {
     setIsExpanded(!isExpanded);
-  }
+  };
 
   const onClickSignInButton = () => {
-    window.sessionStorage.setItem('redirectUrl', pathname);
+    window.sessionStorage.setItem("redirectUrl", pathname);
     router.push(getAuthorizationCodeUrl());
-  }
+  };
 
-  const showAlert = state !== 'READY';
+  const showAlert = state !== "READY";
   const returnButton = (
-    <button 
+    <button
       className="return_button bg_black icon_button"
       onClick={closePlayer}
     >
@@ -57,25 +57,28 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
 
   return (
     <div id="mini_music_player" className="gradient_bg">
-
       <div className="top_content">
         <div className="album_info">
           <p className="album_name">{currentTrack?.album.name}</p>
-          <p className="album_artist">{`- ${currentTrack?.artists.join(', ')}`}</p>
+          <p className="album_artist">{`- ${currentTrack?.artists.join(
+            ", "
+          )}`}</p>
         </div>
 
         <div className="track_info">
           <div className="album_cover" onClick={closePlayer}>
-            <AlbumCover imgSrc={currentTrack?.album.imageUrl ?? '/Image-not-found.png'} />
+            <AlbumCover
+              imgSrc={currentTrack?.album.imageUrl ?? "/Image-not-found.png"}
+            />
           </div>
 
           <div className="playing_info">
             <p className="track_name">{currentTrack?.name}</p>
-            <p className="track_artist">{currentTrack?.artists.join(', ')}</p>
+            <p className="track_artist">{currentTrack?.artists.join(", ")}</p>
           </div>
 
           <div className="button_group">
-            <button 
+            <button
               className="icon_button play_button"
               onClick={onPlayPauseButtonClick}
             >
@@ -105,9 +108,11 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
 
       {showAlert && (
         <div className="alert_container">
-          {state === 'USER_NOT_SIGNED_IN' ? (
+          {state === "USER_NOT_SIGNED_IN" ? (
             <>
-              <p className="alert_message">Spotify 프리미엄 멤버십 구독자에게 제공되는 기능입니다.</p>
+              <p className="alert_message">
+                Spotify 프리미엄 멤버십 구독자에게 제공되는 기능입니다.
+              </p>
               <div className="alert_button_group">
                 <button className="signin_button" onClick={onClickSignInButton}>
                   <IoMdLogIn />
@@ -115,14 +120,14 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
                 {returnButton}
               </div>
             </>
-          ) : state === 'NOT_PREMIUM_USER' ? (
+          ) : state === "NOT_PREMIUM_USER" ? (
             <>
-              <p className="alert_message">Spotify 프리미엄 멤버십 구독자가 아닙니다.</p>
-              <div className="alert_button_group">
-                {returnButton}
-              </div>
+              <p className="alert_message">
+                Spotify 프리미엄 멤버십 구독자가 아닙니다.
+              </p>
+              <div className="alert_button_group">{returnButton}</div>
             </>
-          ) : state === 'UNKNOWN_ERROR' ? (
+          ) : state === "UNKNOWN_ERROR" ? (
             <>
               <MdErrorOutline className="error_icon" />
             </>
@@ -136,6 +141,6 @@ const MiniMusicPlayer = (props: defaultPlayerProps) => {
       )}
     </div>
   );
-}
+};
 
 export default MiniMusicPlayer;

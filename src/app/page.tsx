@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useMediaQuery } from 'react-responsive';
+import { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 
 import "./page.scss";
-import AlbumCover from '@/components/common/AlbumCover';
-import { IMAGE_SAMPLE_LIST } from '@/constants';
-import MainLayout from '@/layouts/MainLayout';
-import { bebasNeue } from './fonts';
-import { shuffleNumber } from '@/utils/utils';
+import AlbumCover from "@/components/common/AlbumCover";
+import { IMAGE_SAMPLE_LIST } from "@/constants";
+import MainLayout from "@/layouts/MainLayout";
+import { bebasNeue } from "./fonts";
+import { shuffleNumber } from "@/utils/utils";
 
 const Home = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -31,14 +31,14 @@ const Home = () => {
 
   return (
     <MainLayout>
-      <div className='home_content'>
-        <div className='sample-list'>
+      <div className="home_content">
+        <div className="sample-list">
           {images.map((src, idx) => (
-            <div 
-              key={`sample-album-${idx}`} 
-              className='sample-list-item'
+            <div
+              key={`sample-album-${idx}`}
+              className="sample-list-item"
               style={{
-                animationDelay: `${100 * randomNumbers[idx]}ms`
+                animationDelay: `${100 * randomNumbers[idx]}ms`,
               }}
             >
               <AlbumCover imgSrc={`/home/${src}`} />
@@ -46,10 +46,12 @@ const Home = () => {
           ))}
         </div>
 
-        <h1 className={`home_content_text ${bebasNeue.className}`}>Archive Your Favorite Albums!</h1>
+        <h1 className={`home_content_text ${bebasNeue.className}`}>
+          Archive Your Favorite Albums!
+        </h1>
       </div>
     </MainLayout>
-  )
-}
+  );
+};
 
 export default Home;

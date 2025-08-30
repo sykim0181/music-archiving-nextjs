@@ -7,7 +7,7 @@ interface ArchivedAlbumListState {
 }
 
 const archivedAlbumList = createSlice({
-  name: 'archivedAlbumList',
+  name: "archivedAlbumList",
   initialState: () => {
     return {
       list: [],
@@ -18,22 +18,18 @@ const archivedAlbumList = createSlice({
       state.list.push(action.payload);
     },
     removeAlbum: (state, action: PayloadAction<Album>) => {
-      state.list = state.list.filter(album => album.id !== action.payload.id);
+      state.list = state.list.filter((album) => album.id !== action.payload.id);
     },
     setAlbumList: (state, action: PayloadAction<Album[]>) => {
       state.list = action.payload;
     },
     clearList: (state) => {
       state.list = [];
-    }
-  }
+    },
+  },
 });
 
-export const {
-  addAlbum,
-  removeAlbum,
-  setAlbumList,
-  clearList
-} = archivedAlbumList.actions;
+export const { addAlbum, removeAlbum, setAlbumList, clearList } =
+  archivedAlbumList.actions;
 
 export default archivedAlbumList;
