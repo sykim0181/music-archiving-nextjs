@@ -17,7 +17,7 @@
     "@supabase/supabase-js": "^2.47.10",
     "@tanstack/react-query": "^5.62.7",
     "@types/spotify-web-playback-sdk": "^0.1.19",
-    "axios": "^1.8.2",
+    "axios": "^1.11.0",
     "cookies-next": "^5.0.2",
     "next": "^15.2.3",
     "next-pwa": "^5.6.0",
@@ -34,6 +34,8 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@babel/helpers": ">=7.26.10",
+    "@babel/runtime": ">=7.26.10",
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -42,8 +44,6 @@
     "@types/three": "^0.171.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.0",
-    "typescript": "^5",
-    "@babel/helpers": ">=7.26.10",
-    "@babel/runtime": ">=7.26.10"
+    "typescript": "^5"
   }
 }
