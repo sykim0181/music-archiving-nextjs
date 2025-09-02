@@ -59,14 +59,14 @@ const getFilteredQuery = (
   }
 };
 
-interface useCollectionQueryProp {
+interface useCollectionsQueryProp {
   limit: number;
   category: TCategory;
   userId?: string;
   initialData?: CollectionItemType[];
 }
 
-const useCollectionQuery = (props: useCollectionQueryProp) => {
+const useCollectionsQuery = (props: useCollectionsQueryProp) => {
   const { limit, category, userId, initialData } = props;
 
   const qKey =
@@ -125,4 +125,4 @@ const useCollectionQuery = (props: useCollectionQueryProp) => {
   };
 };
 
-export default useCollectionQuery;
+export default useCollectionsQuery;

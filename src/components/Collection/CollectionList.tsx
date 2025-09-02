@@ -3,7 +3,7 @@
 import { useContext, useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-import useCollectionQuery, { TCategory } from "@/hooks/useCollectionQuery";
+import useCollectionQuery, { TCategory } from "@/hooks/useCollectionsQuery";
 import CollectionComponent from "./CollectionComponent";
 import Loading from "../common/Loading";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
