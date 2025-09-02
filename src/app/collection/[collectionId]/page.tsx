@@ -7,6 +7,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 import { getCollection } from "@/utils/supabase";
+import { getCollectionQueryKey } from "@/hooks/useCollectionQuery";
 
 const Page = async ({
   params,
@@ -18,7 +19,7 @@ const Page = async ({
   const queryClient = new QueryClient();
 
   queryClient.prefetchQuery({
-    queryKey: ["collection", collectionId],
+    queryKey: getCollectionQueryKey(collectionId),
     queryFn: () => getCollection(collectionId),
   });
 

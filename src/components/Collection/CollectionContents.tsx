@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { MdPlayArrow } from "react-icons/md";
 import CollectionAlbumListContent from "./CollectionAlbumListContent";
-import { useQuery } from "@tanstack/react-query";
-import { getCollection } from "@/utils/supabase";
 import SyncLoader from "react-spinners/SyncLoader";
+import useCollectionQuery from "@/hooks/useCollectionQuery";
 
 interface CollectionContentsProps {
   collectionId: string;
@@ -17,12 +16,7 @@ const CollectionContents = ({ collectionId }: CollectionContentsProps) => {
     data: collection,
     isError,
     isFetching,
-  } = useQuery({
-    queryKey: ["collection", collectionId],
-    queryFn: () => getCollection(collectionId),
-    staleTime: 1000 * 60 * 5,
-    gcTime: 1000 * 60 * 10,
-  });
+  } = useCollectionQuery({ collectionId });
 
   const router = useRouter();
 
