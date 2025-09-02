@@ -8,11 +8,11 @@ import { setModal } from "@/lib/redux/modalInfo";
 import { Album, Collection } from "@/types/type";
 import Carousel from "../common/Carousel";
 
-interface CollectionContentProps {
+interface CollectionAlbumListContentProps {
   collection: Collection;
 }
 
-const CollectionContent = (props: CollectionContentProps) => {
+const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
   const { collection } = props;
 
   const dispatch = useDispatch();
@@ -97,4 +97,4 @@ const CollectionContent = (props: CollectionContentProps) => {
   );
 };
 
-export default CollectionContent;
+export default CollectionAlbumListContent;
