@@ -71,12 +71,7 @@ export async function getAlbumList(
     taskList.push(task);
   }
   const albumsList = await Promise.all(taskList);
-  let result: Album[] = [];
-  for (const albums of albumsList) {
-    result = [...result, ...albums];
-  }
-  console.log("앨범 리스트:", result);
-  return result;
+  return albumsList.flat()
 }
 
 export function shuffleNumber(n: number) {
