@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 import SyncLoader from "react-spinners/SyncLoader";
 
-import { getCollectionAlbumList } from "@/utils/utils";
+import { getAlbumList } from "@/utils/utils";
 import { setModal } from "@/lib/redux/modalInfo";
 import { Album, Collection } from "@/types/type";
 import Carousel from "../common/Carousel";
@@ -19,7 +19,7 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
 
   const { data, isError, isFetching } = useQuery({
     queryKey: ["collection-album-list", collection.id],
-    queryFn: () => getCollectionAlbumList(collection),
+    queryFn: () => getAlbumList(collection.list_album_id),
     staleTime: 1000 * 60 * 1,
     gcTime: 1000 * 60 * 5,
   });

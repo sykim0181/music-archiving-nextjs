@@ -12,7 +12,7 @@ import { useLoader } from "@react-three/fiber";
 import "./page.scss";
 import MainLayout from "@/layouts/MainLayout";
 import { getCollection } from "@/utils/supabase";
-import { getCollectionAlbumList } from "@/utils/utils";
+import { getAlbumList } from "@/utils/utils";
 import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
 import {
   clearSelectedAlbum,
@@ -53,7 +53,7 @@ const Page = () => {
       if (collection === null) {
         throw new Error("Failed to fetch the collection");
       }
-      const albumList = await getCollectionAlbumList(collection);
+      const albumList = await getAlbumList(collection.list_album_id);
       return albumList;
     },
     staleTime: 1000 * 60 * 1,

@@ -60,11 +60,9 @@ export async function getCollectionItemList(
   return collectionItems;
 }
 
-export async function getCollectionAlbumList(
-  collection: Collection
+export async function getAlbumList(
+  albumIdList: string[]
 ): Promise<Album[]> {
-  const albumIdList = collection.list_album_id;
-
   const taskList = [];
   const chunkSize = 20;
   for (let i = 0; i < albumIdList.length; i += chunkSize) {
