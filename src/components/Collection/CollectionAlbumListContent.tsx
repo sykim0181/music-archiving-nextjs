@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
 import SyncLoader from "react-spinners/SyncLoader";
 
-import { getAlbumList } from "@/utils/utils";
 import { setModal } from "@/lib/redux/modalInfo";
 import { Album, Collection } from "@/types/type";
 import Carousel from "../common/Carousel";
+import useCollectionAlbums from "@/hooks/useCollectionAlbums";
 
 interface CollectionAlbumListContentProps {
   collection: Collection;
@@ -17,18 +16,13 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
 
   const dispatch = useDispatch();
 
-  const { data, isError, isFetching } = useQuery({
-    queryKey: ["collection-album-list", collection.id],
-    queryFn: () => getAlbumList(collection.list_album_id),
-    staleTime: 1000 * 60 * 1,
-    gcTime: 1000 * 60 * 5,
-  });
+  const { albums, isError, isFetching } = useCollectionAlbums(collection.id);
 
   if (isError) {
     return <p>앨범 목록을 불러오는데 실패했습니다.</p>;
   }
 
-  if (isFetching || data === undefined) {
+  if (isFetching || albums === undefined) {
     return (
       <div className="collection_album_list_loader_container">
         <SyncLoader color="#000000" size={10} />
@@ -48,9 +42,9 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
   return (
     <>
       <Carousel
-        imageList={data.map((album) => album.imageUrl)}
+        imageList={albums.map((album) => album.imageUrl)}
         width="100%"
-        onClickItem={(idx) => onClickAlbumItem(data[idx])}
+        onClickItem={(idx) => onClickAlbumItem(albums[idx])}
       />
 
       <div className="page_divider" />
@@ -58,7 +52,7 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
       <p className="list_album_text">앨범 목록</p>
       <div className="page_sub_divider" />
       <ul className="list_album">
-        {data.map((album, idx) => {
+        {albums.map((album, idx) => {
           if (album === undefined) {
             return <></>;
           }
