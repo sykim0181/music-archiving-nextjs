@@ -5,11 +5,7 @@ export function getCollectionQueryKey(collectionId: string) {
   return ["collection", collectionId];
 }
 
-interface useCollectionQueryProps {
-  collectionId: string;
-}
-
-const useCollectionQuery = ({ collectionId }: useCollectionQueryProps) => {
+const useCollectionQuery = (collectionId: string) => {
   const queryResult = useQuery({
     queryKey: getCollectionQueryKey(collectionId),
     queryFn: () => getCollection(collectionId),

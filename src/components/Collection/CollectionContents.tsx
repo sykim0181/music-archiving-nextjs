@@ -16,7 +16,7 @@ const CollectionContents = ({ collectionId }: CollectionContentsProps) => {
     data: collection,
     isError,
     isFetching,
-  } = useCollectionQuery({ collectionId });
+  } = useCollectionQuery(collectionId);
 
   const router = useRouter();
 
