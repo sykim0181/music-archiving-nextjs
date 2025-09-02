@@ -4,7 +4,12 @@ import { getCollection } from "@/utils/supabase";
 import { getAlbumList } from "@/utils/utils";
 import { useQuery } from "@tanstack/react-query";
 import SyncLoader from "react-spinners/SyncLoader";
-import InteractiveArchive from "../Archive/InteractiveArchive";
+import InterativeAlbums from "../common/InteractiveAlbums";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { clearAlbumToPlay } from "@/lib/redux/playerInfo";
+import { clearSelectedAlbum, setIsLpOnTurntable } from "@/lib/redux/selectedAlbum";
+import { clearAlbumToPlayInSessionStorage } from "@/utils/storage";
 
 interface CollectionInteractionProps {
   collectionId: string;
@@ -13,13 +18,22 @@ interface CollectionInteractionProps {
 const CollectionInteraction = ({
   collectionId,
 }: CollectionInteractionProps) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearAlbumToPlay());
+      dispatch(clearSelectedAlbum());
+      dispatch(setIsLpOnTurntable(false));
+      clearAlbumToPlayInSessionStorage();
+    };
+  }, [dispatch]);
+
+
   const { data, isError, isFetching } = useQuery({
     queryKey: ["collection-album-list", collectionId],
     queryFn: async () => {
       const collection = await getCollection(collectionId);
-      if (collection === null) {
-        throw new Error("Failed to fetch the collection");
-      }
       const albumList = await getAlbumList(collection.list_album_id);
       return albumList;
     },
@@ -39,7 +53,7 @@ const CollectionInteraction = ({
     );
   }
 
-  return <InteractiveArchive albumList={data} isEditable={false} />;
+  return <InterativeAlbums albumList={data} isEditable={false} />;
 };
 
 export default CollectionInteraction;

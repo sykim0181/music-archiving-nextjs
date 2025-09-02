@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
 import { useTypedSelector } from "@/lib/redux/store";
-import styles from "@/styles/InteractiveArchive.module.scss";
+import styles from "@/styles/InteractiveAlbums.module.scss";
 import {
   clearSelectedAlbum,
   moveVinyl,
@@ -10,7 +10,7 @@ import {
   setVinylPosition,
 } from "@/lib/redux/selectedAlbum";
 
-const useInteractiveArchive = () => {
+const useInteractiveAlbums = () => {
   const floatingVinylRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -166,11 +166,14 @@ const useInteractiveArchive = () => {
 
   const getFloatingVinylSize = () => {
     const listItem = document.getElementsByClassName(styles.list_lp_item)?.[0];
-    if (listItem !== undefined) {
-      const boundingRect = listItem.getBoundingClientRect();
-      const width = boundingRect.width;
-      return width;
+
+    if (!listItem) {
+      return 0;
     }
+
+    const boundingRect = listItem.getBoundingClientRect();
+    const width = boundingRect.width;
+    return width;
   };
 
   const floatingVinylPosition = getFloatingVinylPosition();
@@ -190,4 +193,4 @@ const useInteractiveArchive = () => {
   };
 };
 
-export default useInteractiveArchive;
+export default useInteractiveAlbums;
