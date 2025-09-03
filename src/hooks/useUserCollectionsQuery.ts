@@ -31,7 +31,7 @@ const useUserCollectionsQuery = ({
       if (lastPage.length < limit) {
         return undefined;
       }
-      lastPageParam + limit;
+      return lastPageParam + limit;
     },
   });
 };
