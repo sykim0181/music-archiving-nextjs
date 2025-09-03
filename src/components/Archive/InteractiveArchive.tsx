@@ -15,7 +15,7 @@ import {
 import { setAlbumList } from "@/lib/redux/archivedAlbumList";
 import dynamic from "next/dynamic";
 
-const InterativeAlbums = dynamic(() => import("../common/InteractiveAlbums"), {
+const InteractiveAlbums = dynamic(() => import("../common/InteractiveAlbums"), {
   ssr: false,
 });
 
@@ -38,7 +38,7 @@ const InteractiveArchive = () => {
 
   return (
     <>
-      <InterativeAlbums albumList={archivedAlbumList} isEditable />
+      <InteractiveAlbums albumList={archivedAlbumList} isEditable />
     </>
   );
 };
