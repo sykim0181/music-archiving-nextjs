@@ -51,7 +51,7 @@ const Header = () => {
           </button>
           {divider}
           <button>
-            <Link href={"/collection"}>Collection</Link>
+            <Link href={"/collections"}>Collection</Link>
           </button>
         </div>
 
