@@ -1,5 +1,7 @@
 import { getUserCollections } from "@/utils/supabase";
+import { createClient } from "@/utils/supabase/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useState } from "react";
 
 export function getUserCollectionsQuery(userId: string) {
   return ["user-collections", userId];
@@ -14,10 +16,17 @@ const useUserCollectionsQuery = ({
   userId,
   limit,
 }: useUserCollectionsQueryProps) => {
+  const [supabaseClient] = useState(() => createClient());
+
   return useInfiniteQuery({
     queryKey: getUserCollectionsQuery(userId),
     queryFn: async ({ pageParam }) =>
-      getUserCollections(userId, pageParam, pageParam + limit - 1),
+      getUserCollections(
+        supabaseClient,
+        userId,
+        pageParam,
+        pageParam + limit - 1
+      ),
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {

@@ -1,10 +1,12 @@
 import { Collection } from "@/types/type";
 import { getPublicCollections } from "@/utils/supabase";
+import { createClient } from "@/utils/supabase/client";
 import {
   InfiniteData,
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from "@tanstack/react-query";
+import { useState } from "react";
 
 export function getPublicCollectionsQueryKey() {
   return ["public-collections"];
@@ -20,10 +22,12 @@ export function getPublicCollectionsQueryOptions(
   string[],
   number
 > {
+  const [supabaseClient] = useState(() => createClient());
+
   return {
     queryKey: getPublicCollectionsQueryKey(),
     queryFn: async ({ pageParam }) =>
-      getPublicCollections(pageParam, pageParam + limit - 1),
+      getPublicCollections(supabaseClient, pageParam, pageParam + limit - 1),
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) => {
       if (lastPage.length < limit) {

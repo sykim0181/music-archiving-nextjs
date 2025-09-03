@@ -1,9 +1,11 @@
 import { Collection } from "@/types/type";
-import { createClient } from "./supabase/client";
+import { SupabaseClient } from "@supabase/supabase-js";
 
-export async function getCollection(collectionId: string): Promise<Collection> {
-  const supabase = createClient();
-  const { data, error } = await supabase
+export async function getCollection(
+  client: SupabaseClient,
+  collectionId: string
+): Promise<Collection> {
+  const { data, error } = await client
     .from("collection-album-list")
     .select()
     .eq("id", collectionId);
@@ -17,11 +19,11 @@ export async function getCollection(collectionId: string): Promise<Collection> {
 }
 
 export async function getPublicCollections(
+  client: SupabaseClient,
   from: number,
   to: number
 ): Promise<Collection[]> {
-  const supabase = createClient();
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from("collection-album-list")
     .select()
     .eq("is_public", true)
@@ -36,12 +38,12 @@ export async function getPublicCollections(
 }
 
 export async function getUserCollections(
+  client: SupabaseClient,
   userId: string,
   from: number,
   to: number
 ) {
-  const supabase = createClient();
-  const { data, error } = await supabase
+  const { data, error } = await client
     .from("collection-album-list")
     .select()
     .eq("user_id", userId)
