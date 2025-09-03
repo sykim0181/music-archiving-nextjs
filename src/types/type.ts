@@ -36,10 +36,12 @@ export type Collection = Tables<"collection-album-list">;
 
 export type CollectionItemType = {
   collection: Collection;
-  repAlbums: {
-    id: string;
-    name: string;
-    imageUrl: string;
-    artist: string[];
-  }[];
+  repAlbums: CollectionRepAlbum[];
+};
+
+export type CollectionRepAlbum = {
+  id: string;
+  name: string;
+  imageUrl: string;
+  artist: string[];
 };

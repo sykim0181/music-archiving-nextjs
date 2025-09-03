@@ -1,4 +1,9 @@
-import { Album, Collection, CollectionItemType } from "@/types/type";
+import {
+  Album,
+  Collection,
+  CollectionItemType,
+  CollectionRepAlbum,
+} from "@/types/type";
 import { getAlbum, getAlbums } from "./spotify";
 
 export function msToString(ms: number) {
@@ -15,9 +20,9 @@ export function msToString(ms: number) {
   return `${minutes}:${seconds.toString().padStart(2, "0")}`;
 }
 
-async function getCollectionRepresentativeAlbums(
+export async function getCollectionRepresentativeAlbums(
   collection: Collection
-): Promise<CollectionItemType> {
+): Promise<CollectionRepAlbum[]> {
   const albumIdList = collection.list_album_id;
   const repAlbumIds =
     albumIdList.length <= 4 ? [...albumIdList] : albumIdList.slice(0, 4);
@@ -43,10 +48,7 @@ async function getCollectionRepresentativeAlbums(
   const tasks = repAlbumIds.map((id) => fetchAlbum(id));
   const result = await Promise.all(tasks);
 
-  return {
-    collection: collection,
-    repAlbums: result.filter((val) => val !== null),
-  };
+  return result.filter((val) => val !== null);
 }
 
 export async function getCollectionItemList(
@@ -54,15 +56,13 @@ export async function getCollectionItemList(
 ): Promise<CollectionItemType[]> {
   const collectionItems: CollectionItemType[] = [];
   for (const collection of collections) {
-    const item = await getCollectionRepresentativeAlbums(collection);
-    collectionItems.push(item);
+    const repAlbums = await getCollectionRepresentativeAlbums(collection);
+    collectionItems.push({ collection, repAlbums });
   }
   return collectionItems;
 }
 
-export async function getAlbumList(
-  albumIdList: string[]
-): Promise<Album[]> {
+export async function getAlbumList(albumIdList: string[]): Promise<Album[]> {
   const taskList = [];
   const chunkSize = 20;
   for (let i = 0; i < albumIdList.length; i += chunkSize) {
@@ -71,7 +71,7 @@ export async function getAlbumList(
     taskList.push(task);
   }
   const albumsList = await Promise.all(taskList);
-  return albumsList.flat()
+  return albumsList.flat();
 }
 
 export function shuffleNumber(n: number) {

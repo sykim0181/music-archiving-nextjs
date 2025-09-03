@@ -1,18 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
-
-import "@/styles/CollectionComponent.scss";
-import { CollectionItemType } from "@/types/type";
+import "@/styles/CollectionItem.scss";
+import { Collection, CollectionRepAlbum } from "@/types/type";
+import { useQuery } from "@tanstack/react-query";
+import { getCollectionRepresentativeAlbums } from "@/utils/utils";
 
 interface Props {
-  collection: CollectionItemType;
+  collection: Collection;
 }
 
-const CollectionComponent = (props: Props) => {
-  const { collection } = props;
-  const albums = collection.repAlbums;
+const CollectionItem = ({ collection }: Props) => {
+  const { data } = useQuery({
+    queryKey: ["collection-representative-albums", collection.id],
+    queryFn: () => getCollectionRepresentativeAlbums(collection),
+    staleTime: 1000 * 60 * 5,
+  });
 
-  const getCollectionImageElements = () => {
+  const getCollectionImageElements = (albums: CollectionRepAlbum[]) => {
     if (albums.length === 0) {
       return (
         <CollectionItemImage
@@ -60,14 +64,7 @@ const CollectionComponent = (props: Props) => {
     }
   };
 
-  const getClassName = () => {
-    if (albums.length <= 1) {
-      return "one-image";
-    }
-    return "four-images";
-  };
-
-  const getArtistString = () => {
+  const getArtistString = (albums: CollectionRepAlbum[]) => {
     const set = new Set<string>();
     albums.forEach((album) => {
       album.artist.forEach((name) => {
@@ -77,24 +74,32 @@ const CollectionComponent = (props: Props) => {
     return Array.from(set).join(", ");
   };
 
-  return (
-    <Link
-      className="collection_item"
-      href={`collection/${collection.collection.id}`}
-    >
-      <div className={`collection_item_image ${getClassName()}`}>
-        {getCollectionImageElements()}
+  return data ? (
+    <Link className="collection_item" href={`collection/${collection.id}`}>
+      <div
+        className={`collection_item_image ${
+          data.length <= 1 ? "one-image" : "four-images"
+        }`}
+      >
+        {getCollectionImageElements(data)}
       </div>
 
       <div className="collection_item_description">
-        <p className="collection_item_title">{collection.collection.title}</p>
-        <p className="collection_item_artist">{getArtistString()}</p>
+        <p className="collection_item_title">{collection.title}</p>
+        <p className="collection_item_artist">
+          {getArtistString(data)}
+        </p>
       </div>
     </Link>
+  ) : (
+    <div className="collection_skeleton_item">
+      <div className="collection_skeleton_image" />
+      <div className="collection_skeleton_description" />
+    </div>
   );
 };
 
-export default CollectionComponent;
+export default CollectionItem;
 
 interface CollectionItemImageProps {
   src: string;
