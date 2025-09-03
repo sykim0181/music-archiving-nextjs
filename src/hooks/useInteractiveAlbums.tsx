@@ -29,10 +29,6 @@ const useInteractiveAlbums = () => {
   const isMovingVinyl = !lpIsOnTurntable && selectedAlbum !== null;
 
   useEffect(() => {
-    if (!document) {
-      return;
-    }
-
     const elements = document.getElementsByClassName(styles.list_lp);
     const lpListElement = elements[0] as HTMLDivElement;
 

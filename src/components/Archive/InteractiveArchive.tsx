@@ -1,7 +1,6 @@
 "use client";
 
 import { useTypedSelector } from "@/lib/redux/store";
-import InterativeAlbums from "../common/InteractiveAlbums";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import {
@@ -14,6 +13,11 @@ import {
   setSelectedAlbum,
 } from "@/lib/redux/selectedAlbum";
 import { setAlbumList } from "@/lib/redux/archivedAlbumList";
+import dynamic from "next/dynamic";
+
+const InterativeAlbums = dynamic(() => import("../common/InteractiveAlbums"), {
+  ssr: false,
+});
 
 const InteractiveArchive = () => {
   const archivedAlbumList = useTypedSelector(
