@@ -1,6 +1,7 @@
 import { Collection } from "@/types/type";
 import { getPublicCollections } from "@/utils/supabase";
 import { createClient } from "@/utils/supabase/client";
+import { SupabaseClient } from "@supabase/supabase-js";
 import {
   InfiniteData,
   useInfiniteQuery,
@@ -12,6 +13,7 @@ export function getPublicCollectionsQueryKey() {
 }
 
 export function getPublicCollectionsQueryOptions(
+  supabaseClient: SupabaseClient,
   limit: number
 ): UseInfiniteQueryOptions<
   Collection[],
@@ -21,8 +23,6 @@ export function getPublicCollectionsQueryOptions(
   string[],
   number
 > {
-  const supabaseClient = createClient();
-
   return {
     queryKey: getPublicCollectionsQueryKey(),
     queryFn: async ({ pageParam }) =>
@@ -44,7 +44,11 @@ interface usePublicCollectionsQueryProps {
 const usePublicCollectionsQuery = ({
   limit,
 }: usePublicCollectionsQueryProps) => {
-  return useInfiniteQuery(getPublicCollectionsQueryOptions(limit));
+  const supabaseClient = createClient();
+
+  return useInfiniteQuery(
+    getPublicCollectionsQueryOptions(supabaseClient, limit)
+  );
 };
 
 export default usePublicCollectionsQuery;

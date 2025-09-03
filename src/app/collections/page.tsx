@@ -5,14 +5,16 @@ import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query
 import {
   getPublicCollectionsQueryOptions,
 } from "@/hooks/usePublicCollectionsQuery";
+import { createClient } from "@/utils/supabase/server";
 
 
 const Page = async () => {
   const limit = 8;
 
   const queryClient = new QueryClient();
+  const supabaseClient = await createClient()
 
-  queryClient.prefetchInfiniteQuery(getPublicCollectionsQueryOptions(limit));
+  queryClient.prefetchInfiniteQuery(getPublicCollectionsQueryOptions(supabaseClient, limit));
 
   return (
     <MainLayout>
