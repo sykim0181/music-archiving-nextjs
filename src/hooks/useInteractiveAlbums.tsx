@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 
@@ -27,6 +29,10 @@ const useInteractiveAlbums = () => {
   const isMovingVinyl = !lpIsOnTurntable && selectedAlbum !== null;
 
   useEffect(() => {
+    if (!document) {
+      return;
+    }
+
     const elements = document.getElementsByClassName(styles.list_lp);
     const lpListElement = elements[0] as HTMLDivElement;
 
