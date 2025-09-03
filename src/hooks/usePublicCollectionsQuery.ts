@@ -6,7 +6,6 @@ import {
   useInfiniteQuery,
   UseInfiniteQueryOptions,
 } from "@tanstack/react-query";
-import { useState } from "react";
 
 export function getPublicCollectionsQueryKey() {
   return ["public-collections"];
@@ -22,7 +21,7 @@ export function getPublicCollectionsQueryOptions(
   string[],
   number
 > {
-  const [supabaseClient] = useState(() => createClient());
+  const supabaseClient = createClient();
 
   return {
     queryKey: getPublicCollectionsQueryKey(),
