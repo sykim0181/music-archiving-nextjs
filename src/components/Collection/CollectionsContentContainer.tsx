@@ -37,7 +37,7 @@ const CollectionsContentContainer = ({
     }
 
     return null;
-  }, [category, user]);
+  }, [category, user, limit]);
 
   return (
     <div>
