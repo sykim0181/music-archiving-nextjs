@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import styles from "@/styles/LpComponent.module.scss";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 import { setSelectedAlbum, setVinylPosition } from "@/lib/redux/selectedAlbum";
 import AlbumCover from "./AlbumCover";
 import LpVinyl from "./LpVinyl";

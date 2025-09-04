@@ -10,7 +10,7 @@ import { setAlbumList } from "@/lib/redux/archivedAlbumList";
 import { storeAlbumListInSessionStorage } from "@/utils/storage";
 import { clearModal } from "@/lib/redux/modalInfo";
 import { useTypedSelector } from "@/lib/redux/store";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 
 type ItemType = {
   album: Album;

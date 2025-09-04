@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Track } from "@/types/type";
+import { Track } from "@/types/common";
 import { playTrackList } from "@/utils/spotify";
 import useSpotifyAccessToken from "./useSpotifyAccessToken";
 

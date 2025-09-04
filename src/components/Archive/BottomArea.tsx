@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 import "@/styles/BottomArea.scss";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 import { useTypedSelector } from "@/lib/redux/store";
 import TurntableComponent from "./TurntableComponent";
-import AlbumPlayer from "../common/Player/AlbumPlayer";
+// import AlbumPlayer from "../common/Player/AlbumPlayer";
 
 const BottomArea = () => {
   const albumToPlay = useTypedSelector((state) => state.playerInfo.album);
@@ -32,11 +32,11 @@ const BottomArea = () => {
   return (
     <div className="bottom_area">
       <TurntableComponent />
-      {album && (
+      {/* {album && (
         <div className={`player-container ${animClassname} box_shadow`}>
           <AlbumPlayer album={album} isMini={isSmallDisplay} />
         </div>
-      )}
+      )} */}
     </div>
   );
 };

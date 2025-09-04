@@ -1,4 +1,4 @@
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 
 const KEY_ALBUM_LIST = "list-album";
 const KEY_ALBUM_TO_PLAY = "album-to-play";

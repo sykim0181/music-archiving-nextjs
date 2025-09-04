@@ -1,4 +1,4 @@
-import { Collection } from "@/types/type";
+import { Collection } from "@/types/common";
 import { getPublicCollections } from "@/utils/supabase";
 import { createClient } from "@/utils/supabase/client";
 import { SupabaseClient } from "@supabase/supabase-js";

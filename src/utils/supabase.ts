@@ -1,4 +1,4 @@
-import { Collection } from "@/types/type";
+import { Collection } from "@/types/common";
 import { SupabaseClient } from "@supabase/supabase-js";
 
 export async function getCollection(

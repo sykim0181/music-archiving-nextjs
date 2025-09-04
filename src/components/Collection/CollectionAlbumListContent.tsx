@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import SyncLoader from "react-spinners/SyncLoader";
 
 import { setModal } from "@/lib/redux/modalInfo";
-import { Album, Collection } from "@/types/type";
+import { Album, Collection } from "@/types/common";
 import Carousel from "../common/Carousel";
 import useCollectionAlbums from "@/hooks/useCollectionAlbums";
 

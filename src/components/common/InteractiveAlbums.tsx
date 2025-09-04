@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { RxPlus } from "react-icons/rx";
 
 import styles from "@/styles/InteractiveAlbums.module.scss";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 import LpComponent from "../common/LpComponent";
 import LpVinyl from "../common/LpVinyl";
 import { setModal } from "@/lib/redux/modalInfo";

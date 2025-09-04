@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 
 interface useAlbumQueryProp {
   limit: number;

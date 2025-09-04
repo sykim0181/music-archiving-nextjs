@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import "@/styles/CollectionItem.scss";
-import { Collection, CollectionRepAlbum } from "@/types/type";
+import { Collection, CollectionRepAlbum } from "@/types/common";
 import { useQuery } from "@tanstack/react-query";
-import { getCollectionRepresentativeAlbums } from "@/utils/utils";
+import { getCollectionRepresentativeAlbums } from "@/utils/collectionUtils";
 
 interface Props {
   collection: Collection;
@@ -12,7 +12,7 @@ interface Props {
 const CollectionItem = ({ collection }: Props) => {
   const { data } = useQuery({
     queryKey: ["collection-representative-albums", collection.id],
-    queryFn: () => getCollectionRepresentativeAlbums(collection),
+    queryFn: () => getCollectionRepresentativeAlbums(collection.list_album_id),
     staleTime: 1000 * 60 * 5,
   });
 
@@ -86,9 +86,7 @@ const CollectionItem = ({ collection }: Props) => {
 
       <div className="collection_item_description">
         <p className="collection_item_title">{collection.title}</p>
-        <p className="collection_item_artist">
-          {getArtistString(data)}
-        </p>
+        <p className="collection_item_artist">{getArtistString(data)}</p>
       </div>
     </Link>
   ) : (

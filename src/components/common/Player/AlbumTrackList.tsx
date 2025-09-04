@@ -1,5 +1,5 @@
 import "@/styles/AlbumTrackList.scss";
-import { Track } from "@/types/type";
+import { Track } from "@/types/common";
 import { msToString } from "@/utils/utils";
 
 interface Prop {

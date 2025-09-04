@@ -1,6 +1,6 @@
 "use client";
 
-import { Collection } from "@/types/type";
+import { Collection } from "@/types/common";
 import CollectionItem from "./CollectionItem";
 import Loading from "../common/Loading";
 import { useInView } from "react-intersection-observer";

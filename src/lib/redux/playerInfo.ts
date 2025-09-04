@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 
 interface PlayerInfoState {
   album: Album | null;

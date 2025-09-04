@@ -1,4 +1,4 @@
-import { getAlbumList } from "@/utils/utils";
+import { getAlbums } from "@/utils/musicUtils";
 import { useQuery } from "@tanstack/react-query";
 
 function getKey(ids: string[]) {
@@ -8,7 +8,7 @@ function getKey(ids: string[]) {
 const useAlbumsByIdsQuery = (ids: string[]) => {
   return useQuery({
     queryKey: ["albums-by-ids", getKey(ids)],
-    queryFn: () => getAlbumList(ids),
+    queryFn: () => getAlbums(ids),
     staleTime: Infinity,
   });
 };

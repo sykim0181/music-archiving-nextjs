@@ -4,10 +4,10 @@ import { useDispatch } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
 
 import styles from "@/styles/AlbumInfoModal.module.scss";
-import { Album, Track } from "@/types/type";
+import { Album, Track } from "@/types/common";
 import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
-import { getAlbumTracks } from "@/utils/spotify";
+import { getAlbumTracks } from "@/utils/musicUtils";
 
 export interface AlbumInfoModalProps {
   album: Album;

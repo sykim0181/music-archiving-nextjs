@@ -1,4 +1,4 @@
-import { Token } from "@/types/type";
+import { Token } from "@/types/common";
 
 export async function getUserAccessToken(authorizationCode: string): Promise<{
   token?: Token;

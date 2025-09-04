@@ -6,7 +6,7 @@ import Image from "next/image";
 
 import styles from "@/styles/AddAlbumModal.module.scss";
 import { addAlbum } from "@/lib/redux/archivedAlbumList";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 import { addAlbumInSessionStorage } from "@/utils/storage";
 import PopUpModal from "../../common/PopUpModal";
 import AddAlbumSearchResult from "./AddAlbumSearchResult";

@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { setSelectedAlbum, setVinylPosition } from "@/lib/redux/selectedAlbum";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
 import { useTypedSelector } from "@/lib/redux/store";
 
 interface Prop {

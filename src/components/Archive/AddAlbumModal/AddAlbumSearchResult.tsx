@@ -5,8 +5,8 @@ import styles from "@/styles/AddAlbumModal.module.scss";
 import useAlbumQuery from "@/hooks/useAlbumQuery";
 import AlbumListItem from "./AlbumListItem";
 import Loading from "../../common/Loading";
-import { searchAlbum } from "@/utils/spotify";
-import { Album } from "@/types/type";
+import { Album } from "@/types/common";
+import { searchAlbum } from "@/utils/musicUtils";
 
 const limit = 10;
 
