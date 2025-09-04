@@ -24,7 +24,8 @@ export async function GET(request: NextRequest) {
   });
 
   if (response.status !== 200) {
-    throw new Error("Failed to search:", response.data);
+    const { error } = response.data;
+    return NextResponse.json({ error }, { status: 500 });
   }
 
   const result = response.data.albums as SearchResponseAlbumsType;
