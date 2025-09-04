@@ -1,5 +1,5 @@
 import { spotifyAPI } from "@/lib/spotify/app-token/axios";
-import { TAlbumResponse } from "@/types/apiResponse";
+import { Album } from "@/types/common";
 import { AlbumResponseType } from "@/types/spotify";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   const data = response.data as AlbumResponseType;
-  const album: TAlbumResponse = {
+  const album: Album = {
     id: data.id,
     total_tracks: data.total_tracks,
     imageUrl: data.images[0].url,

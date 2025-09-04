@@ -1,7 +1,8 @@
-import { TAlbumResponse, TAlbumTrackResponse } from "@/types/apiResponse";
+import { TAlbumTrackResponse } from "@/types/apiResponse";
+import { Album } from "@/types/common";
 import queryString from "query-string";
 
-export async function getAlbum(albumId: string): Promise<TAlbumResponse> {
+export async function getAlbum(albumId: string): Promise<Album> {
   const response = await fetch(`/api/spotify/album?id=${albumId}`, {
     method: "GET",
   });
@@ -12,15 +13,15 @@ export async function getAlbum(albumId: string): Promise<TAlbumResponse> {
   }
 
   const { album } = await response.json();
-  return album as TAlbumResponse;
+  return album as Album;
 }
 
-export async function getAlbums(albumIds: string[]): Promise<TAlbumResponse[]> {
+export async function getAlbums(albumIds: string[]): Promise<Album[]> {
   const MAX_LENGTH_ID_LIST = 20;
 
   const tasks = [];
 
-  const fetchAlbums = async (ids: string[]): Promise<TAlbumResponse[]> => {
+  const fetchAlbums = async (ids: string[]): Promise<Album[]> => {
     const response = await fetch(`/api/spotify/albums?ids=${ids.join(",")}`, {
       method: "GET",
     });
@@ -32,7 +33,7 @@ export async function getAlbums(albumIds: string[]): Promise<TAlbumResponse[]> {
     }
 
     const { albums } = await response.json();
-    return albums as TAlbumResponse[];
+    return albums as Album[];
   };
 
   const chunkSize = MAX_LENGTH_ID_LIST;
@@ -50,7 +51,7 @@ export async function searchAlbum(
   keyword: string,
   limit: number,
   offset: number
-): Promise<TAlbumResponse[]> {
+): Promise<Album[]> {
   const response = await fetch(
     `/api/search?` +
       queryString.stringify({
@@ -69,7 +70,7 @@ export async function searchAlbum(
   }
 
   const { albums } = await response.json();
-  return albums as TAlbumResponse[];
+  return albums as Album[];
 }
 
 export async function getAlbumTracks(
