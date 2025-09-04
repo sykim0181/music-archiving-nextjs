@@ -1,33 +1,17 @@
-"use client";
-
-import { Suspense, useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import "@/styles/commonStyle.scss";
-import Loading from "@/components/common/Loading";
 import MainLayout from "@/layouts/MainLayout";
 import { getAuthorizationCodeUrl } from "@/utils/spotify";
 
-const Content = () => {
-  const searchParams = useSearchParams();
-  const errorCode = searchParams?.get("error_code");
-  const code = searchParams.get("code");
+const Page = async ({
+  params,
+}: {
+  params: Promise<{ code?: string; error_code?: string }>;
+}) => {
+  const { code, error_code } = await params;
 
-  const [isEmailSent, setIsEmailSent] = useState(false);
-
-  const router = useRouter();
-
-  useEffect(() => {
-    if (errorCode === "provider_email_needs_verification") {
-      setIsEmailSent(true);
-    } else if (code) {
-      router.push(getAuthorizationCodeUrl());
-    } else {
-      router.push("/");
-    }
-  }, [searchParams, router, code, errorCode]);
-
-  if (isEmailSent) {
+  if (error_code === "provider_email_needs_verification") {
     return (
       <MainLayout>
         <div className="center_screen">
@@ -39,19 +23,12 @@ const Content = () => {
       </MainLayout>
     );
   }
-  return (
-    <div className="center_screen">
-      <Loading size={50} />
-    </div>
-  );
-};
 
-const Page = () => {
-  return (
-    <Suspense>
-      <Content />
-    </Suspense>
-  );
+  if (code) {
+    redirect(getAuthorizationCodeUrl());
+  }
+
+  redirect("/");
 };
 
 export default Page;
