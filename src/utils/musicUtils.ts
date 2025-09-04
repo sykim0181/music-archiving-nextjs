@@ -53,7 +53,7 @@ export async function searchAlbum(
   offset: number
 ): Promise<Album[]> {
   const response = await fetch(
-    `/api/search?` +
+    `/api/spotify/search?` +
       queryString.stringify({
         query: keyword,
         limit,
