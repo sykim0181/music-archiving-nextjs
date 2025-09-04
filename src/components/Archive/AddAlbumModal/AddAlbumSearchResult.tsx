@@ -1,14 +1,11 @@
 import { useInView } from "react-intersection-observer";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import styles from "@/styles/AddAlbumModal.module.scss";
-import useAlbumQuery from "@/hooks/useAlbumQuery";
 import AlbumListItem from "./AlbumListItem";
 import Loading from "../../common/Loading";
 import { Album } from "@/types/common";
-import { searchAlbum } from "@/utils/musicUtils";
-
-const limit = 10;
+import useSearchAlbumQuery from "@/hooks/useSearchAlbumQuery";
 
 interface Prop {
   input: string;
@@ -21,26 +18,8 @@ const AddAlbumSearchResult = (prop: Prop) => {
 
   const [ref, inView] = useInView();
 
-  const queryFunc = useCallback(
-    async (pageParam: number) => {
-      if (input === undefined || input === "") {
-        return [];
-      }
-      const result = await searchAlbum(input, limit, pageParam);
-      if (result === null) {
-        return [];
-      }
-      return result;
-    },
-    [input]
-  );
-
-  const { albumList, isFetchingNextPage, fetchNextPage, hasNextPage } =
-    useAlbumQuery({
-      limit,
-      queryFunc,
-      queryKey: [input],
-    });
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
+    useSearchAlbumQuery({ keyword: input, limit: 10 });
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -48,7 +27,9 @@ const AddAlbumSearchResult = (prop: Prop) => {
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  const hasResult = albumList.length > 0;
+  const albumList = useMemo(() => data?.pages.flat(), [data]);
+
+  const hasResult = albumList !== undefined && albumList.length > 0;
 
   const onClickAlbumItem = (album: Album) => {
     if (albumToAdd === album) {
@@ -62,15 +43,20 @@ const AddAlbumSearchResult = (prop: Prop) => {
 
   return (
     <>
-      <ul className={styles.search_result_album_list}>
-        {albumList.map((album) => (
-          <li key={album.id} onClick={() => onClickAlbumItem(album)}>
-            <AlbumListItem
-              album={album}
-              selected={album.id === albumToAdd?.id}
-            />
-          </li>
-        ))}
+      <div className={styles.search_result_album_list}>
+        {hasResult && (
+          <ul>
+            {albumList.map((album) => (
+              <li key={album.id} onClick={() => onClickAlbumItem(album)}>
+                <AlbumListItem
+                  album={album}
+                  selected={album.id === albumToAdd?.id}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+
         {hasResult && isFetchingNextPage ? (
           <div className={styles.loading_container}>
             <Loading size={25} />
@@ -78,7 +64,8 @@ const AddAlbumSearchResult = (prop: Prop) => {
         ) : (
           <div ref={ref} className={styles.inview_ref_container} />
         )}
-      </ul>
+      </div>
+
       {!hasResult && <div className={styles.blank_space} />}
     </>
   );
