@@ -1,3 +1,5 @@
+import { PlaybackStateResponse } from "./spotify";
+
 export type TAlbumTrackResponse = {
   artists: string[];
   duration: number;
@@ -6,3 +8,7 @@ export type TAlbumTrackResponse = {
   name: string;
   uri: string;
 };
+
+export type PlaybackResponse = {
+  state: PlaybackStateResponse | null;
+}
