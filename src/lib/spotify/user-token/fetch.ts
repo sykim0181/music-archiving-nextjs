@@ -1,4 +1,4 @@
-import { UserToken } from "@/types/spotify";
+import { RefreshTokenResponse, UserToken } from "@/types/spotify";
 
 export async function fetchUserAccessToken(
   authorizationCode: string
@@ -63,7 +63,11 @@ export async function fetchTokenByRefreshToken(
     throw new Error(`Failed to refresh token: ${error}`);
   }
 
-  const token = (await response.json()) as UserToken;
+  const data = (await response.json()) as RefreshTokenResponse;
+  const token: UserToken = {
+    ...data,
+    refresh_token: data.refresh_token ?? refreshToken,
+  };
   const now = Date.now();
   return {
     token,
