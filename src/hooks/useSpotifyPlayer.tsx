@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { Track } from "@/types/common";
-import { playTrackList } from "@/utils/spotify";
+import { playTrackList } from "@/utils/spotifyUtils";
 import useSpotifyAccessToken from "./useSpotifyAccessToken";
 
 export type PlayerState =

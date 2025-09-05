@@ -18,7 +18,7 @@ const LoginButtons = () => {
     await supabase.auth.signInWithOAuth({
       provider: "spotify",
       options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/login/spotify/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_BASE_URL}/auth/spotify/callback`,
       },
     });
   };

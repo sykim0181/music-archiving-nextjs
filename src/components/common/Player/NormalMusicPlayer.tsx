@@ -9,7 +9,7 @@ import "@/styles/commonStyle.scss";
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumTrackList from "./AlbumTrackList";
 import AlbumCover from "../AlbumCover";
-import { getAuthorizationCodeUrl } from "@/utils/spotify";
+import { getAuthorizationCodeUrl } from "@/utils/spotifyUtils";
 
 interface NormalMusicPlayerProps extends defaultPlayerProps {
   onPrevButtonClick: () => void;

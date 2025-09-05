@@ -154,3 +154,11 @@ export type TrackResponseType = {
   uri: string;
   is_local: boolean;
 };
+
+export type UserToken = {
+  access_token: string;
+  token_type: string;
+  scope: string;
+  expires_in: number;
+  refresh_token: string;
+};

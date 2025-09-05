@@ -63,7 +63,7 @@ export function getAuthorizationCodeUrl(): string {
   const body = {
     client_id: process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID,
     response_type: "code",
-    redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/spotify/callback`,
+    redirect_uri: `${process.env.NEXT_PUBLIC_BASE_URL}/spotify/auth/callback`,
     scope: scope.join(" "),
   };
   url = `${url}?` + queryString.stringify(body);

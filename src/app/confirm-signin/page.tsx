@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect } from "react";
 
 import Loading from "@/components/common/Loading";
-import { getAuthorizationCodeUrl } from "@/utils/spotify";
+import { getAuthorizationCodeUrl } from "@/utils/spotifyUtils";
 
 const Content = () => {
   const searchParams = useSearchParams();

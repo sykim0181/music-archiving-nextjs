@@ -8,7 +8,7 @@ import { MdErrorOutline } from "react-icons/md";
 
 import "@/styles/MiniMusicPlayer.scss";
 import "@/styles/commonStyle.scss";
-import { getAuthorizationCodeUrl } from "@/utils/spotify";
+import { getAuthorizationCodeUrl } from "@/utils/spotifyUtils";
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumCover from "../AlbumCover";
 import AlbumTrackList from "./AlbumTrackList";
