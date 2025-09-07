@@ -11,4 +11,10 @@ export type TAlbumTrackResponse = {
 
 export type PlaybackResponse = {
   state: PlaybackStateResponse | null;
-}
+};
+
+export type SpotifyTokenResponse =
+  | { status: "error"; message: string }
+  | { status: "unauthenticated" }
+  | { status: "no_token" }
+  | { status: "ok"; token: string };
