@@ -1,13 +1,12 @@
 import { useMemo } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-import { useQuery } from "@tanstack/react-query";
 
 import styles from "@/styles/AlbumInfoModal.module.scss";
 import { Album, Track } from "@/types/common";
 import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
-import { getAlbumTracks } from "@/utils/musicUtils";
+import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
 
 export interface AlbumInfoModalProps {
   album: Album;
@@ -22,23 +21,7 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
     data: trackList,
     isError,
     isFetching,
-  } = useQuery({
-    queryKey: ["album-tracks", album.id],
-    queryFn: async () => {
-      const data = await getAlbumTracks(album.id);
-      const trackList: Track[] = data.map((track) => {
-        return {
-          ...track,
-          album: {
-            id: album.id,
-            name: album.name,
-            imageUrl: album.imageUrl,
-          },
-        };
-      });
-      return trackList;
-    },
-  });
+  } = useAlbumTracksQuery(album.id)
 
   const closeModal = () => {
     dispatch(clearModal());

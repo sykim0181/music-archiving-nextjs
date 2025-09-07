@@ -1,9 +1,7 @@
-import { useQuery } from "@tanstack/react-query";
-
 import { Album, Track } from "@/types/common";
 import MusicPlayer from "./MusicPlayer";
-import useSpotifyAccessToken from "@/hooks/useSpotifyAccessToken";
-import { getAlbumTracks } from "@/utils/musicUtils";
+import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
+import { useMemo } from "react";
 
 interface Props {
   album: Album;
@@ -13,31 +11,7 @@ interface Props {
 const AlbumPlayer = (props: Props) => {
   const { album, isMini } = props;
 
-  const { accessToken } = useSpotifyAccessToken();
-
-  const {
-    data: trackList,
-    isError,
-    isFetching,
-  } = useQuery({
-    queryKey: ["album-tracks", album.id],
-    queryFn: async () => {
-      const data = await getAlbumTracks(album.id);
-      const trackList: Track[] = data.map((track) => {
-        return {
-          ...track,
-          album: {
-            id: album.id,
-            name: album.name,
-            imageUrl: album.imageUrl,
-          },
-        };
-      });
-      return trackList;
-    },
-    staleTime: Infinity,
-    enabled: accessToken !== null,
-  });
+  const { data, isError, isFetching } = useAlbumTracksQuery(album.id);
 
   if (isFetching) {
     console.log("fetching tracks of the album...");
@@ -47,7 +21,22 @@ const AlbumPlayer = (props: Props) => {
     console.log("error occured while fetching tracks of the album!");
   }
 
-  if (!trackList) {
+  const trackList: Track[] = useMemo(
+    () =>
+      data
+        ? data.map((track) => ({
+            ...track,
+            album: {
+              id: album.id,
+              name: album.name,
+              imageUrl: album.imageUrl,
+            },
+          }))
+        : [],
+    [data]
+  );
+
+  if (!data) {
     return <></>;
   }
 
