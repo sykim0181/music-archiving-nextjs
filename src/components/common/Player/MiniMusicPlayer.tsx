@@ -7,7 +7,6 @@ import { IoMdReturnLeft, IoMdLogIn } from "react-icons/io";
 import { MdErrorOutline } from "react-icons/md";
 
 import "@/styles/MiniMusicPlayer.scss";
-import "@/styles/commonStyle.scss";
 import { getAuthorizationCodeUrl } from "@/utils/spotifyUtils";
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumCover from "../AlbumCover";

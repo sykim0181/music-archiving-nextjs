@@ -5,7 +5,6 @@ import { MdErrorOutline } from "react-icons/md";
 import { usePathname, useRouter } from "next/navigation";
 
 import "@/styles/NormalMusicPlayer.scss";
-import "@/styles/commonStyle.scss";
 import { defaultPlayerProps } from "./MusicPlayer";
 import AlbumTrackList from "./AlbumTrackList";
 import AlbumCover from "../AlbumCover";

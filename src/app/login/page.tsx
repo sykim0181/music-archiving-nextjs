@@ -1,5 +1,4 @@
 import "./page.scss";
-import "@/styles/commonStyle.scss";
 import MainLayout from "@/layouts/MainLayout";
 import LoginButtons from "@/components/Login/LoginButtons";
 

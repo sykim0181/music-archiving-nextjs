@@ -1,7 +1,6 @@
 import Link from "next/link";
 
 import "@/styles/Header.scss";
-import "@/styles/commonStyle.scss";
 import LogInoutButton from "./LogInOutButton";
 
 const Header = () => {

@@ -1,4 +1,3 @@
-import "@/styles/commonStyle.scss";
 import { useState } from "react";
 import { Album } from "@/types/common";
 
