@@ -3,7 +3,7 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 
 import styles from "@/styles/AlbumInfoModal.module.scss";
-import { Album, Track } from "@/types/common";
+import { Album } from "@/types/common";
 import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
 import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
