@@ -4,16 +4,15 @@ import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const supabase = await createClient();
-  const { data, error } = await supabase.auth.getUser();
-
-  if (error) {
-    throw new Error(`Failed to get user: ${error.message}`);
-  }
-
-  const userId = data.user.id;
-
   try {
+    const supabase = await createClient();
+    const { data, error } = await supabase.auth.getUser();
+
+    if (error) {
+      throw new Error(`Failed to get user: ${error.message}`);
+    }
+
+    const userId = data.user.id;
     const accessToken = await getUserAccessToken(userId);
 
     if (!accessToken) {

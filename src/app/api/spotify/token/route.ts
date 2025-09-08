@@ -24,8 +24,18 @@ export async function GET() {
 
   if (!token) {
     // 토큰을 발급받은 적 없는 사용자
-    return NextResponse.json({ status: "no_token" }, { status: 200 });
+    return NextResponse.json({ status: "unauthorized" }, { status: 200 });
   }
 
-  return NextResponse.json({ status: "ok", token }, { status: 200 });
+  return NextResponse.json(
+    { status: "ok", token },
+    { status: 200, headers: { "Cache-Control": "no-store" } }
+  );
 }
+
+// UNAUTHENTICATED 로그인X
+// UNAUTHORIZED 스포티파이 권한 허용X
+// INITIALIZATION_ERROR 환경 문제
+// INVALID_TOKEN 토큰 문제
+// NOT_PREMIUM_ACCOUNT 프리미엄 계정 X
+// PLAYBACK_ERROR

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 import { Track } from "@/types/common";
-import { playTrackList } from "@/utils/spotifyUtils";
-import useSpotifyAccessToken from "./useSpotifyAccessToken";
+// import { playTrackList } from "@/utils/spotifyUtils";
+// import useSpotifyAccessToken from "./useSpotifyAccessToken";
 
 export type PlayerState =
   | "NOT_READY"
@@ -25,34 +25,34 @@ const useSpotifyPlayer = (props: Props) => {
   const [curTrackIdx, setCurTrackIdx] = useState(0);
   const [state, setState] = useState<PlayerState>("NOT_READY");
 
-  const { accessToken } = useSpotifyAccessToken();
+  // const { accessToken } = useSpotifyAccessToken();
 
-  useEffect(() => {
-    if (accessToken !== null) {
-      console.log("accessToken", accessToken);
-      if (
-        !document.querySelector(
-          'script[src="https://sdk.scdn.co/spotify-player.js"]'
-        )
-      ) {
-        const script = document.createElement("script");
-        script.src = "https://sdk.scdn.co/spotify-player.js";
-        script.async = true;
-        document.body.appendChild(script);
-      }
+  // useEffect(() => {
+  //   if (accessToken !== null) {
+  //     console.log("accessToken", accessToken);
+  //     if (
+  //       !document.querySelector(
+  //         'script[src="https://sdk.scdn.co/spotify-player.js"]'
+  //       )
+  //     ) {
+  //       const script = document.createElement("script");
+  //       script.src = "https://sdk.scdn.co/spotify-player.js";
+  //       script.async = true;
+  //       document.body.appendChild(script);
+  //     }
 
-      window.onSpotifyWebPlaybackSDKReady = () => {
-        const player = new window.Spotify.Player({
-          name: "Web Playback SDK Player",
-          getOAuthToken: (cb) => {
-            cb(accessToken);
-          },
-          volume: 0.5,
-        });
-        setPlayer(player);
-      };
-    }
-  }, [accessToken]);
+  //     window.onSpotifyWebPlaybackSDKReady = () => {
+  //       const player = new window.Spotify.Player({
+  //         name: "Web Playback SDK Player",
+  //         getOAuthToken: (cb) => {
+  //           cb(accessToken);
+  //         },
+  //         volume: 0.5,
+  //       });
+  //       setPlayer(player);
+  //     };
+  //   }
+  // }, [accessToken]);
 
   useEffect(() => {
     return () => {
@@ -160,19 +160,19 @@ const useSpotifyPlayer = (props: Props) => {
   }, [player, trackList]);
 
   const play = async () => {
-    if (!deviceId) {
-      return;
-    }
-    if (hasPlayed === false) {
-      // 처음 재생
-      const result = await playTrackList(deviceId, trackList, 0);
-      if (result) {
-        setIsPlaying(true);
-        setHasPlayed(true);
-      }
-    } else {
-      player?.resume().then(() => setIsPlaying(true));
-    }
+    // if (!deviceId) {
+    //   return;
+    // }
+    // if (hasPlayed === false) {
+    //   // 처음 재생
+    //   const result = await playTrackList(deviceId, trackList, 0);
+    //   if (result) {
+    //     setIsPlaying(true);
+    //     setHasPlayed(true);
+    //   }
+    // } else {
+    //   player?.resume().then(() => setIsPlaying(true));
+    // }
   };
 
   const pause = async () => {
@@ -194,13 +194,13 @@ const useSpotifyPlayer = (props: Props) => {
   };
 
   const skipToIdx = async (trackIdx: number) => {
-    if (deviceId) {
-      const result = await playTrackList(deviceId, trackList, trackIdx);
-      if (result) {
-        setCurTrackIdx(trackIdx);
-        setIsPlaying(true);
-      }
-    }
+    // if (deviceId) {
+    //   const result = await playTrackList(deviceId, trackList, trackIdx);
+    //   if (result) {
+    //     setCurTrackIdx(trackIdx);
+    //     setIsPlaying(true);
+    //   }
+    // }
   };
 
   return {

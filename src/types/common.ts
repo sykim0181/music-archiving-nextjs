@@ -12,11 +12,6 @@ export type Album = {
 
 export type Track = {
   artists: string[];
-  album: {
-    id: string;
-    name: string;
-    imageUrl: string;
-  };
   duration: number;
   id: string;
   is_playable: boolean;
@@ -24,12 +19,8 @@ export type Track = {
   uri: string;
 };
 
-export type Token = {
-  access_token: string;
-  expires_in: number;
-  refresh_token?: string;
-  scope?: string[];
-  token_type: string;
+export type AlbumWithTrack = Album & {
+  tracks: Track[];
 };
 
 export type Collection = Tables<"collection-album-list">;
