@@ -11,7 +11,6 @@ import {
   clearAlbumToPlayInSessionStorage,
   storeAlbumToPlayInSessionStorage,
 } from "@/utils/storage";
-import { setAlbumToPlay } from "@/lib/redux/playerInfo";
 import { useTypedSelector } from "@/lib/redux/store";
 import { setContext } from "@/lib/redux/playerSlice";
 
@@ -53,8 +52,6 @@ const TurntableMenuComponent = (prop: MenuProp) => {
       return;
     }
     dispatch(setContext({ type: "album", id: selectedAlbum.id }));
-    dispatch(setAlbumToPlay(selectedAlbum));
-    storeAlbumToPlayInSessionStorage(selectedAlbum);
   };
 
   if (show === false) return <></>;

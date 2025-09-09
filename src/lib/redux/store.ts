@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import selectedAlbum from "./selectedAlbum";
 import archivedAlbumList from "./archivedAlbumList";
-import playerInfo from "./playerInfo";
 import modalInfo from "./modalInfo";
 import playerSlice from "./playerSlice";
 
@@ -10,7 +9,6 @@ const store = configureStore({
   reducer: {
     selectedAlbum: selectedAlbum.reducer,
     archivedAlbumList: archivedAlbumList.reducer,
-    playerInfo: playerInfo.reducer,
     modalInfo: modalInfo.reducer,
     player: playerSlice.reducer,
   },
