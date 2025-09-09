@@ -39,7 +39,6 @@ export async function getToken(
     .from("spotify-token")
     .select()
     .eq("user_id", userId)
-    .single();
 
   if (error) {
     throw new Error(`Failed to fetch user's token: ${error.message}`);
@@ -49,5 +48,5 @@ export async function getToken(
     return null;
   }
 
-  return data as SpotifyTokenRow;
+  return data[0] as SpotifyTokenRow;
 }
