@@ -61,10 +61,6 @@
   align-items: center;
 }
 
-.invisible_scroll::-webkit-scrollbar {
-  display: none;
-}
-
 .content {
   height: calc(100dvh - #{$header-size} - 10px - 200px);
   width: 100%;

@@ -8,15 +8,6 @@
   z-index: 4;
 }
 
-.player-container {
-  position: absolute;
-  width: 100%;
-  bottom: 0px;
-  background-color: white;
-  border-radius: 20px;
-  overflow: hidden;
-}
-
 .anim_slideIn_from_left {
   animation: slideInFromLeft .5s ease-out forwards;
 }

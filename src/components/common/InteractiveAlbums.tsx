@@ -50,7 +50,7 @@ const InterativeAlbums = (props: InterativeAlbumsProps) => {
     };
 
     return (
-      <div className={`${styles.list_lp} ${styles.invisible_scroll}`}>
+      <div className={`${styles.list_lp} invisible_scroll`}>
         {albumList.map((album) => (
           <LpComponent
             key={album.id}
