@@ -59,3 +59,22 @@
     width: 28px;
   }
 }
+
+.player-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  background-color: rgba($color: white, $alpha: 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .action-button {
+    padding: 8px 22px;
+    border-radius: 16px;
+  }
+}

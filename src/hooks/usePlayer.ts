@@ -1,118 +1,141 @@
-import { useEffect, useState } from "react";
-import useSpotifyWebPlayer, {
-  SpotifyWebPlayerStatus,
-} from "./useSpotifyWebPlayer";
+import { useEffect } from "react";
 import useUser from "./useUser";
-import { playAlbum } from "@/utils/spotifyUtils";
+import { useDispatch } from "react-redux";
+import {
+  clearStatus,
+  setStatus,
+} from "@/lib/redux/playerInfo";
+import useSpotifyWebPlayer from "./useSpotifyWebPlayer";
 
-export type PlayerStatus =
-  | {
-      code: "UNAUTHENTICATED" | "UNAUTHORIZED";
-    }
-  | {
-      code: "WEB_PLAYER_UNAVAILABLE";
-      detail: SpotifyWebPlayerStatus;
-    };
-
-async function checkAuthorized(userId: string) {
+async function checkAuthorized() {
   const response = await fetch("/api/spotify/token");
-  const { status } = await response.json();
-  return status === "ok";
+  const json = await response.json();
+  const isAuthorized = json.status === "ok";
+  return isAuthorized;
 }
 
 const usePlayer = () => {
-  const [status, setStatus] = useState<PlayerStatus | undefined>(undefined);
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const {
-    player,
-    deviceId,
-    isReady,
-    status: playerStatus,
-  } = useSpotifyWebPlayer();
-
   const user = useUser();
 
-  useEffect(() => {
-    if (user && player) {
-      player.connect();
-    }
-  }, [user, player]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (!user) {
-      setStatus({ code: "UNAUTHENTICATED" });
+      dispatch(setStatus("UNAUTHENTICATED"));
     } else {
       // 스포티파이 권환 허용 여부 확인
-      if (!checkAuthorized(user.id)) {
-        setStatus({ code: "UNAUTHORIZED" });
-      }
+      checkAuthorized().then((isAuthorized) => {
+        if (!isAuthorized) {
+          dispatch(setStatus("UNAUTHORIZED"));
+        } else {
+          dispatch(clearStatus());
+        }
+      });
     }
   }, [user]);
 
-  useEffect(() => {}, [playerStatus]);
+  const { player } = useSpotifyWebPlayer();
 
-  const startPlayingAlbum = async (albumUri: string, trackIdx?: number) => {
-    if (!deviceId || !isReady) {
-      return false;
-    }
-
-    try {
-      await playAlbum(deviceId, albumUri, trackIdx);
-      setIsPlaying(true);
-      return true;
-    } catch (error) {
-      console.error(error);
-      return false;
-    }
-  };
-
-  const pause = async () => {
+  useEffect(() => {
     if (!player) {
-      return false;
+      return;
     }
 
-    await player.pause();
-    setIsPlaying(false);
-    return true;
-  };
+    player.addListener("ready", ({ device_id }) => {
+      // ready 처리
+    });
 
-  const resume = async () => {
-    if (!player) {
-      return false;
-    }
+    player.addListener("not_ready", ({ device_id }) => {
+      // ready 처리
+    });
 
-    await player.resume();
-    setIsPlaying(true);
-    return true;
-  };
+    player.addListener("initialization_error", ({ message }) => {
+      // 브라우저 등 환경 문제
+      console.log("Failed to initialize:", message);
+      dispatch(setStatus("PLAYER_INITIALIZATION_ERROR"))
+    });
 
-  const skipToNext = async () => {
-    if (!player) {
-      return false;
-    }
+    player.addListener("authentication_error", ({ message }) => {
+      // 유효하지 않은 토큰 또는 토큰의 scope 문제
+      console.log("Failed to authenticate:", message);
+      dispatch(setStatus("INVALID_TOKEN"))
+    });
 
-    await player.nextTrack();
-    return true;
-  };
+    player.addListener("account_error", ({ message }) => {
+      // 스포티파이 프리미엄 계정이 아닌 경우
+      console.error("Failed to validate Spotify account:", message);
+      dispatch(setStatus("NOT_PREMIUM_ACCOUNT"))
+    });
 
-  const skipToPrev = async () => {
-    if (!player) {
-      return false;
-    }
+    player.addListener("playback_error", ({ message }) => {
+      // 노래 로딩 또는 재생 실패
+      console.error("Failed to perform playback:", message);
+      dispatch(setStatus("PLAYBACK_ERROR"))
+    });
+  }, [player]);
 
-    await player.previousTrack();
-    return true;
-  };
+  // const startPlayingAlbum = async (albumUri: string, trackIdx?: number) => {
+  //   if (!deviceId || !isReady) {
+  //     return false;
+  //   }
+
+  //   try {
+  //     await playAlbum(deviceId, albumUri, trackIdx);
+  //     setIsPlaying(true);
+  //     return true;
+  //   } catch (error) {
+  //     console.error(error);
+  //     return false;
+  //   }
+  // };
+
+  // const pause = async () => {
+  //   if (!player) {
+  //     return false;
+  //   }
+
+  //   await player.pause();
+  //   setIsPlaying(false);
+  //   return true;
+  // };
+
+  // const resume = async () => {
+  //   if (!player) {
+  //     return false;
+  //   }
+
+  //   await player.resume();
+  //   setIsPlaying(true);
+  //   return true;
+  // };
+
+  // const skipToNext = async () => {
+  //   if (!player) {
+  //     return false;
+  //   }
+
+  //   await player.nextTrack();
+  //   return true;
+  // };
+
+  // const skipToPrev = async () => {
+  //   if (!player) {
+  //     return false;
+  //   }
+
+  //   await player.previousTrack();
+  //   return true;
+  // };
 
   return {
-    status,
-    isPlaying,
-    startPlayingAlbum,
-    pause,
-    resume,
-    skipToNext,
-    skipToPrev
+    player,
+    // status,
+    // isPlaying,
+    // startPlayingAlbum,
+    // pause,
+    // resume,
+    // skipToNext,
+    // skipToPrev
   };
 };
 
