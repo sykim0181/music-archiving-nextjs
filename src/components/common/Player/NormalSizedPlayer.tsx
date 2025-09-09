@@ -45,7 +45,7 @@ const NormalSizedPlayer = ({ album, minimise }: NormalSizedPlayerProps) => {
           <ul className="track-list invisible_scroll">
             {album.tracks.map((track, idx) => (
               <li key={track.id} className="track-item">
-                <div>{idx + 1}</div>
+                <div className="track-item-index">{idx + 1}</div>
                 <div>{track.name}</div>
                 <div>{msToString(track.duration)}</div>
               </li>
