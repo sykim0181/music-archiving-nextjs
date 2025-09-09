@@ -1,13 +1,21 @@
 import "@/styles/Player.scss";
 import { useTypedSelector } from "@/lib/redux/store";
-import PlayerAlbumContents from "./PlayerContents";
 import PlayerOverlay from "./Overlay";
+import usePlayer from "@/hooks/usePlayer";
+import { useState } from "react";
+import AlbumPlayer from "./AlbumPlayer";
 
 const Player = () => {
-  const album = useTypedSelector((state) => state.playerInfo.album);
-  const isMinimised = useTypedSelector((state) => state.playerInfo.isMinimised);
+  const [isMinimised, setIsMinimised] = useState(false);
+  const contextType = useTypedSelector((state) => state.player.context.type);
 
-  if (!album) {
+  usePlayer();
+
+  const togglePlayerSize = () => {
+    setIsMinimised((prev) => !prev);
+  };
+
+  if (contextType === "none") {
     return <></>;
   }
 
@@ -17,7 +25,12 @@ const Player = () => {
         isMinimised ? "minimised" : "maximised"
       }`}
     >
-      <PlayerAlbumContents album={album} isMinimised={isMinimised} />
+      {contextType === "album" && (
+        <AlbumPlayer
+          isMinimised={isMinimised}
+          togglePlayerSize={togglePlayerSize}
+        />
+      )}
       <PlayerOverlay />
     </div>
   );

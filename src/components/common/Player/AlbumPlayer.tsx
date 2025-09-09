@@ -1,46 +1,70 @@
-import { Album, Track } from "@/types/common";
-import MusicPlayer from "./MusicPlayer";
-import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
-import { useMemo } from "react";
+import { AlbumWithTrack } from "@/types/common";
+import { getAlbum, getAlbumTracks } from "@/utils/musicUtils";
+import { useQuery } from "@tanstack/react-query";
+import BeatLoader from "react-spinners/BeatLoader";
+import AlbumPlayerContents from "./AlbumPlayerContents";
+import { useTypedSelector } from "@/lib/redux/store";
+import "@/styles/AlbumPlayer.scss";
 
 interface Props {
-  album: Album;
-  isMini: boolean;
+  isMinimised: boolean;
+  togglePlayerSize: () => void;
 }
 
-const AlbumPlayer = (props: Props) => {
-  const { album, isMini } = props;
+const AlbumPlayer = ({ isMinimised, togglePlayerSize }: Props) => {
+  const albumId = useTypedSelector((state) => {
+    const contextType = state.player.context.type;
+    if (contextType !== "album") {
+      throw new Error(
+        "Non-album typed context cannot be rendered by AlbumPlayer Component"
+      );
+    }
+    return state.player.context.id;
+  });
 
-  const { data, isError, isFetching } = useAlbumTracksQuery(album.id);
-
-  if (isFetching) {
-    console.log("fetching tracks of the album...");
-  }
+  const {
+    data: album,
+    isError,
+    isLoading,
+    refetch,
+  } = useQuery({
+    queryKey: [],
+    queryFn: async () => {
+      const album = await getAlbum(albumId);
+      const tracks = await getAlbumTracks(albumId);
+      const albumWithTrack: AlbumWithTrack = {
+        ...album,
+        tracks,
+      };
+      return albumWithTrack;
+    },
+    staleTime: Infinity,
+  });
 
   if (isError) {
-    console.log("error occured while fetching tracks of the album!");
+    <div className="center_parent error-container">
+      <p>에러가 발생했습니다.</p>
+      <button className="bg_black action-button" onClick={() => refetch()}>
+        다시 시도
+      </button>
+    </div>;
   }
 
-  const trackList: Track[] = useMemo(
-    () =>
-      data
-        ? data.map((track) => ({
-            ...track,
-            album: {
-              id: album.id,
-              name: album.name,
-              imageUrl: album.imageUrl,
-            },
-          }))
-        : [],
-    [data]
+  if (isLoading || album === undefined) {
+    return (
+      <div className="center_parent">
+        <BeatLoader size={10} color="#000000" />
+      </div>
+    );
+  }
+
+  return (
+    <AlbumPlayerContents
+      album={album}
+      isMinimised={isMinimised}
+      togglePlayerSize={togglePlayerSize}
+    />
   );
-
-  if (!data) {
-    return <></>;
-  }
-
-  return <MusicPlayer trackList={trackList} isMini={isMini} />;
 };
 
 export default AlbumPlayer;

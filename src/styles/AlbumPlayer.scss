@@ -1,3 +1,92 @@
+.mini-sized-player {
+  width: 100%;
+  height: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+
+  .left-part {
+    display: flex;
+    justify-content: start;
+    gap: 16px;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .album-cover-container {
+    height: 100%;
+    aspect-ratio: 1;
+    border-radius: 20px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .album-info {
+    width: 100%;
+    overflow: hidden;
+
+    p {
+      display: block;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      line-clamp: 1;
+      word-break: break-all;
+    }
+  }
+
+  .right-part {
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+    position: relative;
+  }
+
+  .button-group {
+    display: flex;
+    gap: 12px;
+    height: fit-content;
+    margin: auto 0;
+  }
+
+  .previous-button {
+    font-size: 24px;
+  }
+
+  .play-button {
+    font-size: 28px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+  }
+
+  .next-button {
+    font-size: 24px;
+  }
+
+  .player-menu {
+    display: flex;
+    gap: 12px;
+    align-items: start;
+
+    button {
+      opacity: 60%;
+
+      &:hover {
+        opacity: 100%;
+      }
+    }
+  }
+}
+
 #normal_album_player {
   display: flex;
   gap: 40px;
@@ -19,7 +108,7 @@
       opacity: 60%;
 
       &:hover {
-        opacity: 100%
+        opacity: 100%;
       }
     }
   }
@@ -106,36 +195,5 @@
 
   .track_list_container {
     height: calc(100% - 50px);
-  }
-
-  /* Alert */
-  .alert_container {
-    flex-direction: column;
-  }
-
-  .alert_message {
-    font-size: 18px;
-  }
-
-  .alert_button_group {
-    display: flex;
-    gap: 10px;
-
-    & button {
-      padding: 15px 30px;
-      border-radius: 15px;
-      font-size: 16px;
-    }
-  }
-
-  .signin_button {
-    color: white;
-  }
-
-  .return_button {
-  }
-
-  .error_icon {
-    font-size: 35px;
   }
 }

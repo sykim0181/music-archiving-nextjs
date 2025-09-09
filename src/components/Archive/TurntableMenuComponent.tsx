@@ -13,6 +13,7 @@ import {
 } from "@/utils/storage";
 import { setAlbumToPlay } from "@/lib/redux/playerInfo";
 import { useTypedSelector } from "@/lib/redux/store";
+import { setContext } from "@/lib/redux/playerSlice";
 
 interface MenuProp {
   showMenu: boolean;
@@ -51,7 +52,7 @@ const TurntableMenuComponent = (prop: MenuProp) => {
     if (selectedAlbum === null) {
       return;
     }
-    console.log("앨범 play: ", selectedAlbum);
+    dispatch(setContext({ type: "album", id: selectedAlbum.id }));
     dispatch(setAlbumToPlay(selectedAlbum));
     storeAlbumToPlayInSessionStorage(selectedAlbum);
   };
