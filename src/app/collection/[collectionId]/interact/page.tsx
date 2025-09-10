@@ -2,7 +2,6 @@
 // import { useLoader } from "@react-three/fiber";
 
 import "./page.scss";
-import MainLayout from "@/layouts/MainLayout";
 import CollectionInteraction from "@/components/Collection/CollectionInteraction";
 import {
   dehydrate,
@@ -32,11 +31,9 @@ const Page = async ({
   });
 
   return (
-    <MainLayout>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <CollectionInteraction collectionId={collectionId} />
-      </HydrationBoundary>
-    </MainLayout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CollectionInteraction collectionId={collectionId} />
+    </HydrationBoundary>
   );
 };
 

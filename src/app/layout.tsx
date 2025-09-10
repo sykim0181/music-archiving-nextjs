@@ -6,6 +6,7 @@ import SupabaseAuthProvider from "@/lib/supabase/SupabaseAuthProvider";
 import { freesentation } from "./fonts";
 import QueryClientContextProvider from "@/components/QueryClientContextProvider";
 import Head from "next/head";
+import MainLayout from "@/components/layouts/MainLayout";
 
 export const metadata: Metadata = {
   title: "Music-Archiving",
@@ -25,7 +26,9 @@ export default function RootLayout({
       <body className={freesentation.className} style={{ margin: 0 }}>
         <QueryClientContextProvider>
           <Providers>
-            <SupabaseAuthProvider>{children}</SupabaseAuthProvider>
+            <SupabaseAuthProvider>
+              <MainLayout>{children}</MainLayout>
+            </SupabaseAuthProvider>
           </Providers>
         </QueryClientContextProvider>
       </body>

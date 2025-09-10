@@ -1,5 +1,4 @@
 import "./page.scss";
-import MainLayout from "@/layouts/MainLayout";
 import CollectionContents from "@/components/Collection/CollectionContents";
 import {
   dehydrate,
@@ -26,11 +25,9 @@ const Page = async ({
   });
 
   return (
-    <MainLayout>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <CollectionContents collectionId={collectionId} />
-      </HydrationBoundary>
-    </MainLayout>
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <CollectionContents collectionId={collectionId} />
+    </HydrationBoundary>
   );
 };
 
