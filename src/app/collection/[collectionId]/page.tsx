@@ -5,9 +5,9 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { getCollection } from "@/utils/supabase";
 import { getCollectionQueryKey } from "@/hooks/useCollectionQuery";
 import { createClient } from "@/utils/supabase/server";
+import { getCollection } from "@/utils/collectionUtils";
 
 const Page = async ({
   params,

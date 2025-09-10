@@ -1,4 +1,4 @@
-import { getUserCollections } from "@/utils/supabase";
+import { getUserCollections } from "@/utils/collectionUtils";
 import { createClient } from "@/utils/supabase/client";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
