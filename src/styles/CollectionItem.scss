@@ -14,6 +14,7 @@
   & img {
     position: relative !important;
     aspect-ratio: 1;
+    user-select: none;
   }
 
   & .blank {

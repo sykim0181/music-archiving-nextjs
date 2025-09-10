@@ -1,14 +1,14 @@
 "use client";
 
-import { Collection } from "@/types/common";
+import { CollectionItemType } from "@/types/common";
 import CollectionItem from "./CollectionItem";
 import Loading from "../common/Loading";
 import { useInView } from "react-intersection-observer";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 
 interface CollectionListContainerProps {
-  queryResult: UseInfiniteQueryResult<InfiniteData<Collection[]>>;
+  queryResult: UseInfiniteQueryResult<InfiniteData<CollectionItemType[]>>;
   dummyLength: number;
 }
 
@@ -19,7 +19,7 @@ const CollectionListContainer = ({
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = queryResult;
   const [ref, inView] = useInView();
 
-  const collections = data?.pages.flat();
+  const collectionItems = useMemo(() => data?.pages.flat(), [data])
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -27,7 +27,7 @@ const CollectionListContainer = ({
     }
   }, [inView, hasNextPage, fetchNextPage]);
 
-  if (collections === undefined) {
+  if (collectionItems === undefined) {
     return (
       <div className="collection_list_container">
         {Array.from({ length: dummyLength }).map((_, idx) => (
@@ -46,8 +46,8 @@ const CollectionListContainer = ({
   return (
     <>
       <div className="collection_list_container">
-        {collections.map((collection) => (
-          <CollectionItem key={collection.id} collection={collection} />
+        {collectionItems.map((collectionItem) => (
+          <CollectionItem key={collectionItem.collection.id} collectionItem={collectionItem} />
         ))}
       </div>
 

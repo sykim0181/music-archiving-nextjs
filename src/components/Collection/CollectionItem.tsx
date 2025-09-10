@@ -1,20 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import "@/styles/CollectionItem.scss";
-import { Collection, CollectionRepAlbum } from "@/types/common";
-import { useQuery } from "@tanstack/react-query";
-import { getCollectionRepresentativeAlbums } from "@/utils/collectionUtils";
+import { CollectionItemType, CollectionRepAlbum } from "@/types/common";
 
 interface Props {
-  collection: Collection;
+  collectionItem: CollectionItemType;
 }
 
-const CollectionItem = ({ collection }: Props) => {
-  const { data } = useQuery({
-    queryKey: ["collection-representative-albums", collection.id],
-    queryFn: () => getCollectionRepresentativeAlbums(collection.list_album_id),
-    staleTime: 1000 * 60 * 5,
-  });
+const CollectionItem = ({ collectionItem }: Props) => {
+  const { collection, repAlbums } = collectionItem;
 
   const getCollectionImageElements = (albums: CollectionRepAlbum[]) => {
     if (albums.length === 0) {
@@ -74,26 +68,21 @@ const CollectionItem = ({ collection }: Props) => {
     return Array.from(set).join(", ");
   };
 
-  return data ? (
+  return (
     <Link className="collection_item" href={`collection/${collection.id}`}>
       <div
         className={`collection_item_image ${
-          data.length <= 1 ? "one-image" : "four-images"
+          repAlbums.length <= 1 ? "one-image" : "four-images"
         }`}
       >
-        {getCollectionImageElements(data)}
+        {getCollectionImageElements(repAlbums)}
       </div>
 
       <div className="collection_item_description">
         <p className="collection_item_title">{collection.title}</p>
-        <p className="collection_item_artist">{getArtistString(data)}</p>
+        <p className="collection_item_artist">{getArtistString(repAlbums)}</p>
       </div>
     </Link>
-  ) : (
-    <div className="collection_skeleton_item">
-      <div className="collection_skeleton_image" />
-      <div className="collection_skeleton_description" />
-    </div>
   );
 };
 

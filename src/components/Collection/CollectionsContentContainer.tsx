@@ -1,10 +1,10 @@
 "use client";
 
-import usePublicCollectionsQuery from "@/hooks/usePublicCollectionsQuery";
 import useUser from "@/hooks/useUser";
 import { useMemo, useState } from "react";
 import CollectionListContainer from "./CollectionListContainer";
-import useUserCollectionsQuery from "@/hooks/useUserCollectionsQuery";
+import usePublicCollectionItemsQuery from "@/hooks/usePublicCollectionItemsQuery";
+import useUserCollectionItemsQuery from "@/hooks/useUserCollectionItemsQuery";
 
 type Category = "PUBLIC" | "USER";
 
@@ -73,7 +73,7 @@ interface ListProps {
 }
 
 const PublicCollectionList = ({ limit }: ListProps) => {
-  const queryResult = usePublicCollectionsQuery({ limit });
+  const queryResult = usePublicCollectionItemsQuery({ limit });
   return (
     <CollectionListContainer queryResult={queryResult} dummyLength={limit} />
   );
@@ -84,7 +84,7 @@ interface UserCollectionListProps extends ListProps {
 }
 
 const UserCollectionList = ({ limit, userId }: UserCollectionListProps) => {
-  const queryResult = useUserCollectionsQuery({ userId, limit });
+  const queryResult = useUserCollectionItemsQuery({ userId, limit });
   return (
     <CollectionListContainer queryResult={queryResult} dummyLength={limit} />
   );
