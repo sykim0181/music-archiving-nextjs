@@ -1,6 +1,3 @@
-// import { TextureLoader } from "three";
-// import { useLoader } from "@react-three/fiber";
-
 import "./page.scss";
 import CollectionInteraction from "@/components/Collection/CollectionInteraction";
 import {
@@ -11,9 +8,6 @@ import {
 import { getCollectionQueryKey } from "@/hooks/useCollectionQuery";
 import { getCollection } from "@/utils/supabase";
 import { createClient } from "@/utils/supabase/server";
-
-// useLoader.preload(TextureLoader, "/vinyl-black.png");
-// useLoader.preload(TextureLoader, "/turntable.png");
 
 const Page = async ({
   params,

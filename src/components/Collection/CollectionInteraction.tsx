@@ -3,6 +3,11 @@
 import SyncLoader from "react-spinners/SyncLoader";
 import InterativeAlbums from "../common/InteractiveAlbums";
 import useCollectionAlbums from "@/hooks/useCollectionAlbums";
+import { TextureLoader } from "three";
+import { useLoader } from "@react-three/fiber";
+
+useLoader.preload(TextureLoader, "/vinyl-black.png");
+useLoader.preload(TextureLoader, "/turntable.png");
 
 interface CollectionInteractionProps {
   collectionId: string;
