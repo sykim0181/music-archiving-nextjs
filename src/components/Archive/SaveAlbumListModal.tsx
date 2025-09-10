@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useContext, useState } from "react";
+import { FormEvent, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
@@ -10,16 +10,16 @@ import PopUpModal from "../common/PopUpModal";
 import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
 import Loading from "../common/Loading";
 import { clearModal } from "@/lib/redux/modalInfo";
-import { clearAlbumListInSessionStorage } from "@/utils/storage";
+import useSaveCollectionMutation from "@/hooks/useSaveCollectionMutation";
 
 const SaveAlbumListModal = () => {
-  const [isSaving, setIsSaving] = useState(false);
-
   const sessionContext = useContext(SessionContext);
 
   const archivedAlbumList = useTypedSelector(
     (state) => state.archivedAlbumList.list
   );
+
+  const { mutate, isPending } = useSaveCollectionMutation();
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -33,7 +33,7 @@ const SaveAlbumListModal = () => {
 
     const formData = new FormData(e.currentTarget);
     const title = formData.get("title");
-    if (title === null || title === "") {
+    if (title === null || title.toString() === "") {
       alert("제목을 입력해주세요.");
       return false;
     }
@@ -42,30 +42,19 @@ const SaveAlbumListModal = () => {
       return false;
     }
 
-    setIsSaving(true);
     const isPublic = formData.get("isPublic") === null ? false : true;
     const albumIdList = archivedAlbumList.map((album) => album.id);
     const userId = sessionContext.session.user.id;
-    const response = await fetch("/api/collection", {
-      method: "POST",
-      body: JSON.stringify({
-        title,
-        isPublic,
-        albumIdList,
-        userId,
-      }),
+
+    mutate({ title: title.toString(), isPublic, albumIdList, userId }, {
+      onSuccess: (data) => {
+        closeModal();
+        router.push(`/collection/${data.id}`);
+      },
+      onError: () => {
+        alert("저장에 실패하였습니다.");
+      }
     });
-    setIsSaving(false);
-    const data = await response.json();
-    if (response.status !== 200) {
-      console.log("저장 실패:", data.error);
-      alert("저장에 실패하였습니다.");
-    } else {
-      alert("저장 완료!");
-      closeModal();
-      clearAlbumListInSessionStorage();
-      router.push(`/collection/${data.collection.id}`);
-    }
   };
 
   return (
@@ -100,7 +89,7 @@ const SaveAlbumListModal = () => {
             </div>
           </form>
 
-          {isSaving && (
+          {isPending && (
             <div className="is_saving">
               <Loading size={50} />
               <p className="save_message">저장 중...</p>
