@@ -27,6 +27,10 @@
   .sample-list {
     grid-template-columns: repeat(4, 1fr);
   }
+
+  .hide-by-viewport {
+    display: none;
+  }
 }
 
 @include commonStyle.desktop {
@@ -40,6 +44,10 @@
 
   .sample-list {
     grid-template-columns: repeat(5, 1fr);
+  }
+
+  .hide-by-viewport {
+    display: none;
   }
 }
 
@@ -85,9 +93,7 @@
   margin-left: calc(var(--base-size) * var(--margin-factor));
   margin-right: calc(var(--base-size) * var(--margin-factor));
   margin-bottom: calc(var(--base-size) * var(--margin-factor));
-  box-shadow: 
-    0 10px 25px rgba(0, 0, 0, 0.25),
-    0 10px 10px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 
   opacity: 0;
   animation: appear 1s ease-in-out forwards;
