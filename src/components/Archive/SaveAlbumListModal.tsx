@@ -46,7 +46,7 @@ const SaveAlbumListModal = () => {
     const isPublic = formData.get("isPublic") === null ? false : true;
     const albumIdList = archivedAlbumList.map((album) => album.id);
     const userId = sessionContext.session.user.id;
-    const response = await fetch("/api/save-album-list", {
+    const response = await fetch("/api/collection", {
       method: "POST",
       body: JSON.stringify({
         title,
