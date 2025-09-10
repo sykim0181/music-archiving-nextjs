@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 
 import "./globals.scss";
-import Providers from "@/lib/redux/Providers";
-import SupabaseAuthProvider from "@/lib/supabase/SupabaseAuthProvider";
+import ReduxStoreProvider from "@/components/providers/ReduxStoreProvider";
+import SupabaseAuthProvider from "@/components/providers/SupabaseAuthProvider";
 import { freesentation } from "./fonts";
-import QueryClientContextProvider from "@/components/QueryClientContextProvider";
+import QueryClientContextProvider from "@/components/providers/QueryClientContextProvider";
 import Head from "next/head";
 import MainLayout from "@/components/layouts/MainLayout";
 
@@ -25,11 +25,11 @@ export default function RootLayout({
       </Head>
       <body className={freesentation.className} style={{ margin: 0 }}>
         <QueryClientContextProvider>
-          <Providers>
+          <ReduxStoreProvider>
             <SupabaseAuthProvider>
               <MainLayout>{children}</MainLayout>
             </SupabaseAuthProvider>
-          </Providers>
+          </ReduxStoreProvider>
         </QueryClientContextProvider>
       </body>
     </html>

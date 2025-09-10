@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import "@/styles/SaveAlbumListModal.scss";
 import { useTypedSelector } from "@/lib/redux/store";
 import PopUpModal from "../common/PopUpModal";
-import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
+import { SessionContext } from "@/components/providers/SupabaseAuthProvider";
 import Loading from "../common/Loading";
 import { clearModal } from "@/lib/redux/modalInfo";
 import useSaveCollectionMutation from "@/hooks/useSaveCollectionMutation";
@@ -46,15 +46,18 @@ const SaveAlbumListModal = () => {
     const albumIdList = archivedAlbumList.map((album) => album.id);
     const userId = sessionContext.session.user.id;
 
-    mutate({ title: title.toString(), isPublic, albumIdList, userId }, {
-      onSuccess: (data) => {
-        closeModal();
-        router.push(`/collection/${data.id}`);
-      },
-      onError: () => {
-        alert("저장에 실패하였습니다.");
+    mutate(
+      { title: title.toString(), isPublic, albumIdList, userId },
+      {
+        onSuccess: (data) => {
+          closeModal();
+          router.push(`/collection/${data.id}`);
+        },
+        onError: () => {
+          alert("저장에 실패하였습니다.");
+        },
       }
-    });
+    );
   };
 
   return (

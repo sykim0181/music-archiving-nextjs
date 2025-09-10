@@ -1,4 +1,4 @@
-import { SessionContext } from "@/lib/supabase/SupabaseAuthProvider";
+import { SessionContext } from "@/components/providers/SupabaseAuthProvider";
 import { useContext } from "react";
 
 const useUser = () => {
