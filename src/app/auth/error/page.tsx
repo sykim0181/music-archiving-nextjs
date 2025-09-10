@@ -11,11 +11,12 @@ type ErrorCode = keyof typeof MESSAGE;
 const UNKNOWN_ERROR_MSG = "알 수 없는 에러. 나중에 다시 시도하세요.";
 
 const Page = async ({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ error_code: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) => {
-  const { error_code } = await params;
+  const error_code = (await searchParams).error_code as string;
+  console.log("error_code:", error_code)
 
   const isDefinedErrorCode = (code: string): code is ErrorCode =>
     code in MESSAGE;
@@ -26,7 +27,7 @@ const Page = async ({
 
   return (
     <MainLayout>
-      <div className="center_screen">
+      <div className="center_parent">
         <p>{msg}</p>
       </div>
     </MainLayout>
