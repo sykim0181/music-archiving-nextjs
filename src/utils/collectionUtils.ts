@@ -22,13 +22,14 @@ export async function getCollection(
 export async function getPublicCollections(
   client: SupabaseClient,
   from: number,
-  to: number
+  to: number,
+  ascending = false
 ): Promise<Collection[]> {
   const { data, error } = await client
     .from("collection-album-list")
     .select()
     .eq("is_public", true)
-    .order("created_at")
+    .order("created_at", { ascending })
     .range(from, to);
 
   if (error) {
@@ -42,13 +43,14 @@ export async function getUserCollections(
   client: SupabaseClient,
   userId: string,
   from: number,
-  to: number
+  to: number,
+  ascending = false
 ) {
   const { data, error } = await client
     .from("collection-album-list")
     .select()
     .eq("user_id", userId)
-    .order("created_at")
+    .order("created_at", { ascending })
     .range(from, to);
 
   if (error) {
