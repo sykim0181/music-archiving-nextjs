@@ -24,6 +24,7 @@ export async function GET(request: NextRequest) {
     is_playable: track.is_playable,
     name: track.name,
     uri: track.uri,
+    spotify_url: track.external_urls.spotify,
   }));
   return NextResponse.json({ tracks }, { status: 200 });
 }

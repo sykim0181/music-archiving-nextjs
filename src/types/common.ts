@@ -8,6 +8,7 @@ export type Album = {
   artists: string[];
   uri: string;
   releaseDate: string;
+  spotify_url: string;
 };
 
 export type Track = {

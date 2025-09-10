@@ -1,13 +1,14 @@
 import { useMemo } from "react";
 import Image from "next/image";
 import { useDispatch } from "react-redux";
-
 import styles from "@/styles/AlbumInfoModal.module.scss";
 import { Album } from "@/types/common";
 import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
 import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
 import BeatLoader from "react-spinners/BeatLoader";
+import Link from "next/link";
+import { AiOutlineSpotify } from "react-icons/ai";
 
 export interface AlbumInfoModalProps {
   album: Album;
@@ -48,6 +49,13 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
               <p className={styles.name_track}>{track.name}</p>
               <p className={styles.artist_track}>{track.artists.join(", ")}</p>
             </div>
+            <Link
+              className={styles.spotify_icon_button}
+              href={track.spotify_url}
+              target="_blank"
+            >
+              <AiOutlineSpotify />
+            </Link>
           </li>
         ))}
       </ul>
@@ -74,9 +82,18 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
         </div>
       </div>
 
-      <div className={`${styles.track_container} invisible_scroll`}>{trackListElements}</div>
+      <div className={`${styles.track_container} invisible_scroll`}>
+        {trackListElements}
+      </div>
 
       <div className="modal_button_container">
+        <Link
+          className={`modal_button bg_spotify ${styles.link_button}`}
+          href={album.spotify_url}
+          target="_blank"
+        >
+          링크
+        </Link>
         <button onClick={closeModal} className="modal_button bg_black">
           닫기
         </button>

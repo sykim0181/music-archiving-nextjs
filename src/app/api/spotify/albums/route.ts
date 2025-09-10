@@ -26,6 +26,7 @@ export async function GET(request: NextRequest) {
     artists: album.artists.map((artist) => artist.name),
     uri: album.uri,
     releaseDate: album.release_date,
+    spotify_url: album.external_urls.spotify,
   }));
   return NextResponse.json({ albums }, { status: 200 });
 }

@@ -7,6 +7,7 @@ export type TAlbumTrackResponse = {
   is_playable: boolean;
   name: string;
   uri: string;
+  spotify_url: string;
 };
 
 export type PlaybackResponse = {
