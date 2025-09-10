@@ -1,33 +1,24 @@
 import { useMemo } from "react";
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import styles from "@/styles/AlbumInfoModal.module.scss";
 import { Album } from "@/types/common";
-import PopUpModal from "./PopUpModal";
-import { clearModal } from "@/lib/redux/modalInfo";
 import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
 import BeatLoader from "react-spinners/BeatLoader";
 import Link from "next/link";
 import { AiOutlineSpotify } from "react-icons/ai";
+import Modal from "./Modal";
 
 export interface AlbumInfoModalProps {
   album: Album;
+  closeModal: () => void;
 }
 
-const AlbumInfoModal = (props: AlbumInfoModalProps) => {
-  const { album } = props;
-
-  const dispatch = useDispatch();
-
+const AlbumInfoModal = ({ album, closeModal }: AlbumInfoModalProps) => {
   const {
     data: trackList,
     isError,
     isFetching,
   } = useAlbumTracksQuery(album.id);
-
-  const closeModal = () => {
-    dispatch(clearModal());
-  };
 
   const trackListElements = useMemo(() => {
     if (isError) {
@@ -63,7 +54,7 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
   }, [isError, isFetching, trackList]);
 
   return (
-    <PopUpModal title={album.name} className={styles.album_info_modal}>
+    <Modal title={album.name} className={styles.album_info_modal}>
       <div className={styles.album_info}>
         <Image src={album.imageUrl} width={100} height={100} alt={album.name} />
         <div className={styles.album_description}>
@@ -98,7 +89,7 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
           닫기
         </button>
       </div>
-    </PopUpModal>
+    </Modal>
   );
 };
 

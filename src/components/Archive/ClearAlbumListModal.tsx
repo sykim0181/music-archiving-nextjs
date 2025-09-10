@@ -3,21 +3,22 @@
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import Image from "next/image";
-
 import styles from "@/styles/ClearAlbumListModal.module.scss";
-import PopUpModal from "../common/PopUpModal";
 import { setAlbumList } from "@/lib/redux/archivedAlbumList";
-import { storeAlbumListInSessionStorage } from "@/utils/storage";
-import { clearModal } from "@/lib/redux/modalInfo";
-import { useTypedSelector } from "@/lib/redux/store";
 import { Album } from "@/types/common";
+import { useTypedSelector } from "@/lib/redux/store";
+import Modal from "../common/Modal";
 
 type ItemType = {
   album: Album;
   selected: boolean;
 };
 
-const ClearAlbumListModal = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+const ClearAlbumListModal = ({ closeModal }: Props) => {
   const archivedAlbumList = useTypedSelector(
     (state) => state.archivedAlbumList.list
   );
@@ -33,10 +34,6 @@ const ClearAlbumListModal = () => {
   });
 
   const dispatch = useDispatch();
-
-  const closeModal = () => {
-    dispatch(clearModal());
-  };
 
   const selectAll = () => {
     const items: ItemType[] = archivedAlbumList.map((album) => {
@@ -57,9 +54,7 @@ const ClearAlbumListModal = () => {
     });
 
     dispatch(setAlbumList(newList));
-    storeAlbumListInSessionStorage(newList);
-
-    dispatch(clearModal());
+    closeModal();
   };
 
   const onClickItem = (item: ItemType, idx: number) => {
@@ -69,7 +64,7 @@ const ClearAlbumListModal = () => {
   };
 
   return (
-    <PopUpModal title="EDIT THE LIST" className={styles.clear_album_list_modal}>
+    <Modal title="EDIT THE LIST" className={styles.clear_album_list_modal}>
       <button className={styles.clear_button} onClick={selectAll}>
         전체 선택
       </button>
@@ -110,7 +105,7 @@ const ClearAlbumListModal = () => {
           취소
         </button>
       </div>
-    </PopUpModal>
+    </Modal>
   );
 };
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { IoMdClose } from "react-icons/io";
 import { IoMenu } from "react-icons/io5";
 import { MdOutlineSaveAlt, MdPlaylistRemove } from "react-icons/md";
-
+import SaveAlbumListModal from "./SaveAlbumListModal";
+import ClearAlbumListModal from "./ClearAlbumListModal";
+import { Album } from "@/types/common";
 import { useTypedSelector } from "@/lib/redux/store";
-import { setModal } from "@/lib/redux/modalInfo";
 
 const FloatingButtons = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -14,40 +14,14 @@ const FloatingButtons = () => {
     (state) => state.archivedAlbumList.list.length > 0
   );
 
-  const dispatch = useDispatch();
-
   const toggleShowMenu = () => {
     setShowMenu(!showMenu);
   };
 
-  const onClickSaveButton = () => {
-    dispatch(
-      setModal({
-        modalType: "save_album",
-      })
-    );
-  };
-
-  const onClickRemoveButton = () => {
-    dispatch(
-      setModal({
-        modalType: "clear_album_list",
-      })
-    );
-  };
-
   return showMenu ? (
     <>
-      {hasAlbum && (
-        <button onClick={onClickRemoveButton}>
-          <MdPlaylistRemove />
-        </button>
-      )}
-      {hasAlbum && (
-        <button onClick={onClickSaveButton}>
-          <MdOutlineSaveAlt />
-        </button>
-      )}
+      {hasAlbum && <ClearAlbumListButton />}
+      {hasAlbum && <SaveButton />}
       <button onClick={toggleShowMenu}>
         <IoMdClose />
       </button>
@@ -56,6 +30,34 @@ const FloatingButtons = () => {
     <button onClick={toggleShowMenu}>
       <IoMenu />
     </button>
+  );
+};
+
+const SaveButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>
+        <MdOutlineSaveAlt />
+      </button>
+
+      {isOpen && <SaveAlbumListModal closeModal={() => setIsOpen(false)} />}
+    </>
+  );
+};
+
+const ClearAlbumListButton = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <button onClick={() => setIsOpen(true)}>
+        <MdPlaylistRemove />
+      </button>
+
+      {isOpen && <ClearAlbumListModal closeModal={() => setIsOpen(false)} />}
+    </>
   );
 };
 

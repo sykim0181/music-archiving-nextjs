@@ -1,11 +1,10 @@
 import Image from "next/image";
-import { useDispatch } from "react-redux";
 import SyncLoader from "react-spinners/SyncLoader";
-
-import { setModal } from "@/lib/redux/modalInfo";
 import { Album, Collection } from "@/types/common";
 import Carousel from "../common/Carousel";
 import useCollectionAlbums from "@/hooks/useCollectionAlbums";
+import { useState } from "react";
+import AlbumInfoModal from "../common/AlbumInfoModal";
 
 interface CollectionAlbumListContentProps {
   collection: Collection;
@@ -14,9 +13,8 @@ interface CollectionAlbumListContentProps {
 const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
   const { collection } = props;
 
-  const dispatch = useDispatch();
-
   const { albums, isError, isFetching } = useCollectionAlbums(collection.id);
+  const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
 
   if (isError) {
     return <p>앨범 목록을 불러오는데 실패했습니다.</p>;
@@ -31,12 +29,7 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
   }
 
   const onClickAlbumItem = (album: Album) => {
-    dispatch(
-      setModal({
-        modalType: "album_info",
-        modalProp: { album },
-      })
-    );
+    setSelectedAlbum(album);
   };
 
   return (
@@ -51,6 +44,7 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
 
       <p className="list_album_text">앨범 목록</p>
       <div className="page_sub_divider" />
+
       <ul className="list_album">
         {albums.map((album, idx) => {
           if (album === undefined) {
@@ -87,6 +81,13 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
           );
         })}
       </ul>
+
+      {selectedAlbum && (
+        <AlbumInfoModal
+          album={selectedAlbum}
+          closeModal={() => setSelectedAlbum(null)}
+        />
+      )}
     </>
   );
 };

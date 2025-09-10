@@ -1,18 +1,16 @@
 "use client";
 
-import { useMemo } from "react";
-import { useDispatch } from "react-redux";
+import { useState } from "react";
 import { RxPlus } from "react-icons/rx";
-
 import styles from "@/styles/InteractiveAlbums.module.scss";
 import { Album } from "@/types/common";
 import LpComponent from "../common/LpComponent";
 import LpVinyl from "../common/LpVinyl";
-import { setModal } from "@/lib/redux/modalInfo";
 import { LIMIT_NUM_ALBUM } from "@/constants";
 import useInteractiveAlbums from "@/hooks/useInteractiveAlbums";
 import FloatingButtons from "../Archive/FloatingButtons";
 import BottomArea from "../Archive/BottomArea";
+import AddAlbumModal from "../Archive/AddAlbumModal/AddAlbumModal";
 
 interface InterativeAlbumsProps {
   albumList: Album[];
@@ -21,8 +19,6 @@ interface InterativeAlbumsProps {
 
 const InterativeAlbums = (props: InterativeAlbumsProps) => {
   const { albumList, isEditable } = props;
-
-  const dispatch = useDispatch();
 
   const {
     floatingVinylRef,
@@ -37,38 +33,6 @@ const InterativeAlbums = (props: InterativeAlbumsProps) => {
     selectedAlbum,
   } = useInteractiveAlbums();
 
-  const AlbumList = useMemo(() => {
-    const onClickAddSongBtn = () => {
-      if (albumList.length > LIMIT_NUM_ALBUM) {
-        return;
-      }
-      dispatch(
-        setModal({
-          modalType: "add_album",
-        })
-      );
-    };
-
-    return (
-      <div className={`${styles.list_lp} invisible_scroll`}>
-        {albumList.map((album) => (
-          <LpComponent
-            key={album.id}
-            album={album}
-            className={styles.list_lp_item}
-          />
-        ))}
-        {isEditable && (
-          <div className={styles.list_lp_item} onClick={onClickAddSongBtn}>
-            <div className={styles.add_album_button}>
-              <RxPlus />
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }, [albumList, isEditable, dispatch]);
-
   return (
     <div
       className={styles.container}
@@ -79,7 +43,18 @@ const InterativeAlbums = (props: InterativeAlbumsProps) => {
       onTouchEnd={handleTouchEnd}
     >
       <div className={styles.content}>
-        {AlbumList}
+        <div className={`${styles.list_lp} invisible_scroll`}>
+          {albumList.map((album) => (
+            <LpComponent
+              key={album.id}
+              album={album}
+              className={styles.list_lp_item}
+            />
+          ))}
+          {isEditable && albumList.length <= LIMIT_NUM_ALBUM && (
+            <AddAlbumComponent />
+          )}
+        </div>
 
         <div className={styles.blur} />
 
@@ -109,6 +84,22 @@ const InterativeAlbums = (props: InterativeAlbumsProps) => {
         </div>
       )}
     </div>
+  );
+};
+
+const AddAlbumComponent = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      <div className={styles.list_lp_item} onClick={() => setIsOpen(true)}>
+        <div className={styles.add_album_button}>
+          <RxPlus />
+        </div>
+      </div>
+
+      {isOpen && <AddAlbumModal closeModal={() => setIsOpen(false)} />}
+    </>
   );
 };
 

@@ -1,18 +1,20 @@
 "use client";
 
 import { FormEvent, useContext } from "react";
-import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 import "@/styles/SaveAlbumListModal.scss";
-import { useTypedSelector } from "@/lib/redux/store";
-import PopUpModal from "../common/PopUpModal";
 import { SessionContext } from "@/components/providers/SupabaseAuthProvider";
 import Loading from "../common/Loading";
-import { clearModal } from "@/lib/redux/modalInfo";
 import useSaveCollectionMutation from "@/hooks/useSaveCollectionMutation";
+import Modal from "../common/Modal";
+import { useTypedSelector } from "@/lib/redux/store";
 
-const SaveAlbumListModal = () => {
+interface Props {
+  closeModal: () => void;
+}
+
+const SaveAlbumListModal = ({ closeModal }: Props) => {
   const sessionContext = useContext(SessionContext);
 
   const archivedAlbumList = useTypedSelector(
@@ -21,12 +23,7 @@ const SaveAlbumListModal = () => {
 
   const { mutate, isPending } = useSaveCollectionMutation();
 
-  const dispatch = useDispatch();
   const router = useRouter();
-
-  const closeModal = () => {
-    dispatch(clearModal());
-  };
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -61,7 +58,7 @@ const SaveAlbumListModal = () => {
   };
 
   return (
-    <PopUpModal className="save_album_list_modal" title="SAVE THE LIST">
+    <Modal className="save_album_list_modal" title="SAVE THE LIST">
       {sessionContext.session ? (
         <>
           <form onSubmit={onSubmit}>
@@ -112,7 +109,7 @@ const SaveAlbumListModal = () => {
           </div>
         </>
       )}
-    </PopUpModal>
+    </Modal>
   );
 };
 

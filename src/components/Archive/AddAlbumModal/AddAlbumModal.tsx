@@ -7,13 +7,11 @@ import Image from "next/image";
 import styles from "@/styles/AddAlbumModal.module.scss";
 import { addAlbum } from "@/lib/redux/archivedAlbumList";
 import { Album } from "@/types/common";
-import { addAlbumInSessionStorage } from "@/utils/storage";
-import PopUpModal from "../../common/PopUpModal";
 import AddAlbumSearchResult from "./AddAlbumSearchResult";
 import useDebounce from "@/hooks/useDebounce";
-import { clearModal } from "@/lib/redux/modalInfo";
 import { useTypedSelector } from "@/lib/redux/store";
 import { LIMIT_NUM_ALBUM } from "@/constants";
+import Modal from "@/components/common/Modal";
 
 function isAlreadyInList(albumId: string, albumList: Album[]) {
   let isExisted = false;
@@ -27,7 +25,11 @@ function isAlreadyInList(albumId: string, albumList: Album[]) {
   return isExisted;
 }
 
-const AddAlbumModal = () => {
+interface Props {
+  closeModal: () => void
+}
+
+const AddAlbumModal = ({closeModal}: Props) => {
   const [input, setInput] = useState("");
   const albumToAddRef = useRef<Album | null>(null);
   const debouncedInput = useDebounce({
@@ -53,15 +55,10 @@ const AddAlbumModal = () => {
     if (isAlreadyInList(albumToAdd.id, albumList)) return;
 
     dispatch(addAlbum(albumToAdd));
-    addAlbumInSessionStorage(albumToAdd);
-  };
-
-  const closeModal = () => {
-    dispatch(clearModal());
   };
 
   return (
-    <PopUpModal className={styles.add_song_modal} title="SEARCH THE ALBUM">
+    <Modal className={styles.add_song_modal} title="SEARCH THE ALBUM">
       <>
         <div className={styles.search_album}>
           <Image
@@ -92,7 +89,7 @@ const AddAlbumModal = () => {
           </button>
         </div>
       </>
-    </PopUpModal>
+    </Modal>
   );
 };
 
