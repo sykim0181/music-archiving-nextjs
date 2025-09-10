@@ -3,7 +3,7 @@ import { RefreshTokenResponse, UserToken } from "@/types/spotify";
 export async function fetchUserAccessToken(
   authorizationCode: string
 ): Promise<{ token: UserToken; expiresAt: Date }> {
-  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}`;
+  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`;
   const payload = {
     method: "POST",
     headers: {
@@ -40,7 +40,7 @@ export async function fetchUserAccessToken(
 export async function fetchTokenByRefreshToken(
   refreshToken: string
 ): Promise<{ token: UserToken; expiresAt: Date }> {
-  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}`;
+  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`;
   const payload = {
     method: "POST",
     headers: {

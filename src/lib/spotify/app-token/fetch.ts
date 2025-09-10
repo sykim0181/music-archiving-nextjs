@@ -7,7 +7,7 @@ type TokenResponse = {
 export async function fetchAppAccessToken() {
   const url =
     "https://accounts.spotify.com/api/token?grant_type=client_credentials";
-  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_SECRET}`;
+  const clientAuthorization = `${process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`;
   const response = await fetch(url, {
     method: "POST",
     headers: {
