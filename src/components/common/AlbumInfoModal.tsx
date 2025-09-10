@@ -7,6 +7,7 @@ import { Album } from "@/types/common";
 import PopUpModal from "./PopUpModal";
 import { clearModal } from "@/lib/redux/modalInfo";
 import useAlbumTracksQuery from "@/hooks/useAlbumTracksQuery";
+import BeatLoader from "react-spinners/BeatLoader";
 
 export interface AlbumInfoModalProps {
   album: Album;
@@ -21,7 +22,7 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
     data: trackList,
     isError,
     isFetching,
-  } = useAlbumTracksQuery(album.id)
+  } = useAlbumTracksQuery(album.id);
 
   const closeModal = () => {
     dispatch(clearModal());
@@ -32,17 +33,25 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
       return <p>트랙 목록을 불러올 수 없습니다.</p>;
     }
     if (isFetching || trackList === undefined) {
-      return <></>;
-    }
-    return trackList.map((track, idx) => (
-      <li key={track.id} className={styles.track}>
-        <p className={styles.index_track}>{idx + 1}</p>
-        <div className={styles.description_track}>
-          <p className={styles.name_track}>{track.name}</p>
-          <p className={styles.artist_track}>{track.artists.join(", ")}</p>
+      return (
+        <div className="center_parent">
+          <BeatLoader size={10} />
         </div>
-      </li>
-    ));
+      );
+    }
+    return (
+      <ul className={styles.list_track}>
+        {trackList.map((track, idx) => (
+          <li key={track.id} className={styles.track}>
+            <p className={styles.index_track}>{idx + 1}</p>
+            <div className={styles.description_track}>
+              <p className={styles.name_track}>{track.name}</p>
+              <p className={styles.artist_track}>{track.artists.join(", ")}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    );
   }, [isError, isFetching, trackList]);
 
   return (
@@ -50,13 +59,22 @@ const AlbumInfoModal = (props: AlbumInfoModalProps) => {
       <div className={styles.album_info}>
         <Image src={album.imageUrl} width={100} height={100} alt={album.name} />
         <div className={styles.album_description}>
-          <p>{`앨범명: ${album.name}`}</p>
-          <p>{`가수명: ${album.artists.join(", ")}`}</p>
-          <p>{`발매일: ${album.releaseDate}`}</p>
+          <div className={styles.album_description_part}>
+            <p>{`앨범명:`}</p>
+            <p>{album.name}</p>
+          </div>
+          <div className={styles.album_description_part}>
+            <p>{`가수명:`}</p>
+            <p>{album.artists.join(", ")}</p>
+          </div>
+          <div className={styles.album_description_part}>
+            <p>{`발매일:`}</p>
+            <p>{album.releaseDate}</p>
+          </div>
         </div>
       </div>
 
-      <ul className={styles.list_track}>{trackListElements}</ul>
+      <div className={`${styles.track_container} invisible_scroll`}>{trackListElements}</div>
 
       <div className="modal_button_container">
         <button onClick={closeModal} className="modal_button bg_black">
