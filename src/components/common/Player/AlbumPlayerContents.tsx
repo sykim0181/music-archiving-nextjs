@@ -64,8 +64,10 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
 
   if (playerSize === "MICRO") {
     return (
-      <div className="micro-sized-player player-container gradient_bg">
-        <Image src={album.imageUrl} alt="album image" fill />
+      <div
+        className="micro-sized-player player-container"
+        style={{ backgroundImage: `url(${album.imageUrl})` }}
+      >
         {isPlaying ? (
           <button className="icon_button" onClick={onClickPauseButton}>
             <IoIosPause />
