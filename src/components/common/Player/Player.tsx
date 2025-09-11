@@ -8,15 +8,13 @@ import { useState } from "react";
 import AlbumPlayer from "./AlbumPlayer";
 import PlayerWindowMenu from "./PlayerWindowMenu";
 
+export type PlayerSize = "MICRO" | "MINIMISED" | "MAXIMISED";
+
 const Player = () => {
-  const [isMinimised, setIsMinimised] = useState(false);
+  const [size, setSize] = useState<PlayerSize>("MAXIMISED");
   const contextType = useTypedSelector((state) => state.player.context.type);
 
   usePlayer();
-
-  const togglePlayerSize = () => {
-    setIsMinimised((prev) => !prev);
-  };
 
   if (contextType === "none") {
     return <></>;
@@ -24,15 +22,13 @@ const Player = () => {
 
   return (
     <div
-      className={`player-container box_shadow gradient_bg ${
-        isMinimised ? "minimised" : "maximised"
-      }`}
+      className={`player-container box_shadow gradient_bg ${size.toLowerCase()}`}
     >
-      {contextType === "album" && <AlbumPlayer isMinimised={isMinimised} />}
+      {contextType === "album" && <AlbumPlayer playerSize={size} />}
       <PlayerOverlay />
       <PlayerWindowMenu
-        isMinimised={isMinimised}
-        togglePlayerSize={togglePlayerSize}
+        playerSize={size}
+        changeSize={setSize}
       />
     </div>
   );

@@ -17,16 +17,14 @@ import {
   skipToPrevious,
 } from "@/lib/redux/playerThunk";
 import { useState } from "react";
+import { PlayerSize } from "./Player";
 
 interface Props {
   album: AlbumWithTrack;
-  isMinimised: boolean;
+  playerSize: PlayerSize;
 }
 
-const AlbumPlayerContents = ({
-  album,
-  isMinimised,
-}: Props) => {
+const AlbumPlayerContents = ({ album, playerSize }: Props) => {
   const [hasPlayed, setHasPlayed] = useState(false);
   const isPlaying = useTypedSelector((state) => state.player.isPlaying);
 
@@ -64,9 +62,26 @@ const AlbumPlayerContents = ({
     await dispatch(playAlbum(album.id, trackIndex));
   };
 
-  if (isMinimised) {
+  if (playerSize === "MICRO") {
     return (
-      <div className="mini-sized-player gradient_bg">
+      <div className="micro-sized-player player-container gradient_bg">
+        <Image src={album.imageUrl} alt="album image" fill />
+        {isPlaying ? (
+          <button className="icon_button" onClick={onClickPauseButton}>
+            <IoIosPause />
+          </button>
+        ) : (
+          <button className="icon_button" onClick={onClickPlayButton}>
+            <IoIosPlay />
+          </button>
+        )}
+      </div>
+    );
+  }
+
+  if (playerSize === "MINIMISED") {
+    return (
+      <div className="mini-sized-player player-container gradient_bg">
         <div className="left-part">
           <div className="album-cover-container">
             <Image src={album.imageUrl} alt="" fill />
@@ -110,79 +125,71 @@ const AlbumPlayerContents = ({
         </div>
       </div>
     );
-  } else {
-    return (
-      <div id="normal_album_player" className="gradient_bg">
-        {/* <div className="player-menu">
-          <button>
-            <TbWindowMinimize />
-          </button>
-          <button onClick={togglePlayerSize}>
-            <LuMinimize2 />
-          </button>
-        </div> */}
+  }
 
-        <div className="left_content">
-          <div className="album_cover_container">
-            <Image src={album.imageUrl} alt="" fill />
-          </div>
-          <div className="button_group">
-            <button
-              className="icon_button prev_button"
-              onClick={onClickPrevButton}
-            >
-              <RxTrackPrevious />
-            </button>
-            {isPlaying ? (
-              <button
-                className="icon_button play_button"
-                onClick={onClickPauseButton}
-              >
-                <RxPause />
-              </button>
-            ) : (
-              <button
-                className="icon_button play_button"
-                onClick={onClickPlayButton}
-              >
-                <RxPlay />
-              </button>
-            )}
-            <button
-              className="icon_button next_button"
-              onClick={onClickNextButton}
-            >
-              <RxTrackNext />
-            </button>
-          </div>
+  // playerSize === "MAXiMISED"
+  return (
+    <div className="max-sized-player player-container gradient_bg">
+      <div className="left_content">
+        <div className="album_cover_container">
+          <Image src={album.imageUrl} alt="" fill />
         </div>
-
-        <div className="right_content">
-          <div className="album_info">
-            <p className="album_name">{album.name}</p>
-            <p className="album_artist">{`- ${album.artists.join(", ")}`}</p>
-          </div>
-          <div className="track_list_container">
-            <ul className="track-list invisible_scroll">
-              {album.tracks.map((track, idx) => (
-                <li
-                  key={track.id}
-                  className={`track-item ${
-                    currentTrack?.id === track.id ? "track-item--selected" : ""
-                  }`}
-                  onClick={() => onClickTrackItem(idx)}
-                >
-                  <div className="track-item-index">{idx + 1}</div>
-                  <div>{track.name}</div>
-                  <div>{msToString(track.duration)}</div>
-                </li>
-              ))}
-            </ul>
-          </div>
+        <div className="button_group">
+          <button
+            className="icon_button prev_button"
+            onClick={onClickPrevButton}
+          >
+            <RxTrackPrevious />
+          </button>
+          {isPlaying ? (
+            <button
+              className="icon_button play_button"
+              onClick={onClickPauseButton}
+            >
+              <RxPause />
+            </button>
+          ) : (
+            <button
+              className="icon_button play_button"
+              onClick={onClickPlayButton}
+            >
+              <RxPlay />
+            </button>
+          )}
+          <button
+            className="icon_button next_button"
+            onClick={onClickNextButton}
+          >
+            <RxTrackNext />
+          </button>
         </div>
       </div>
-    );
-  }
+
+      <div className="right_content">
+        <div className="album_info">
+          <p className="album_name">{album.name}</p>
+          <p className="album_artist">{`- ${album.artists.join(", ")}`}</p>
+        </div>
+        <div className="track_list_container">
+          <ul className="track-list invisible_scroll">
+            {album.tracks.map((track, idx) => (
+              <li
+                key={track.id}
+                className={`track-item ${
+                  currentTrack?.id === track.id ? "track-item--selected" : ""
+                }`}
+                onClick={() => onClickTrackItem(idx)}
+              >
+                <div className="track-item-index">{idx + 1}</div>
+                <div>{track.name}</div>
+                <div>{msToString(track.duration)}</div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AlbumPlayerContents;

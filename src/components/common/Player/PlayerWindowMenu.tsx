@@ -1,23 +1,37 @@
 import { LuMinimize2, LuMaximize2 } from "react-icons/lu";
-// import { TbWindowMinimize } from "react-icons/tb";
+import { TbWindowMinimize, TbWindowMaximize } from "react-icons/tb";
+import { PlayerSize } from "./Player";
 
 interface Props {
-  isMinimised: boolean;
-  togglePlayerSize: () => void;
+  playerSize: PlayerSize;
+  changeSize: (size: PlayerSize) => void;
 }
 
-const PlayerWindowMenu = ({ isMinimised, togglePlayerSize }: Props) => {
+const PlayerWindowMenu = ({ playerSize, changeSize }: Props) => {
+  if (playerSize === "MICRO") {
+    return (
+      <div className="player-menu">
+        <button onClick={() => changeSize("MINIMISED")}>
+          <TbWindowMaximize />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="player-menu">
-      {isMinimised ? (
-        <button onClick={togglePlayerSize}>
+      {playerSize === "MINIMISED" ? (
+        <button onClick={() => changeSize("MAXIMISED")}>
           <LuMaximize2 />
         </button>
       ) : (
-        <button onClick={togglePlayerSize}>
+        <button onClick={() => changeSize("MINIMISED")}>
           <LuMinimize2 />
         </button>
       )}
+      <button onClick={() => changeSize("MICRO")}>
+        <TbWindowMinimize />
+      </button>
     </div>
   );
 };

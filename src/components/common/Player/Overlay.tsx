@@ -23,7 +23,7 @@ const PlayerOverlay = () => {
 
   return (
     <div className="player-overlay">
-      <p>{message[status]}</p>
+      <p className="player-error-message">{message[status]}</p>
 
       {status === "UNAUTHORIZED" && (
         <button

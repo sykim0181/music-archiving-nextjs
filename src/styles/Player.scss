@@ -1,33 +1,52 @@
 .player-container {
   position: absolute;
-  bottom: 0px;
   border-radius: 20px;
   overflow: hidden;
+}
+
+.player-container.micro {
+  width: 100px;
+  height: 100px;
+  right: 0;
+  bottom: 20px;
+
+  .player-menu {
+    top: 12px;
+    right: 12px;
+  }
+
+  .player-error-message {
+    font-size: 12px;
+  }
 }
 
 .player-container.minimised {
   width: 100%;
   height: 120px;
+  bottom: 0;
 
   .player-menu {
     gap: 12px;
+    top: 20px;
+    right: 20px;
   }
 }
 
 .player-container.maximised {
   width: 100%;
   height: 280px;
+  bottom: 0;
 
   .player-menu {
     gap: 16px;
+    top: 20px;
+    right: 20px;
   }
 }
 
 .player-menu {
   z-index: 2;
   position: absolute;
-  top: 20px;
-  right: 20px;
   display: flex;
 
   button {
@@ -87,6 +106,8 @@
 .player-overlay {
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
+  padding: 12px;
   position: absolute;
   top: 0;
   left: 0;
@@ -96,6 +117,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .player-error-message {
+    margin: 0;
+  }
 }
 
 .action-button {

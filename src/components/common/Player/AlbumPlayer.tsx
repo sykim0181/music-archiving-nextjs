@@ -5,12 +5,13 @@ import BeatLoader from "react-spinners/BeatLoader";
 import AlbumPlayerContents from "./AlbumPlayerContents";
 import { useTypedSelector } from "@/lib/redux/store";
 import "@/styles/AlbumPlayer.scss";
+import { PlayerSize } from "./Player";
 
 interface Props {
-  isMinimised: boolean;
+  playerSize: PlayerSize
 }
 
-const AlbumPlayer = ({ isMinimised }: Props) => {
+const AlbumPlayer = ({ playerSize }: Props) => {
   const albumId = useTypedSelector((state) => {
     const contextType = state.player.context.type;
     if (contextType !== "album") {
@@ -57,7 +58,7 @@ const AlbumPlayer = ({ isMinimised }: Props) => {
     );
   }
 
-  return <AlbumPlayerContents album={album} isMinimised={isMinimised} />;
+  return <AlbumPlayerContents album={album} playerSize={playerSize} />;
 };
 
 export default AlbumPlayer;
