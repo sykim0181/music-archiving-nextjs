@@ -1,5 +1,6 @@
 import queryString from "query-string";
 import {
+  clearStatus,
   notReady,
   ready,
   setContext,
@@ -111,11 +112,14 @@ export const initPlayer = (): AppThunk => async (dispatch, state) => {
   });
 };
 
-export const connectPlayer = (): AppThunk => async () => {
+export const connectPlayer = (): AppThunk => async (dispatch) => {
   if (!player) {
     return;
   }
-  await player.connect();
+  const result = await player.connect();
+  if (result) {
+    dispatch(clearStatus());
+  }
 };
 
 export const playAlbum =
