@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 
 import styles from "@/styles/AddAlbumModal.module.scss";
-import { Album } from "../../../types/common";
+import { Album } from "@/types/common";
 
 interface Prop {
   album: Album;
@@ -17,7 +17,6 @@ const AlbumListItem = (prop: Prop) => {
       className={`${styles.album_item} ${
         selected ? styles.selected_album_item : ""
       }`}
-      // onClick={onClick}
     >
       <div className={styles.album_item_cover}>
         <Image src={album.imageUrl} alt={`${album.name}`} fill />

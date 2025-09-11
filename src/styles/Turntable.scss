@@ -1,15 +1,44 @@
-.bottom_area {
-  position: fixed;
-  bottom: 0px;
-  width: 100%;
-  max-width: 1024px;
+.turntable {
+  position: relative;
+  width: 200px;
+  height: 200px;
   display: flex;
-  justify-content: center;
-  z-index: 4;
+  align-items: center;
+}
+
+.turntable--pointable {
+  cursor: pointer;
+}
+
+.turntable-menu {
+  position: absolute;
+  left: 200px;
+}
+
+.menu-button {
+  background-color: black;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  height: fit-content;
+  width: fit-content;
+
+  & + & {
+    margin-top: 10px;
+  }
+}
+
+#lp-platter {
+  position: absolute;
+  left: calc(200px * 0.05);
+  top: calc(200px * 0.05);
+  width: calc(200px * 0.9);
+  height: calc(200px * 0.9);
 }
 
 .anim_slideIn_from_left {
-  animation: slideInFromLeft .5s ease-out forwards;
+  animation: slideInFromLeft 0.5s ease-out forwards;
 }
 
 @keyframes slideInFromLeft {
@@ -39,7 +68,7 @@
 }
 
 .anim_slideIn_from_bottom {
-  animation: slideInFromBottom .5s ease-out forwards; 
+  animation: slideInFromBottom 0.5s ease-out forwards;
 }
 
 @keyframes slideInFromBottom {

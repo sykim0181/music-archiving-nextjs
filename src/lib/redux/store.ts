@@ -1,13 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import selectedAlbum from "./selectedAlbum";
-import archivedAlbumList from "./archivedAlbumList";
 import playerSlice from "./playerSlice";
 
 const store = configureStore({
   reducer: {
-    selectedAlbum: selectedAlbum.reducer,
-    archivedAlbumList: archivedAlbumList.reducer,
     player: playerSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
@@ -24,6 +20,6 @@ export type AppThunk<T = void> = (
 ) => T | Promise<T>;
 
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
-export const useAppDispatch: () => AppDispatch = useDispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
 
 export default store;

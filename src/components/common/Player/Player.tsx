@@ -1,3 +1,5 @@
+"use client"
+
 import "@/styles/Player.scss";
 import { useTypedSelector } from "@/lib/redux/store";
 import PlayerOverlay from "./Overlay";

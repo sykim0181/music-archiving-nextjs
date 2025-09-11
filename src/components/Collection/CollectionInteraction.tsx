@@ -1,13 +1,8 @@
 "use client";
 
 import SyncLoader from "react-spinners/SyncLoader";
-import InterativeAlbums from "../common/InteractiveAlbums";
 import useCollectionAlbums from "@/hooks/useCollectionAlbums";
-import { TextureLoader } from "three";
-import { useLoader } from "@react-three/fiber";
-
-useLoader.preload(TextureLoader, "/vinyl-black.png");
-useLoader.preload(TextureLoader, "/turntable.png");
+import UneditableInteraction from "../common/AlbumsInteraction/Uneditable/UneditableInteraction";
 
 interface CollectionInteractionProps {
   collectionId: string;
@@ -16,7 +11,6 @@ interface CollectionInteractionProps {
 const CollectionInteraction = ({
   collectionId,
 }: CollectionInteractionProps) => {
-
   const { albums, isError, isFetching } = useCollectionAlbums(collectionId);
 
   if (isError) {
@@ -31,7 +25,7 @@ const CollectionInteraction = ({
     );
   }
 
-  return <InterativeAlbums albumList={albums} isEditable={false} />;
+  return <UneditableInteraction albums={albums} />;
 };
 
 export default CollectionInteraction;

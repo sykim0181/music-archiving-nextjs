@@ -2,13 +2,12 @@
 
 import { FormEvent, useContext } from "react";
 import { useRouter } from "next/navigation";
-
 import "@/styles/SaveAlbumListModal.scss";
 import { SessionContext } from "@/components/providers/SupabaseAuthProvider";
-import Loading from "../common/Loading";
+import Loading from "../../Loading";
 import useSaveCollectionMutation from "@/hooks/useSaveCollectionMutation";
-import Modal from "../common/Modal";
-import { useTypedSelector } from "@/lib/redux/store";
+import Modal from "../../Modal";
+import { AlbumsContext } from "../../../providers/InteractionProvider";
 
 interface Props {
   closeModal: () => void;
@@ -16,10 +15,7 @@ interface Props {
 
 const SaveAlbumListModal = ({ closeModal }: Props) => {
   const sessionContext = useContext(SessionContext);
-
-  const archivedAlbumList = useTypedSelector(
-    (state) => state.archivedAlbumList.list
-  );
+  const albums = useContext(AlbumsContext);
 
   const { mutate, isPending } = useSaveCollectionMutation();
 
@@ -40,7 +36,7 @@ const SaveAlbumListModal = ({ closeModal }: Props) => {
     }
 
     const isPublic = formData.get("isPublic") === null ? false : true;
-    const albumIdList = archivedAlbumList.map((album) => album.id);
+    const albumIdList = albums.map((album) => album.id);
     const userId = sessionContext.session.user.id;
 
     mutate(
@@ -58,12 +54,10 @@ const SaveAlbumListModal = ({ closeModal }: Props) => {
   };
 
   return (
-    <Modal className="save_album_list_modal" title="SAVE THE LIST">
+    <Modal className="save_album_list_modal" title="앨범 목록 저장">
       {sessionContext.session ? (
         <>
           <form onSubmit={onSubmit}>
-            {/* <h1>앨범 목록 저장</h1> */}
-
             <div className="save_album_list_modal_content_container">
               <div className="input_container">
                 <label htmlFor="title" className="title_input">

@@ -1,27 +1,7 @@
-"use client";
-
-import { useTypedSelector } from "@/lib/redux/store";
-import dynamic from "next/dynamic";
-import { TextureLoader } from "three";
-import { useLoader } from "@react-three/fiber";
-
-useLoader.preload(TextureLoader, "/vinyl-black.png");
-useLoader.preload(TextureLoader, "/turntable.png");
-
-const InteractiveAlbums = dynamic(() => import("../common/InteractiveAlbums"), {
-  ssr: false,
-});
+import EditableInteraction from "../common/AlbumsInteraction/Editable/EditableInteraction";
 
 const InteractiveArchive = () => {
-  const archivedAlbumList = useTypedSelector(
-    (state) => state.archivedAlbumList.list
-  );
-
-  return (
-    <>
-      <InteractiveAlbums albumList={archivedAlbumList} isEditable />
-    </>
-  );
+  return <EditableInteraction />;
 };
 
 export default InteractiveArchive;

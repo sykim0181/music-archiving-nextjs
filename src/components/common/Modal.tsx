@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { createPortal } from "react-dom";
-import "@/styles/PopUpModal.scss";
+import "@/styles/Modal.scss";
 
 interface Props {
   children: ReactNode;
