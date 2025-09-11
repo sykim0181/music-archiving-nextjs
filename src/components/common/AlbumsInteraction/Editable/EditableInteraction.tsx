@@ -29,9 +29,8 @@ const EditableInteraction = ({ initialAlbums }: Props) => {
         <div className={styles.content}>
           <AlbumList addable />
           <div className={styles.blur} />
+          <FloatingButtons />
         </div>
-
-        <FloatingButtons />
 
         <BottomArea />
 
