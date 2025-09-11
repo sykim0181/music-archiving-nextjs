@@ -42,7 +42,7 @@ export const initPlayer = (): AppThunk => async (dispatch, state) => {
     const json = await res.json();
 
     if (!res.ok) {
-      const { status } = json();
+      const { status } = json;
 
       if (status === "unauthenticated") {
         dispatch(setStatus({ status: "UNAUTHENTICATED" }));
