@@ -6,7 +6,6 @@ import {
   IoIosSkipForward,
   IoIosPause,
 } from "react-icons/io";
-import { TiArrowMaximise, TiArrowMinimise } from "react-icons/ti";
 import { RxPlay, RxTrackNext, RxTrackPrevious, RxPause } from "react-icons/rx";
 import { msToString } from "@/utils/utils";
 import { useAppDispatch, useTypedSelector } from "@/lib/redux/store";
@@ -22,13 +21,11 @@ import { useState } from "react";
 interface Props {
   album: AlbumWithTrack;
   isMinimised: boolean;
-  togglePlayerSize: () => void;
 }
 
 const AlbumPlayerContents = ({
   album,
   isMinimised,
-  togglePlayerSize,
 }: Props) => {
   const [hasPlayed, setHasPlayed] = useState(false);
   const isPlaying = useTypedSelector((state) => state.player.isPlaying);
@@ -110,23 +107,20 @@ const AlbumPlayerContents = ({
               <IoIosSkipForward />
             </button>
           </div>
-
-          <div className="player-menu">
-            <button onClick={togglePlayerSize}>
-              <TiArrowMaximise />
-            </button>
-          </div>
         </div>
       </div>
     );
   } else {
     return (
       <div id="normal_album_player" className="gradient_bg">
-        <div className="player_menu">
-          <button onClick={togglePlayerSize}>
-            <TiArrowMinimise />
+        {/* <div className="player-menu">
+          <button>
+            <TbWindowMinimize />
           </button>
-        </div>
+          <button onClick={togglePlayerSize}>
+            <LuMinimize2 />
+          </button>
+        </div> */}
 
         <div className="left_content">
           <div className="album_cover_container">

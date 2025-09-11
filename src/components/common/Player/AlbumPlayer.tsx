@@ -8,10 +8,9 @@ import "@/styles/AlbumPlayer.scss";
 
 interface Props {
   isMinimised: boolean;
-  togglePlayerSize: () => void;
 }
 
-const AlbumPlayer = ({ isMinimised, togglePlayerSize }: Props) => {
+const AlbumPlayer = ({ isMinimised }: Props) => {
   const albumId = useTypedSelector((state) => {
     const contextType = state.player.context.type;
     if (contextType !== "album") {
@@ -58,13 +57,7 @@ const AlbumPlayer = ({ isMinimised, togglePlayerSize }: Props) => {
     );
   }
 
-  return (
-    <AlbumPlayerContents
-      album={album}
-      isMinimised={isMinimised}
-      togglePlayerSize={togglePlayerSize}
-    />
-  );
+  return <AlbumPlayerContents album={album} isMinimised={isMinimised} />;
 };
 
 export default AlbumPlayer;

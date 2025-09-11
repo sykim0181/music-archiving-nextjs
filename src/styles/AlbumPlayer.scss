@@ -71,20 +71,6 @@
   .next-button {
     font-size: 24px;
   }
-
-  .player-menu {
-    display: flex;
-    gap: 12px;
-    align-items: start;
-
-    button {
-      opacity: 60%;
-
-      &:hover {
-        opacity: 100%;
-      }
-    }
-  }
 }
 
 #normal_album_player {
@@ -96,22 +82,6 @@
   box-sizing: border-box;
   padding: 20px;
   overflow: hidden;
-
-  .player_menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    display: flex;
-    gap: 16px;
-
-    button {
-      opacity: 60%;
-
-      &:hover {
-        opacity: 100%;
-      }
-    }
-  }
 
   // Left Content
   .left_content {
