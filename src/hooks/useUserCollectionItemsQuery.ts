@@ -7,8 +7,6 @@ import useCollectionItemsQuery, {
   getUseCollectionItemsQueryOptions,
 } from "./useCollectionItemsQuery";
 
-const queryKey = ["user"];
-
 const getFetchFunc =
   (userId: string, limit: number): FetchCollectionsFunc =>
   (client: SupabaseClient, pageParam: number) =>
@@ -23,7 +21,7 @@ export function getUseUserCollectionItemsQueryOptions(
     supabaseClient,
     limit,
     getFetchFunc(userId, limit),
-    queryKey
+    ["user", userId]
   );
 }
 
@@ -39,7 +37,7 @@ const useUserCollectionItemsQuery = ({
   return useCollectionItemsQuery({
     limit,
     fetchCollections: getFetchFunc(userId, limit),
-    queryKey,
+    queryKey: ["user", userId],
   });
 };
 
