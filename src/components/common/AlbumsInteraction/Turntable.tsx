@@ -10,11 +10,13 @@ import {
   DraggingAlbumContext,
   useActionsContext,
 } from "../../providers/InteractionProvider";
+import { useTypedSelector } from "@/lib/redux/store";
 
 const Turntable = () => {
   const draggingAlbum = useContext(DraggingAlbumContext);
   const albumOnTurntable = useContext(AlbumOnTurntableContext);
   const { putAlbumOnTurntable, dropAlbum } = useActionsContext();
+  const isPlaying = useTypedSelector(state => state.player.isPlaying)
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -50,6 +52,7 @@ const Turntable = () => {
           size={6}
           showLp={albumOnTurntable !== null}
           viewOnTop={draggingAlbum !== null && albumOnTurntable == null}
+          isPlaying={isPlaying}
         />
       </Canvas>
 

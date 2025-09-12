@@ -1,7 +1,11 @@
 import { useContext, useLayoutEffect, useState } from "react";
 import { useAppDispatch } from "@/lib/redux/store";
 import { setContext } from "@/lib/redux/playerSlice";
-import { AlbumOnTurntableContext, useActionsContext } from "../../providers/InteractionProvider";
+import {
+  AlbumOnTurntableContext,
+  useActionsContext,
+} from "../../providers/InteractionProvider";
+import { pause } from "@/lib/redux/playerThunk";
 
 interface Props {
   showMenu: boolean;
@@ -22,8 +26,12 @@ const TurntableMenu = ({ showMenu }: Props) => {
     }
   }, [showMenu]);
 
-  const onRemoveButtonClick = () => {
-    clearTurntable();
+  const onRemoveButtonClick = async () => {
+    const result = await dispatch(pause());
+    if (result) {
+      dispatch(setContext({ type: "none" }));
+      clearTurntable();
+    }
   };
 
   const onPlayButtonClick = () => {

@@ -174,7 +174,7 @@ export const pause = (): AppThunk<boolean> => async (dispatch, getState) => {
   const contextType = getState().player.context.type;
 
   if (!player || contextType === "none") {
-    return false;
+    return true;
   }
 
   try {
