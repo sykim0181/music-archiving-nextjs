@@ -93,5 +93,5 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error }, { status: 500 });
   }
 
-  return NextResponse.json({}, { status: 200 });
+  return NextResponse.json({ collection }, { status: 200 });
 }

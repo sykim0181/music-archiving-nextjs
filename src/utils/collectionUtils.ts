@@ -113,7 +113,9 @@ export async function saveCollection(
   return collection as Collection;
 }
 
-export async function deleteCollection(collectionId: string) {
+export async function deleteCollection(
+  collectionId: string
+): Promise<Collection> {
   const response = await fetch(`/api/collection?id=${collectionId}`, {
     method: "DELETE",
   });
@@ -122,4 +124,7 @@ export async function deleteCollection(collectionId: string) {
     const { error } = await response.json();
     throw new Error(error.message);
   }
+
+  const { collection } = await response.json();
+  return collection as Collection;
 }
