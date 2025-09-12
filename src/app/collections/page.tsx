@@ -1,5 +1,5 @@
 import "./page.scss";
-import CollectionsContentContainer from "@/components/Collection/CollectionsContentContainer";
+import CollectionsContentContainer from "@/components/Collections/CollectionsContentContainer";
 import {
   dehydrate,
   HydrationBoundary,

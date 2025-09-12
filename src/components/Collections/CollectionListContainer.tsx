@@ -19,7 +19,7 @@ const CollectionListContainer = ({
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = queryResult;
   const [ref, inView] = useInView();
 
-  const collectionItems = useMemo(() => data?.pages.flat(), [data])
+  const collectionItems = useMemo(() => data?.pages.flat(), [data]);
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -47,7 +47,10 @@ const CollectionListContainer = ({
     <>
       <div className="collection_list_container">
         {collectionItems.map((collectionItem) => (
-          <CollectionItem key={collectionItem.collection.id} collectionItem={collectionItem} />
+          <CollectionItem
+            key={collectionItem.collection.id}
+            collectionItem={collectionItem}
+          />
         ))}
       </div>
 
