@@ -2,10 +2,14 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { MdPlayArrow } from "react-icons/md";
+import { MdPlayArrow, MdDelete } from "react-icons/md";
 import CollectionAlbumListContent from "./CollectionAlbumListContent";
 import SyncLoader from "react-spinners/SyncLoader";
 import useCollectionQuery from "@/hooks/useCollectionQuery";
+import useUser from "@/hooks/useUser";
+import { Collection } from "@/types/common";
+import { useState } from "react";
+import DeleteCollectionModal from "./DeleteCollectionModal";
 
 interface CollectionContentsProps {
   collectionId: string;
@@ -17,12 +21,6 @@ const CollectionContents = ({ collectionId }: CollectionContentsProps) => {
     isError,
     isFetching,
   } = useCollectionQuery(collectionId);
-
-  const router = useRouter();
-
-  const onClickInteractButton = () => {
-    router.push(`/collection/${collectionId}/interact`);
-  };
 
   if (isError) {
     return (
@@ -53,15 +51,41 @@ const CollectionContents = ({ collectionId }: CollectionContentsProps) => {
         </div>
         <p>{collection.user_id}</p>
       </div>
+      <CollectionMenu collection={collection} />
+      <CollectionAlbumListContent collection={collection} />
+    </>
+  );
+};
 
-      <div className="menu_container menu_container--list">
-        <button className="view_button" onClick={onClickInteractButton}>
+const CollectionMenu = ({ collection }: { collection: Collection }) => {
+  const [deleteModalOpened, setDeleteModalOpened] = useState(false);
+  const router = useRouter();
+  const user = useUser();
+
+  const onClickInteractButton = () => {
+    router.push(`/collection/${collection.id}/interact`);
+  };
+  return (
+    <>
+      <div className="menu_container">
+        <button onClick={onClickInteractButton}>
           <MdPlayArrow />
           <p>interact</p>
         </button>
+        {user?.id === collection.user_id && (
+          <button onClick={() => setDeleteModalOpened(true)}>
+            <MdDelete />
+            <p>delete</p>
+          </button>
+        )}
       </div>
 
-      <CollectionAlbumListContent collection={collection} />
+      {deleteModalOpened && (
+        <DeleteCollectionModal
+          collectionId={collection.id}
+          closeModal={() => setDeleteModalOpened(false)}
+        />
+      )}
     </>
   );
 };

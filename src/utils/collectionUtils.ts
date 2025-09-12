@@ -112,3 +112,14 @@ export async function saveCollection(
   const { collection } = await response.json();
   return collection as Collection;
 }
+
+export async function deleteCollection(collectionId: string) {
+  const response = await fetch(`/api/collection?id=${collectionId}`, {
+    method: "DELETE",
+  });
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error.message);
+  }
+}
