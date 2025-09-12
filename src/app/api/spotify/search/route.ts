@@ -37,6 +37,7 @@ export async function GET(request: NextRequest) {
     artists: item.artists.map((artist) => artist.name),
     uri: item.uri,
     releaseDate: item.release_date,
+    spotify_url: item.external_urls.spotify,
   }));
   return NextResponse.json({ albums }, { status: 200 });
 }
