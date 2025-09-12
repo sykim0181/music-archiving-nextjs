@@ -2,6 +2,7 @@
   position: absolute;
   border-radius: 20px;
   overflow: hidden;
+  z-index: 3;
 }
 
 .player-container.micro {
@@ -48,7 +49,7 @@
 }
 
 .player-menu {
-  z-index: 2;
+  z-index: 4;
   position: absolute;
   display: flex;
 

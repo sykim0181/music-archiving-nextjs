@@ -12,24 +12,55 @@
 
 .turntable-menu {
   position: absolute;
-  left: 200px;
-}
+  left: -50%;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 200%;
+  height: 100%;
+  transition: opacity 0.5s;
 
-.menu-button {
-  background-color: black;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 12px;
-  height: fit-content;
-  width: fit-content;
+  .album-info {
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    font-size: 12px;
+    position: relative;
+    left: 0;
+    height: fit-content;
+    width: fit-content;
+    text-align: center;
+  }
 
-  & + & {
-    margin-top: 10px;
+  .menu-button-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .menu-button {
+    background-color: white;
+    color: black;
+    padding: 5px 16px;
+    border-radius: 15px;
+    font-size: 12px;
+    height: fit-content;
+    width: fit-content;
   }
 }
 
-#lp-platter {
+.turntable-menu[data-show="true"] {
+  opacity: 1;
+}
+
+.turntable-menu[data-show="false"] {
+  opacity: 0;
+}
+
+.lp-platter {
   position: absolute;
   left: calc(200px * 0.05);
   top: calc(200px * 0.05);

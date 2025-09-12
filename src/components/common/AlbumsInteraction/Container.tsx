@@ -2,71 +2,68 @@
 
 import styles from "@/styles/AlbumsInteraction.module.scss";
 import {
-  MouseEvent,
+  PointerEvent,
   ReactNode,
   RefObject,
-  TouchEvent,
   useContext,
 } from "react";
-import { DraggingAlbumContext, useActionsContext } from "../../providers/InteractionProvider";
+import {
+  DraggingAlbumContext,
+  useActionsContext,
+} from "../../providers/InteractionProvider";
 
 interface Props {
-  ref: RefObject<HTMLDivElement | null>;
   floatingVinylRef: RefObject<HTMLDivElement | null>;
+  lpPlatterRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }
 
-const Container = ({ ref, floatingVinylRef, children }: Props) => {
+const Container = ({ floatingVinylRef, lpPlatterRef, children }: Props) => {
   const draggingAlbum = useContext(DraggingAlbumContext);
-  const { dropAlbum } = useActionsContext();
+  const { dropAlbum, putAlbumOnTurntable } = useActionsContext();
 
-  const onMouseUp = () => {
+  const onPointerUp = () => {
     if (draggingAlbum) {
       dropAlbum();
     }
   };
 
-  const onMouseMove = (e: MouseEvent) => {
+  const onPointerMove = (e: PointerEvent) => {
     if (!draggingAlbum) {
       return;
     }
 
-    if (!ref.current || !floatingVinylRef.current) {
+    if (!floatingVinylRef.current || !lpPlatterRef.current) {
       return;
     }
 
-    const containerRect = ref.current.getBoundingClientRect();
     const floatingVinylRect = floatingVinylRef.current.getBoundingClientRect();
 
-    const x = e.clientX - containerRect.x - floatingVinylRect.width / 2;
-    const y = e.clientY - containerRect.y - floatingVinylRect.height / 2;
-    floatingVinylRef.current.style.transform = `translate(${x}px,${y}px)`;
-  };
+    const x = e.clientX - floatingVinylRect.width / 2;
+    const y = e.clientY - floatingVinylRect.height / 2;
 
-  const onTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
+    const vinylLeft = x;
+    const vinylRight = x + floatingVinylRect.width;
+    const vinylTop = y;
+    const vinylBottom = y + floatingVinylRect.height;
 
-    if (!draggingAlbum) {
-      return;
-    }
+    // lpPlatter 위에 있는지 확인
+    const platterRect = lpPlatterRef.current.getBoundingClientRect();
+    const platterLeft = platterRect.x;
+    const platterRight = platterLeft + platterRect.width;
+    const platterTop = platterRect.y;
+    const platterBottom = platterTop + platterRect.height;
 
-    if (!ref.current || !floatingVinylRef.current) {
-      return;
-    }
-
-    const containerRect = ref.current.getBoundingClientRect();
-    const floatingVinylRect = floatingVinylRef.current.getBoundingClientRect();
-
-    const x =
-      e.touches[0].clientX - containerRect.x - floatingVinylRect.width / 2;
-    const y =
-      e.touches[0].clientY - containerRect.y - floatingVinylRect.height / 2;
-    floatingVinylRef.current.style.transform = `translate(${x}px,${y}px)`;
-  };
-
-  const onTouchEnd = () => {
-    if (draggingAlbum) {
-      dropAlbum();
+    if (
+      vinylLeft >= platterLeft &&
+      vinylRight <= platterRight &&
+      vinylTop >= platterTop &&
+      vinylBottom <= platterBottom
+    ) {
+      putAlbumOnTurntable(draggingAlbum);
+    } else {
+      // lpPlatter 위에 있지 않으면 위치만 이동
+      floatingVinylRef.current.style.transform = `translate(${x}px,${y}px)`;
     }
   };
 
@@ -74,11 +71,8 @@ const Container = ({ ref, floatingVinylRef, children }: Props) => {
     <div
       className={styles.container}
       data-album-dragging={draggingAlbum ? "true" : "false"}
-      ref={ref}
-      onMouseUp={onMouseUp}
-      onMouseMove={onMouseMove}
-      onTouchMove={onTouchMove}
-      onTouchEnd={onTouchEnd}
+      onPointerUp={onPointerUp}
+      onPointerMove={onPointerMove}
     >
       {children}
     </div>

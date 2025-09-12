@@ -1,4 +1,4 @@
-import { useContext, useLayoutEffect, useState } from "react";
+import { useContext } from "react";
 import { useAppDispatch } from "@/lib/redux/store";
 import { setContext } from "@/lib/redux/playerSlice";
 import {
@@ -15,16 +15,6 @@ const TurntableMenu = ({ showMenu }: Props) => {
   const dispatch = useAppDispatch();
   const albumOnTurntable = useContext(AlbumOnTurntableContext);
   const { clearTurntable } = useActionsContext();
-
-  const [className, setClassName] = useState("");
-
-  useLayoutEffect(() => {
-    if (showMenu) {
-      setClassName("anim_slideIn_from_left");
-    } else {
-      setClassName("anim_slideOut_to_left");
-    }
-  }, [showMenu]);
 
   const onRemoveButtonClick = async () => {
     const result = await dispatch(pause());
@@ -43,14 +33,19 @@ const TurntableMenu = ({ showMenu }: Props) => {
   };
 
   return (
-    <div className={`turntable-menu ${className}`}>
-      <button className="menu-button" onClick={onRemoveButtonClick}>
-        Remove
-      </button>
+    <div className={`turntable-menu`} data-show={showMenu ? "true": "false"}>
+      <div className="album-info">
+        {`${albumOnTurntable?.artists.join(", ")} - ${albumOnTurntable?.name}`}
+      </div>
+      <div className="menu-button-group">
+        <button className="menu-button" onClick={onRemoveButtonClick}>
+          Remove
+        </button>
 
-      <button className="menu-button" onClick={onPlayButtonClick}>
-        Play
-      </button>
+        <button className="menu-button" onClick={onPlayButtonClick}>
+          Play
+        </button>
+      </div>
     </div>
   );
 };

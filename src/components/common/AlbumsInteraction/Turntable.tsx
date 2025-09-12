@@ -1,7 +1,7 @@
 "use client";
 
 import "@/styles/Turntable.scss";
-import { useContext, useEffect, useState } from "react";
+import { RefObject, useContext, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import TurntableObject from "@/components/common/AlbumsInteraction/TurntableObject";
 import TurntableMenu from "./TurntableMenu";
@@ -12,11 +12,15 @@ import {
 } from "../../providers/InteractionProvider";
 import { useTypedSelector } from "@/lib/redux/store";
 
-const Turntable = () => {
+interface Props {
+  lpPlatterRef: RefObject<HTMLDivElement | null>;
+}
+
+const Turntable = ({ lpPlatterRef }: Props) => {
   const draggingAlbum = useContext(DraggingAlbumContext);
   const albumOnTurntable = useContext(AlbumOnTurntableContext);
   const { putAlbumOnTurntable, dropAlbum } = useActionsContext();
-  const isPlaying = useTypedSelector(state => state.player.isPlaying)
+  const isPlaying = useTypedSelector((state) => state.player.isPlaying);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -32,13 +36,6 @@ const Turntable = () => {
     }
 
     setShowMenu((prev) => !prev);
-  };
-
-  const onMouseOverPlatter = () => {
-    if (draggingAlbum && !albumOnTurntable) {
-      dropAlbum();
-      putAlbumOnTurntable(draggingAlbum);
-    }
   };
 
   return (
@@ -57,7 +54,7 @@ const Turntable = () => {
       </Canvas>
 
       {draggingAlbum !== null && (
-        <div id="lp-platter" onMouseOver={onMouseOverPlatter} />
+        <div className="lp-platter" ref={lpPlatterRef} />
       )}
 
       <TurntableMenu showMenu={showMenu} />

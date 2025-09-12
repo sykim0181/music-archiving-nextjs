@@ -15,9 +15,6 @@ const LpComponent = ({ album, className }: Props) => {
   const { dragAlbum } = useActionsContext()
 
   const onMouseOverCover = () => {
-    // if (hasSelectedAlbum) {
-    //   return;
-    // }
     setShowVinyl(true);
   };
 
@@ -26,12 +23,7 @@ const LpComponent = ({ album, className }: Props) => {
   };
 
   const onTouchStartCover = (e: TouchEvent) => {
-    e.preventDefault();
-
     setShowVinyl(false);
-    // if (hasSelectedAlbum) {
-    //   return;
-    // }
     dragAlbum(album)
   };
 

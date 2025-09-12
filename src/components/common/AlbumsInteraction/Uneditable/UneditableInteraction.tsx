@@ -6,8 +6,9 @@ import InteractionProvider from "../../../providers/InteractionProvider";
 import Container from "../Container";
 import styles from "@/styles/AlbumsInteraction.module.scss";
 import AlbumList from "../AlbumList";
-import BottomArea from "../BottomArea";
 import FloatingVinyl from "../FloatingVinyl";
+import Turntable from "../Turntable";
+import Player from "../../Player/Player";
 
 useLoader.preload(TextureLoader, "/vinyl-black.png");
 useLoader.preload(TextureLoader, "/turntable.png");
@@ -17,18 +18,24 @@ interface Props {
 }
 
 const UneditableInteraction = ({ albums }: Props) => {
-  const containerRef = useRef<HTMLDivElement>(null);
   const floatingVinylRef = useRef<HTMLDivElement>(null);
+  const lpPlatterRef = useRef<HTMLDivElement>(null);
 
   return (
     <InteractionProvider initialAlbums={albums}>
-      <Container ref={containerRef} floatingVinylRef={floatingVinylRef}>
+      <Container
+        floatingVinylRef={floatingVinylRef}
+        lpPlatterRef={lpPlatterRef}
+      >
         <div className={styles.content}>
           <AlbumList />
           <div className={styles.blur} />
         </div>
 
-        <BottomArea />
+        <div className={styles.bottom_area}>
+          <Turntable lpPlatterRef={lpPlatterRef} />
+          <Player />
+        </div>
 
         <FloatingVinyl ref={floatingVinylRef} />
       </Container>
