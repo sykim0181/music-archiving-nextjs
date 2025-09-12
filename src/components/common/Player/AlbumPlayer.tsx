@@ -28,7 +28,7 @@ const AlbumPlayer = ({ playerSize }: Props) => {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: [],
+    queryKey: ["album-with-tracks", albumId],
     queryFn: async () => {
       const album = await getAlbum(albumId);
       const tracks = await getAlbumTracks(albumId);
