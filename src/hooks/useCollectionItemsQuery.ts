@@ -48,6 +48,8 @@ export function getUseCollectionItemsQueryOptions(
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) =>
       lastPage.length < limit ? undefined : lastPageParam + limit,
+    staleTime: 1000 * 60 * 1,
+    placeholderData: (previousData) => previousData,
   };
 }
 
@@ -65,12 +67,7 @@ const useCollectionItemsQuery = ({
   const client = createClient();
 
   return useInfiniteQuery(
-    getUseCollectionItemsQueryOptions(
-      client,
-      limit,
-      fetchCollections,
-      queryKey
-    )
+    getUseCollectionItemsQueryOptions(client, limit, fetchCollections, queryKey)
   );
 };
 
