@@ -1,29 +1,22 @@
-import { getAlbumsByJoinedIds } from "@/lib/spotify/api/fetchForServer";
-import { Album, CollectionRepAlbum } from "@/types/common";
+import { Album } from "@/types/common";
 
 export async function getCollectionRepresentativeAlbums(
   collectionAlbumIds: string[],
   fetchAlbums: (ids: string[]) => Promise<Album[]>
-): Promise<CollectionRepAlbum[]> {
+): Promise<{ images: string[]; artists: string[] }> {
   const repAlbumIds =
     collectionAlbumIds.length <= 4
       ? [...collectionAlbumIds]
       : collectionAlbumIds.slice(0, 4);
 
   try {
-    // const albums = await getAlbumsByJoinedIds(repAlbumIds.join(","));
     const albums = await fetchAlbums(repAlbumIds);
-    return albums.map((album) => {
-      const repAlbum: CollectionRepAlbum = {
-        id: album.id,
-        name: album.name,
-        imageUrl: album.imageUrl,
-        artist: album.artists,
-      };
-      return repAlbum;
-    });
+    const images = albums.map((album) => album.imageUrl);
+    const allArtists = albums.map((album) => album.artists).flat();
+    const artists = Array.from(new Set(allArtists))
+    return { images, artists };
   } catch (error) {
     console.log(error);
-    return [];
+    return { images: [], artists: [] };
   }
 }

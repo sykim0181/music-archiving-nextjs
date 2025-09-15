@@ -1,17 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
 import "@/styles/CollectionItem.scss";
-import { CollectionItemType, CollectionRepAlbum } from "@/types/common";
+import { CollectionItemType } from "@/types/common";
 
 interface Props {
   collectionItem: CollectionItemType;
 }
 
 const CollectionItem = ({ collectionItem }: Props) => {
-  const { collection, repAlbums } = collectionItem;
+  const { collection, albumImages, albumArtists } = collectionItem;
 
-  const getCollectionImageElements = (albums: CollectionRepAlbum[]) => {
-    if (albums.length === 0) {
+  const getCollectionImageElements = (albumUrls: string[]) => {
+    if (albumUrls.length === 0) {
       return (
         <CollectionItemImage
           src={"/Image-not-found.png"}
@@ -19,68 +19,52 @@ const CollectionItem = ({ collectionItem }: Props) => {
           isOne
         />
       );
-    } else if (albums.length === 1) {
-      return (
-        <CollectionItemImage
-          src={albums[0].imageUrl}
-          alt={albums[0].name}
-          isOne
-        />
-      );
-    } else if (albums.length === 2) {
+    } else if (albumUrls.length === 1) {
+      return <CollectionItemImage src={albumUrls[0]} isOne />;
+    } else if (albumUrls.length === 2) {
       return (
         <>
-          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
-          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
-          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
-          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
+          <CollectionItemImage src={albumUrls[0]} />
+          <CollectionItemImage src={albumUrls[1]} />
+          <CollectionItemImage src={albumUrls[0]} />
+          <CollectionItemImage src={albumUrls[1]} />
         </>
       );
-    } else if (albums.length === 3) {
+    } else if (albumUrls.length === 3) {
       return (
         <>
-          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
-          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
-          <CollectionItemImage src={albums[2].imageUrl} alt={albums[2].name} />
-          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
+          <CollectionItemImage src={albumUrls[0]} />
+          <CollectionItemImage src={albumUrls[1]} />
+          <CollectionItemImage src={albumUrls[2]} />
+          <CollectionItemImage src={albumUrls[0]} />
         </>
       );
     } else {
       // images.length === 4
       return (
         <>
-          <CollectionItemImage src={albums[0].imageUrl} alt={albums[0].name} />
-          <CollectionItemImage src={albums[1].imageUrl} alt={albums[1].name} />
-          <CollectionItemImage src={albums[2].imageUrl} alt={albums[2].name} />
-          <CollectionItemImage src={albums[3].imageUrl} alt={albums[3].name} />
+          <CollectionItemImage src={albumUrls[0]} />
+          <CollectionItemImage src={albumUrls[1]} />
+          <CollectionItemImage src={albumUrls[2]} />
+          <CollectionItemImage src={albumUrls[3]} />
         </>
       );
     }
-  };
-
-  const getArtistString = (albums: CollectionRepAlbum[]) => {
-    const set = new Set<string>();
-    albums.forEach((album) => {
-      album.artist.forEach((name) => {
-        set.add(name);
-      });
-    });
-    return Array.from(set).join(", ");
   };
 
   return (
     <Link className="collection_item" href={`collection/${collection.id}`}>
       <div
         className={`collection_item_image ${
-          repAlbums.length <= 1 ? "one-image" : "four-images"
+          albumImages.length <= 1 ? "one-image" : "four-images"
         }`}
       >
-        {getCollectionImageElements(repAlbums)}
+        {getCollectionImageElements(albumImages)}
       </div>
 
       <div className="collection_item_description">
         <p className="collection_item_title">{collection.title}</p>
-        <p className="collection_item_artist">{getArtistString(repAlbums)}</p>
+        <p className="collection_item_artist">{albumArtists.join(", ")}</p>
       </div>
     </Link>
   );
@@ -90,7 +74,7 @@ export default CollectionItem;
 
 interface CollectionItemImageProps {
   src: string;
-  alt: string;
+  alt?: string;
   isOne?: boolean;
 }
 
@@ -102,5 +86,5 @@ const CollectionItemImage = (props: CollectionItemImageProps) => {
     ? "(max-width: 376px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 256px"
     : "(max-width: 376px) 25vw, (max-width: 768px) 17vw, (max-width: 1024px) 13vw, 128px";
 
-  return <Image src={src} alt={alt} fill sizes={sizes} />;
+  return <Image src={src} alt={alt ?? ""} fill sizes={sizes} />;
 };

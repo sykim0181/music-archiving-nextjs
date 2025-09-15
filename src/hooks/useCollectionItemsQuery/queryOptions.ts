@@ -63,7 +63,8 @@ export function getUseCollectionItemsQueryOptions(
       const items: CollectionItemType[] = collections.map(
         (collection, idx) => ({
           collection,
-          repAlbums: repAlbumsList[idx],
+          albumImages: repAlbumsList[idx].images,
+          albumArtists: repAlbumsList[idx].artists,
         })
       );
       return items;
