@@ -38,7 +38,18 @@ const CollectionsServer = async ({
 
   const queryOptions = await getQueryOptions();
   await queryClient.prefetchInfiniteQuery(queryOptions);
-  const state = dehydrate(queryClient);
+  const state = dehydrate(queryClient, {
+    shouldDehydrateQuery: (q) => {
+      if (q.queryKey[0] !== "collection-items") return false;
+      if (q.state.status !== "success") return false;
+      const d: any = q.state.data;
+      if (d?.pages?.length > 1) {
+        d.pages = d.pages.slice(0, 1);
+        d.pageParams = [0];
+      }
+      return true;
+    },
+  });
   // const q = state.queries.find(
   //   (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "collection-items"
   // );
