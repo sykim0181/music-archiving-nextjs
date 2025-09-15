@@ -3,6 +3,7 @@ import "./page.scss";
 import TabBar from "@/components/Collections/TabBar";
 import { redirect } from "next/navigation";
 import CollectionsServer from "@/components/Collections/CollectionsServer";
+import { Suspense } from "react";
 
 const categories = ["public", "user"] as const;
 export type Category = (typeof categories)[number];
@@ -40,7 +41,23 @@ const Page = async ({
       <div>
         <TabBar current={currentCategory} showUser={userSignedIn} />
         <div className="page_sub_divider" />
-        <CollectionsServer category={currentCategory} limit={limit} />
+        <Suspense
+          fallback={
+            <div className="collection_list_container">
+              {Array.from({ length: limit }).map((_, idx) => (
+                <div
+                  key={`collection_item_skeleton_${idx}`}
+                  className="collection_skeleton_item"
+                >
+                  <div className="collection_skeleton_image" />
+                  <div className="collection_skeleton_description" />
+                </div>
+              ))}
+            </div>
+          }
+        >
+          <CollectionsServer category={currentCategory} limit={limit} />
+        </Suspense>
       </div>
     </>
   );
