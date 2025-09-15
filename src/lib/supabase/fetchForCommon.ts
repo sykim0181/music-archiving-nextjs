@@ -4,7 +4,7 @@ import { SupabaseClient } from "@supabase/supabase-js";
 export async function getCollection(
   client: SupabaseClient,
   collectionId: string
-): Promise<Collection> {
+): Promise<Collection | null> {
   const { data, error } = await client
     .from("collection-album-list")
     .select()
@@ -12,6 +12,10 @@ export async function getCollection(
 
   if (error) {
     throw new Error(`Failed to get collection: ${error.message}`);
+  }
+
+  if (data.length === 0) {
+    return null;
   }
 
   const collection = data[0] as Collection;

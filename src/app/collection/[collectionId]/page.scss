@@ -80,12 +80,13 @@
   margin-bottom: 10px;
 }
 
-.menu_container {
+.collection_menu_container {
   display: flex;
   justify-content: end;
   gap: 12px;
+}
 
-  button {
+.collection_menu_button {
     background-color: black;
     padding: 5px 10px;
     border-radius: 10px;
@@ -93,13 +94,14 @@
     color: white;
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     & p {
       margin: 0;
       margin-left: 5px;
     }
-  }
 }
+
 
 .collection_title_skeleton {
   width: 100%;

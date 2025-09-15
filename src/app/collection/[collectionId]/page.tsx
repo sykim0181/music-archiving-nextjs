@@ -1,33 +1,13 @@
 import "./page.scss";
-import CollectionContents from "@/components/Collection/CollectionContents";
-import {
-  dehydrate,
-  HydrationBoundary,
-  QueryClient,
-} from "@tanstack/react-query";
-import { getCollectionQueryKey } from "@/hooks/useCollectionQuery";
-import { createClient } from "@/utils/supabase/server";
-import { getCollection } from "@/lib/supabase/fetchForCommon";
+import CollectionAlbumListContent from "@/components/Collection/CollectionAlbumListContent";
+import CollectionDetail from "@/components/Collection/CollectionDetail";
 
-const Page = async ({
-  params,
-}: {
-  params: Promise<{ collectionId: string }>;
-}) => {
-  const { collectionId } = await params;
-
-  const queryClient = new QueryClient();
-  const supabaseClient = await createClient();
-
-  queryClient.prefetchQuery({
-    queryKey: getCollectionQueryKey(collectionId),
-    queryFn: () => getCollection(supabaseClient, collectionId),
-  });
-
+const Page = () => {
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <CollectionContents collectionId={collectionId} />
-    </HydrationBoundary>
+    <>
+      <CollectionDetail />
+      <CollectionAlbumListContent />
+    </>
   );
 };
 

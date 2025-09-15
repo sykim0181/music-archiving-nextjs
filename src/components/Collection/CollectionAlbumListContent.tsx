@@ -1,32 +1,15 @@
+"use client";
+
 import Image from "next/image";
-import SyncLoader from "react-spinners/SyncLoader";
-import { Album, Collection } from "@/types/common";
+import { Album } from "@/types/common";
 import Carousel from "../common/Carousel";
-import useCollectionAlbums from "@/hooks/useCollectionAlbums";
 import { useState } from "react";
 import AlbumInfoModal from "../common/AlbumInfoModal";
+import { useCollection } from "./CollectionProvider";
 
-interface CollectionAlbumListContentProps {
-  collection: Collection;
-}
-
-const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
-  const { collection } = props;
-
-  const { albums, isError, isFetching } = useCollectionAlbums(collection.id);
+const CollectionAlbumListContent = () => {
+  const { albums } = useCollection();
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
-
-  if (isError) {
-    return <p>앨범 목록을 불러오는데 실패했습니다.</p>;
-  }
-
-  if (isFetching || albums === undefined) {
-    return (
-      <div className="collection_album_list_loader_container">
-        <SyncLoader color="#000000" size={10} />
-      </div>
-    );
-  }
 
   const onClickAlbumItem = (album: Album) => {
     setSelectedAlbum(album);
@@ -46,40 +29,32 @@ const CollectionAlbumListContent = (props: CollectionAlbumListContentProps) => {
       <div className="page_sub_divider" />
 
       <ul className="list_album">
-        {albums.map((album, idx) => {
-          if (album === undefined) {
-            return <></>;
-          }
+        {albums.map((album, idx) => (
+          <li
+            className="album_item"
+            key={album.id}
+            onClick={() => onClickAlbumItem(album)}
+          >
+            <p className="album_item_index">{idx + 1}</p>
+            <div className="album_item_image">
+              <Image
+                src={album.imageUrl}
+                width={70}
+                height={70}
+                alt={album.name}
+              />
+            </div>
 
-          return (
-            <li
-              className="album_item"
-              key={album.id}
-              onClick={() => onClickAlbumItem(album)}
-            >
-              <p className="album_item_index">{idx + 1}</p>
-              <div className="album_item_image">
-                <Image
-                  src={album.imageUrl}
-                  width={70}
-                  height={70}
-                  alt={album.name}
-                />
+            <div className="album_item_info">
+              <p className="album_item_name">{album.name}</p>
+              <div className="album_item_description">
+                <p className="album_item_artist">{album.artists.join(", ")}</p>
+                <p className="album_item_description_divider">·</p>
+                <p className="album_item_track_number">{`${album.total_tracks}곡`}</p>
               </div>
-
-              <div className="album_item_info">
-                <p className="album_item_name">{album.name}</p>
-                <div className="album_item_description">
-                  <p className="album_item_artist">
-                    {album.artists.join(", ")}
-                  </p>
-                  <p className="album_item_description_divider">·</p>
-                  <p className="album_item_track_number">{`${album.total_tracks}곡`}</p>
-                </div>
-              </div>
-            </li>
-          );
-        })}
+            </div>
+          </li>
+        ))}
       </ul>
 
       {selectedAlbum && (
