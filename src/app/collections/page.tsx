@@ -23,7 +23,7 @@ const Page = async ({
 
   const supabase = await createClient();
   const { data } = await supabase.auth.getUser();
-  const userSignedIn = data !== null;
+  const userSignedIn = data.user !== null;
 
   if (currentCategory === "user") {
     if (!userSignedIn) {
