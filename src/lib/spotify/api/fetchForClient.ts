@@ -1,6 +1,21 @@
-import { TAlbumTrackResponse } from "@/types/apiResponse";
-import { Album } from "@/types/common";
+import { Album, Track } from "@/types/common";
 import queryString from "query-string";
+
+export async function fetchAlbums(albumIds: string[]) {
+  const response = await fetch(
+    `/api/spotify/albums?ids=${albumIds.join(",")}`,
+    {
+      method: "GET",
+    }
+  );
+
+  if (response.status !== 200) {
+    const { error } = await response.json();
+    throw error;
+  }
+  const { albums } = await response.json();
+  return albums as Album[];
+}
 
 export async function getAlbum(albumId: string): Promise<Album> {
   const response = await fetch(`/api/spotify/album?id=${albumId}`, {
@@ -14,37 +29,6 @@ export async function getAlbum(albumId: string): Promise<Album> {
 
   const { album } = await response.json();
   return album as Album;
-}
-
-export async function getAlbums(albumIds: string[]): Promise<Album[]> {
-  const MAX_LENGTH_ID_LIST = 20;
-
-  const tasks = [];
-
-  const fetchAlbums = async (ids: string[]): Promise<Album[]> => {
-    const response = await fetch(`/api/spotify/albums?ids=${ids.join(",")}`, {
-      method: "GET",
-    });
-
-    if (!response.ok) {
-      const { error } = await response.json();
-      console.log(error);
-      return [];
-    }
-
-    const { albums } = await response.json();
-    return albums as Album[];
-  };
-
-  const chunkSize = MAX_LENGTH_ID_LIST;
-  for (let i = 0; i < albumIds.length; i += chunkSize) {
-    const ids = albumIds.slice(i, i + chunkSize);
-    const task = fetchAlbums(ids);
-    tasks.push(task);
-  }
-
-  const albums = await Promise.all(tasks);
-  return albums.flat();
 }
 
 export async function searchAlbum(
@@ -73,9 +57,7 @@ export async function searchAlbum(
   return albums as Album[];
 }
 
-export async function getAlbumTracks(
-  albumId: string
-): Promise<TAlbumTrackResponse[]> {
+export async function getAlbumTracks(albumId: string): Promise<Track[]> {
   const response = await fetch(`/api/spotify/tracks?id=${albumId}`, {
     method: "GET",
   });
@@ -86,5 +68,28 @@ export async function getAlbumTracks(
   }
 
   const { tracks } = await response.json();
-  return tracks as TAlbumTrackResponse[];
+  return tracks as Track[];
+}
+
+export async function playAlbum(
+  deviceId: string,
+  albumUri: string,
+  trackIndex?: number
+) {
+  const response = await fetch(
+    "/api/spotify/player/play/album?" +
+      queryString.stringify({
+        device_id: deviceId,
+        uri: albumUri,
+        track_index: trackIndex,
+      }),
+    {
+      method: "PUT",
+    }
+  );
+
+  if (!response.ok) {
+    const { error } = await response.json();
+    throw new Error(error);
+  }
 }

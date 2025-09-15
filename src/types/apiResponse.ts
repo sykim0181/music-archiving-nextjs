@@ -1,15 +1,5 @@
 import { PlaybackStateResponse } from "./spotify";
 
-export type TAlbumTrackResponse = {
-  artists: string[];
-  duration: number;
-  id: string;
-  is_playable: boolean;
-  name: string;
-  uri: string;
-  spotify_url: string;
-};
-
 export type PlaybackResponse = {
   state: PlaybackStateResponse | null;
 };

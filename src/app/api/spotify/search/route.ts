@@ -1,8 +1,5 @@
-import { spotifyAPI } from "@/lib/spotify/app-token/axios";
-import { Album } from "@/types/common";
-import { SearchResponseAlbumsType } from "@/types/spotify";
+import { searchAlbum } from "@/lib/spotify/api/fetchForServer";
 import { NextRequest, NextResponse } from "next/server";
-import queryString from "query-string";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
@@ -10,34 +7,19 @@ export async function GET(request: NextRequest) {
   const limit = searchParams.get("limit");
   const offset = searchParams.get("offset");
 
-  const response = await spotifyAPI({
-    method: "GET",
-    url:
-      `/search?` +
-      queryString.stringify({
-        q: query,
-        type: "album",
-        limit,
-        offset,
-        locale: "ko_KR",
-      }),
-  });
-
-  if (response.status !== 200) {
-    const { error } = response.data;
-    return NextResponse.json({ error }, { status: 500 });
+  if (query === null) {
+    const error = new Error("query parameter is missing");
+    return NextResponse.json({ error }, { status: 400 });
   }
 
-  const result = response.data.albums as SearchResponseAlbumsType;
-  const albums: Album[] = result.items.map((item) => ({
-    id: item.id,
-    total_tracks: item.total_tracks,
-    imageUrl: item.images?.[0].url ?? "",
-    name: item.name,
-    artists: item.artists.map((artist) => artist.name),
-    uri: item.uri,
-    releaseDate: item.release_date,
-    spotify_url: item.external_urls.spotify,
-  }));
-  return NextResponse.json({ albums }, { status: 200 });
+  try {
+    const albums = await searchAlbum(
+      query,
+      limit ? Number(limit) : undefined,
+      offset ? Number(limit) : undefined
+    );
+    return NextResponse.json({ albums }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
 }

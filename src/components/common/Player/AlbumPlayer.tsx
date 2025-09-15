@@ -1,5 +1,5 @@
 import { AlbumWithTrack } from "@/types/common";
-import { getAlbum, getAlbumTracks } from "@/utils/musicUtils";
+import { getAlbum, getAlbumTracks } from "@/lib/spotify/api/fetchForClient";
 import { useQuery } from "@tanstack/react-query";
 import BeatLoader from "react-spinners/BeatLoader";
 import AlbumPlayerContents from "./AlbumPlayerContents";
@@ -8,7 +8,7 @@ import "@/styles/AlbumPlayer.scss";
 import { PlayerSize } from "./Player";
 
 interface Props {
-  playerSize: PlayerSize
+  playerSize: PlayerSize;
 }
 
 const AlbumPlayer = ({ playerSize }: Props) => {

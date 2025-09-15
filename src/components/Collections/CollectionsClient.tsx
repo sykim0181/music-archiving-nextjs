@@ -1,26 +1,32 @@
 "use client";
 
-import { CollectionItemType } from "@/types/common";
+import { Category } from "@/app/collections/page";
+import { UseCollectionItemsQuery } from "@/hooks/useCollectionItemsQuery/queryOptions";
+import usePublicCollectionItemsQuery from "@/hooks/useCollectionItemsQuery/usePublicCollectionItemsQuery";
+import useUserCollectionItemsQuery from "@/hooks/useCollectionItemsQuery/useUserCollectionItemsQuery";
+import { useEffect, useMemo } from "react";
+import { useInView } from "react-intersection-observer";
 import CollectionItem from "./CollectionItem";
 import Loading from "../common/Loading";
-import { useInView } from "react-intersection-observer";
-import { useEffect, useMemo } from "react";
-import { InfiniteData, UseInfiniteQueryResult } from "@tanstack/react-query";
 
-interface CollectionListContainerProps {
-  queryResult: UseInfiniteQueryResult<InfiniteData<CollectionItemType[]>>;
-  dummyLength: number;
+const queryMapper: Record<Category, UseCollectionItemsQuery> = {
+  public: usePublicCollectionItemsQuery,
+  user: useUserCollectionItemsQuery,
+};
+
+interface Props {
+  category: Category;
+  limit: number;
 }
 
-const CollectionListContainer = ({
-  queryResult,
-  dummyLength,
-}: CollectionListContainerProps) => {
-  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = queryResult;
-  const [ref, inView] = useInView();
-
+const CollectionsClient = ({ category, limit }: Props) => {
+  const useQuery = queryMapper[category];
+  const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useQuery({
+    limit,
+  });
   const collectionItems = useMemo(() => data?.pages.flat(), [data]);
 
+  const [ref, inView] = useInView();
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
@@ -30,7 +36,7 @@ const CollectionListContainer = ({
   if (collectionItems === undefined) {
     return (
       <div className="collection_list_container">
-        {Array.from({ length: dummyLength }).map((_, idx) => (
+        {Array.from({ length: limit }).map((_, idx) => (
           <div
             key={`collection_item_skeleton_${idx}`}
             className="collection_skeleton_item"
@@ -67,4 +73,4 @@ const CollectionListContainer = ({
   );
 };
 
-export default CollectionListContainer;
+export default CollectionsClient;

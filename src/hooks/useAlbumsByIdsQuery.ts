@@ -1,4 +1,5 @@
-import { getAlbums } from "@/utils/musicUtils";
+import { fetchAlbums } from "@/lib/spotify/api/fetchForClient";
+import { getAlbums } from "@/utils/spotifyUtils";
 import { useQuery } from "@tanstack/react-query";
 
 function getKey(ids: string[]) {
@@ -8,7 +9,7 @@ function getKey(ids: string[]) {
 const useAlbumsByIdsQuery = (ids: string[]) => {
   return useQuery({
     queryKey: ["albums-by-ids", getKey(ids)],
-    queryFn: () => getAlbums(ids),
+    queryFn: () => getAlbums(ids, fetchAlbums),
     staleTime: Infinity,
   });
 };

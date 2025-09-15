@@ -1,4 +1,4 @@
-import { getCollection } from "@/utils/collectionUtils";
+import { getCollection } from "@/lib/supabase/fetchForCommon";
 import { createClient } from "@/utils/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 

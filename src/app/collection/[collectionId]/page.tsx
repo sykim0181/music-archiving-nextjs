@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-query";
 import { getCollectionQueryKey } from "@/hooks/useCollectionQuery";
 import { createClient } from "@/utils/supabase/server";
-import { getCollection } from "@/utils/collectionUtils";
+import { getCollection } from "@/lib/supabase/fetchForCommon";
 
 const Page = async ({
   params,

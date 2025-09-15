@@ -1,4 +1,4 @@
-import { deleteCollection } from "@/utils/collectionUtils";
+import { deleteCollection } from "@/lib/supabase/fetchForClient";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const useDeleteCollectionMutation = () => {

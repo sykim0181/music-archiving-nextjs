@@ -1,4 +1,4 @@
-import { searchAlbum } from "@/utils/musicUtils";
+import { searchAlbum } from "@/lib/spotify/api/fetchForClient";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
 interface useSearchAlbumQueryProps {

@@ -1,4 +1,4 @@
-import { getAlbumTracks } from "@/utils/musicUtils";
+import { getAlbumTracks } from "@/lib/spotify/api/fetchForClient";
 import { useQuery } from "@tanstack/react-query";
 
 const useAlbumTracksQuery = (albumId: string) => {

@@ -1,9 +1,14 @@
-import { saveCollection } from "@/utils/collectionUtils";
+import { saveCollection } from "@/lib/supabase/fetchForClient";
 import { useMutation } from "@tanstack/react-query";
 
 const useSaveCollectionMutation = () => {
   return useMutation({
-    mutationFn: ({ title, isPublic, albumIdList, userId }: {
+    mutationFn: ({
+      title,
+      isPublic,
+      albumIdList,
+      userId,
+    }: {
       title: string;
       isPublic: boolean;
       albumIdList: string[];
