@@ -20,7 +20,9 @@ const TurntableMenu = ({ showMenu }: Props) => {
     const result = await dispatch(pause());
     if (result) {
       dispatch(setContext({ type: "none" }));
-      clearTurntable();
+      setTimeout(() => {
+        clearTurntable();
+      }, 500);
     }
   };
 
@@ -33,7 +35,7 @@ const TurntableMenu = ({ showMenu }: Props) => {
   };
 
   return (
-    <div className={`turntable-menu`} data-show={showMenu ? "true": "false"}>
+    <div className={`turntable-menu`} data-show={showMenu ? "true" : "false"}>
       <div className="album-info">
         {`${albumOnTurntable?.artists.join(", ")} - ${albumOnTurntable?.name}`}
       </div>
