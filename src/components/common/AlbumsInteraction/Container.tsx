@@ -1,26 +1,24 @@
 "use client";
 
 import styles from "@/styles/AlbumsInteraction.module.scss";
-import {
-  PointerEvent,
-  ReactNode,
-  RefObject,
-  useContext,
-} from "react";
+import { PointerEvent, ReactNode, RefObject, useContext, useRef } from "react";
 import {
   DraggingAlbumContext,
   useActionsContext,
 } from "../../providers/InteractionProvider";
+import Turntable from "./Turntable";
+import Player from "../Player/Player";
+import FloatingVinyl from "./FloatingVinyl";
 
 interface Props {
-  floatingVinylRef: RefObject<HTMLDivElement | null>;
   lpPlatterRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }
 
-const Container = ({ floatingVinylRef, lpPlatterRef, children }: Props) => {
+const Container = ({ lpPlatterRef, children }: Props) => {
   const draggingAlbum = useContext(DraggingAlbumContext);
   const { dropAlbum, putAlbumOnTurntable } = useActionsContext();
+  const floatingVinylRef = useRef<HTMLDivElement>(null);
 
   const onPointerUp = () => {
     if (draggingAlbum) {
@@ -75,6 +73,13 @@ const Container = ({ floatingVinylRef, lpPlatterRef, children }: Props) => {
       onPointerMove={onPointerMove}
     >
       {children}
+
+      <div className={styles.bottom_area}>
+        <Turntable lpPlatterRef={lpPlatterRef} />
+        <Player />
+      </div>
+
+      <FloatingVinyl ref={floatingVinylRef} />
     </div>
   );
 };
