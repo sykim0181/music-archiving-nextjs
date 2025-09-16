@@ -1,18 +1,26 @@
 import { Album } from "@/types/common";
 import { createContext, ReactNode, useContext, useMemo, useState } from "react";
 
+type DragInfo = {
+  album: Album;
+  size: number;
+  x: number;
+  y: number;
+};
+
 type ActionsContext = {
   addAlbum: (album: Album) => void;
   deleteAlbum: (albumId: string) => void;
   setAlbums: (albums: Album[]) => void;
-  dragAlbum: (album: Album) => void;
+  startDraggingAlbum: (dragInfo: DragInfo) => void;
+  dragAlbum: (x: number, y: number) => void;
   dropAlbum: () => void;
   putAlbumOnTurntable: (album: Album) => void;
   clearTurntable: () => void;
 };
 
 export const AlbumsContext = createContext<Album[]>([]);
-export const DraggingAlbumContext = createContext<Album | null>(null);
+export const DraggingAlbumContext = createContext<DragInfo | null>(null);
 export const AlbumOnTurntableContext = createContext<Album | null>(null);
 export const ActionsContext = createContext<ActionsContext | undefined>(
   undefined
@@ -37,19 +45,21 @@ interface Props {
 
 const InteractionProvider = ({ initialAlbums, children }: Props) => {
   const [albums, setAlbums] = useState<Album[]>(initialAlbums ?? []);
-  const [draggingAlbum, setDraggingAlbum] = useState<Album | null>(null);
+  const [albumDragInfo, setAlbumDragInfo] = useState<DragInfo | null>(null);
   const [albumOnTurntable, setAlbumOnTurntable] = useState<Album | null>(null);
 
   const actions = useMemo(
-    () => ({
+    (): ActionsContext => ({
       addAlbum: (album: Album) => setAlbums((prev) => [...prev, album]),
       deleteAlbum: (albumId: string) =>
         setAlbums((prev) => prev.filter((val) => val.id !== albumId)),
       setAlbums: (albums: Album[]) => setAlbums(albums),
-      dragAlbum: (album: Album) => setDraggingAlbum(album),
-      dropAlbum: () => setDraggingAlbum(null),
+      startDraggingAlbum: (dragInfo: DragInfo) => setAlbumDragInfo(dragInfo),
+      dragAlbum: (x: number, y: number) =>
+        setAlbumDragInfo((prev) => (prev ? { ...prev, x, y } : prev)),
+      dropAlbum: () => setAlbumDragInfo(null),
       putAlbumOnTurntable: (album: Album) => {
-        setDraggingAlbum(null);
+        setAlbumDragInfo(null);
         setAlbumOnTurntable(album);
       },
       clearTurntable: () => setAlbumOnTurntable(null),
@@ -60,7 +70,7 @@ const InteractionProvider = ({ initialAlbums, children }: Props) => {
   return (
     <ActionsContext.Provider value={actions}>
       <AlbumsContext.Provider value={albums}>
-        <DraggingAlbumContext.Provider value={draggingAlbum}>
+        <DraggingAlbumContext.Provider value={albumDragInfo}>
           <AlbumOnTurntableContext.Provider value={albumOnTurntable}>
             {children}
           </AlbumOnTurntableContext.Provider>

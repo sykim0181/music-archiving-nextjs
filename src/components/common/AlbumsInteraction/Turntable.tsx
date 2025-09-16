@@ -16,7 +16,7 @@ interface Props {
 }
 
 const Turntable = ({ lpPlatterRef }: Props) => {
-  const draggingAlbum = useContext(DraggingAlbumContext);
+  const albumDragInfo = useContext(DraggingAlbumContext);
   const albumOnTurntable = useContext(AlbumOnTurntableContext);
   const isPlaying = useTypedSelector((state) => state.player.isPlaying);
 
@@ -46,12 +46,12 @@ const Turntable = ({ lpPlatterRef }: Props) => {
         <TurntableObject
           size={6}
           showLp={albumOnTurntable !== null}
-          viewOnTop={draggingAlbum !== null && albumOnTurntable == null}
+          viewOnTop={albumDragInfo !== null && albumOnTurntable == null}
           isPlaying={isPlaying}
         />
       </Canvas>
 
-      {draggingAlbum !== null && (
+      {albumDragInfo !== null && (
         <div className="lp-platter" ref={lpPlatterRef} />
       )}
 

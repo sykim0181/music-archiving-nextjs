@@ -8,10 +8,10 @@ interface Props {
 }
 
 const FloatingVinyl = ({ ref }: Props) => {
-  const draggingAlbum = useContext(DraggingAlbumContext);
+  const albumDragInfo = useContext(DraggingAlbumContext);
 
   useLayoutEffect(() => {
-    if (!ref.current || !draggingAlbum) {
+    if (!ref.current || !albumDragInfo) {
       return;
     }
     const listItem = document.getElementsByClassName(styles.list_lp_item);
@@ -24,17 +24,24 @@ const FloatingVinyl = ({ ref }: Props) => {
     const size = boundingRect.width;
     ref.current.style.width = `${size}px`;
     ref.current.style.height = `${size}px`;
-  }, [draggingAlbum]);
+  }, [albumDragInfo]);
 
-  if (!draggingAlbum) {
+  if (!albumDragInfo) {
     return <></>;
   }
+
+  const { x, y, size } = albumDragInfo;
 
   return (
     <div
       ref={ref}
       className={styles.floating_vinyl}
       onContextMenu={() => false}
+      style={{
+        width: `${size}px`,
+        height: `${size}px`,
+        transform: `translate(${x}px,${y}px)`,
+      }}
     >
       <Image src="/vinyl-black.png" alt="vinyl" fill />
     </div>

@@ -1,5 +1,5 @@
 import { Album } from "@/types/common";
-import { TouchEvent, useState } from "react";
+import { MouseEvent, TouchEvent, useRef, useState } from "react";
 import styles from "@/styles/AlbumsInteraction.module.scss";
 import AlbumCover from "../AlbumCover";
 import Image from "next/image";
@@ -12,7 +12,16 @@ interface Props {
 
 const LpComponent = ({ album, className }: Props) => {
   const [showVinyl, setShowVinyl] = useState(false);
-  const { dragAlbum } = useActionsContext()
+  const ref = useRef<HTMLDivElement>(null);
+  const { startDraggingAlbum } = useActionsContext();
+
+  const getLpSize = () => {
+    if (!ref.current) {
+      return 0;
+    }
+    const { width } = ref.current.getBoundingClientRect();
+    return width;
+  };
 
   const onMouseOverCover = () => {
     setShowVinyl(true);
@@ -24,15 +33,23 @@ const LpComponent = ({ album, className }: Props) => {
 
   const onTouchStartCover = (e: TouchEvent) => {
     setShowVinyl(false);
-    dragAlbum(album)
+    const size = getLpSize();
+    const { clientX, clientY } = e.touches[0];
+    const x = clientX - size / 2;
+    const y = clientY - size / 2;
+    startDraggingAlbum({ album, size, x, y });
   };
 
-  const onMouseDownVinyl = () => {
-    dragAlbum(album)
+  const onMouseDownVinyl = (e: MouseEvent) => {
+    const size = getLpSize();
+    const x = e.clientX - size / 2;
+    const y = e.clientY - size / 2;
+    startDraggingAlbum({ album, size, x, y });
   };
 
   return (
     <div
+      ref={ref}
       className={`${styles.lp_component} ${className ?? ""}`}
       onMouseOver={onMouseOverCover}
       onMouseOut={onMouseOutCover}

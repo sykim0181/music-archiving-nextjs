@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "@/styles/AlbumsInteraction.module.scss";
-import { PointerEvent, ReactNode, RefObject, useContext, useRef } from "react";
+import { PointerEvent, ReactNode, useContext, useRef } from "react";
 import {
   DraggingAlbumContext,
   useActionsContext,
@@ -11,23 +11,23 @@ import Player from "../Player/Player";
 import FloatingVinyl from "./FloatingVinyl";
 
 interface Props {
-  lpPlatterRef: RefObject<HTMLDivElement | null>;
   children: ReactNode;
 }
 
-const Container = ({ lpPlatterRef, children }: Props) => {
-  const draggingAlbum = useContext(DraggingAlbumContext);
-  const { dropAlbum, putAlbumOnTurntable } = useActionsContext();
+const Container = ({ children }: Props) => {
+  const albumDragInfo = useContext(DraggingAlbumContext);
+  const { dropAlbum, putAlbumOnTurntable, dragAlbum } = useActionsContext();
   const floatingVinylRef = useRef<HTMLDivElement>(null);
+  const lpPlatterRef = useRef<HTMLDivElement>(null);
 
   const onPointerUp = () => {
-    if (draggingAlbum) {
+    if (albumDragInfo) {
       dropAlbum();
     }
   };
 
   const onPointerMove = (e: PointerEvent) => {
-    if (!draggingAlbum) {
+    if (!albumDragInfo) {
       return;
     }
 
@@ -58,17 +58,17 @@ const Container = ({ lpPlatterRef, children }: Props) => {
       vinylTop >= platterTop &&
       vinylBottom <= platterBottom
     ) {
-      putAlbumOnTurntable(draggingAlbum);
+      putAlbumOnTurntable(albumDragInfo.album);
     } else {
       // lpPlatter 위에 있지 않으면 위치만 이동
-      floatingVinylRef.current.style.transform = `translate(${x}px,${y}px)`;
+      dragAlbum(x, y);
     }
   };
 
   return (
     <div
       className={styles.container}
-      data-album-dragging={draggingAlbum ? "true" : "false"}
+      data-album-dragging={albumDragInfo ? "true" : "false"}
       onPointerUp={onPointerUp}
       onPointerMove={onPointerMove}
     >

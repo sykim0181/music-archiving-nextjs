@@ -1,6 +1,5 @@
 import { Album } from "@/types/common";
 import { useLoader } from "@react-three/fiber";
-import { useRef } from "react";
 import { TextureLoader } from "three";
 import InteractionProvider from "../../../providers/InteractionProvider";
 import Container from "../Container";
@@ -15,13 +14,9 @@ interface Props {
 }
 
 const UneditableInteraction = ({ albums }: Props) => {
-  const lpPlatterRef = useRef<HTMLDivElement>(null);
-
   return (
     <InteractionProvider initialAlbums={albums}>
-      <Container
-        lpPlatterRef={lpPlatterRef}
-      >
+      <Container>
         <div className={styles.content}>
           <AlbumList />
           <div className={styles.blur} />

@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useState } from "react";
 import styles from "@/styles/AlbumsInteraction.module.scss";
 import { RxPlus } from "react-icons/rx";
 import AddAlbumModal from "./Editable/AddAlbumModal";
@@ -39,4 +39,4 @@ const AlbumList = ({ addable }: Props) => {
   );
 };
 
-export default AlbumList;
+export default memo(AlbumList);
