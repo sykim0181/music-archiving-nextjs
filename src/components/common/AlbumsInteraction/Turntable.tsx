@@ -8,7 +8,6 @@ import TurntableMenu from "./TurntableMenu";
 import {
   AlbumOnTurntableContext,
   DraggingAlbumContext,
-  useActionsContext,
 } from "../../providers/InteractionProvider";
 import { useTypedSelector } from "@/lib/redux/store";
 
@@ -19,7 +18,6 @@ interface Props {
 const Turntable = ({ lpPlatterRef }: Props) => {
   const draggingAlbum = useContext(DraggingAlbumContext);
   const albumOnTurntable = useContext(AlbumOnTurntableContext);
-  const { putAlbumOnTurntable, dropAlbum } = useActionsContext();
   const isPlaying = useTypedSelector((state) => state.player.isPlaying);
 
   const [showMenu, setShowMenu] = useState(false);
