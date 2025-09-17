@@ -58,6 +58,7 @@
 
 .turntable-menu[data-show="false"] {
   opacity: 0;
+  pointer-events: none;
 }
 
 .lp-platter {

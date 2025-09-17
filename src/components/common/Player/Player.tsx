@@ -22,7 +22,7 @@ const Player = () => {
 
   return (
     <div
-      className={`player-container box_shadow gradient_bg ${size.toLowerCase()}`}
+      className={`player-container box_shadow ${size.toLowerCase()}`}
     >
       {contextType === "album" && <AlbumPlayer playerSize={size} />}
       <PlayerOverlay />

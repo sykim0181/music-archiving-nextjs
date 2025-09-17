@@ -1,4 +1,4 @@
-.player-container {
+.album-player-container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -28,6 +28,7 @@
   display: flex;
   gap: 16px;
   justify-content: space-between;
+  position: relative;
 
   .left-part {
     display: flex;
@@ -43,6 +44,7 @@
     border-radius: 20px;
     overflow: hidden;
     position: relative;
+    margin: auto 0;
 
     img {
       width: 100%;
@@ -53,6 +55,10 @@
   .album-info {
     width: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    justify-content: center;
 
     p {
       display: block;
@@ -62,6 +68,11 @@
       text-overflow: ellipsis;
       line-clamp: 1;
       word-break: break-all;
+      margin: 0;
+    }
+
+    p.current-track-name {
+      font-weight: bold;
     }
   }
 
@@ -70,6 +81,7 @@
     justify-content: end;
     gap: 20px;
     position: relative;
+    margin-top: auto;
   }
 
   .button-group {

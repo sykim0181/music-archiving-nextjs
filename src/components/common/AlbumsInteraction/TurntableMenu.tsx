@@ -35,7 +35,7 @@ const TurntableMenu = ({ showMenu }: Props) => {
   };
 
   return (
-    <div className={`turntable-menu`} data-show={showMenu ? "true" : "false"}>
+    <div className="turntable-menu" data-show={showMenu ? "true" : "false"}>
       <div className="album-info">
         {`${albumOnTurntable?.artists.join(", ")} - ${albumOnTurntable?.name}`}
       </div>

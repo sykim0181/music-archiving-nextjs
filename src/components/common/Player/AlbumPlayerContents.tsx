@@ -65,7 +65,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
   if (playerSize === "MICRO") {
     return (
       <div
-        className="micro-sized-player player-container"
+        className="micro-sized-player album-player-container"
         style={{ backgroundImage: `url(${album.imageUrl})` }}
       >
         {isPlaying ? (
@@ -83,14 +83,17 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
 
   if (playerSize === "MINIMISED") {
     return (
-      <div className="mini-sized-player player-container gradient_bg">
+      <div className="mini-sized-player album-player-container bg-gradient">
         <div className="left-part">
           <div className="album-cover-container">
             <Image src={album.imageUrl} alt="" fill />
           </div>
           <div className="album-info">
-            <p>{album.name}</p>
-            <p>{album.artists.join(", ")}</p>
+            <p className="current-track-name">
+              {album.tracks.find((value) => value.id === currentTrack?.id)
+                ?.name ?? ""}
+            </p>
+            <p>{`${album.name} · ${album.artists.join(", ")}`}</p>
           </div>
         </div>
 
@@ -131,7 +134,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
 
   // playerSize === "MAXiMISED"
   return (
-    <div className="max-sized-player player-container gradient_bg">
+    <div className="max-sized-player album-player-container bg-gradient">
       <div className="left_content">
         <div className="album_cover_container">
           <Image src={album.imageUrl} alt="" fill />
@@ -178,7 +181,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
               <li
                 key={track.id}
                 className={`track-item ${
-                  currentTrack?.id === track.id ? "track-item--selected" : ""
+                  track.id === currentTrack?.id ? "track-item--selected" : ""
                 }`}
                 onClick={() => onClickTrackItem(idx)}
               >
