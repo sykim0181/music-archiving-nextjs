@@ -86,6 +86,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
   if (playerSize === "MINIMISED") {
     const currentTrackName =
       album.tracks.find((value) => value.id === currentTrack?.id)?.name ?? "";
+    const albumInfoText = `${album.name} · ${album.artists.join(", ")}`;
     const albumCover = (
       <div className="album-cover-container">
         <Image src={album.imageUrl} alt="" fill />
@@ -133,7 +134,11 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
             <div className="left-part">{albumCover}</div>
             <div className="right-part">
               <div className="album-info">
-                <p className="current-track-name">{currentTrackName}</p>
+                <p>
+                  <span className="current-track-name">{currentTrackName}</span>
+                  {` · `}
+                  <span>{albumInfoText}</span>
+                </p>
               </div>
               <div className="button-group">
                 {prevButton}
@@ -148,7 +153,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
               {albumCover}
               <div className="album-info">
                 <p className="current-track-name">{currentTrackName}</p>
-                <p>{`${album.name} · ${album.artists.join(", ")}`}</p>
+                <p>{albumInfoText}</p>
               </div>
             </div>
 
