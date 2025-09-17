@@ -32,7 +32,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: auto;
+  background-color: white;
+  width: fit-content;
+  padding: 32px;
+  border-radius: 24px;
 
   position: absolute;
   top: 50%;
@@ -60,10 +63,10 @@
 
 .kakao_button {
   background-color: #ffe300;
-  color: #1E1E1E;
+  color: #1e1e1e;
 }
 
 .spotify_button {
-  background-color: #1ED760;
+  background-color: #1ed760;
   color: white;
 }
