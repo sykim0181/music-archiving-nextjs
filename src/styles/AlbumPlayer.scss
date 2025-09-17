@@ -2,13 +2,13 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .micro-sized-player {
   position: relative;
   background-size: cover;
+  justify-content: center;
+  align-items: center;
 
   button {
     color: #1ed760;
@@ -26,15 +26,14 @@
   padding: 16px;
   box-sizing: border-box;
   display: flex;
+  flex-direction: row;
   gap: 16px;
-  justify-content: space-between;
   position: relative;
 
   .left-part {
     display: flex;
     justify-content: start;
     gap: 16px;
-    flex: 1;
     overflow: hidden;
   }
 
@@ -107,21 +106,45 @@
   }
 }
 
+.mini-sized-player--large {
+  justify-content: space-between;
+
+  .left-part {
+    flex: 1;
+  }
+
+  .right-part {
+    flex-direction: row;
+  }
+}
+
+.mini-sized-player--small {
+  .right-part {
+    flex-direction: column;
+  }
+}
+
 .max-sized-player {
-  display: flex;
-  gap: 40px;
+  flex-direction: column;
   position: relative;
   box-sizing: border-box;
   padding: 20px;
   overflow: hidden;
 
+  .upper-content {
+    display: flex;
+    gap: 40px;
+  }
+
+  .lower-content {
+  }
+
   // Left Content
-  .left_content {
+  .upper-left-content {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    width: 180px;
     height: 100%;
   }
 
@@ -166,10 +189,12 @@
   }
 
   // Right Content
-  .right_content {
+  .upper-right-content {
     flex: 1;
     height: 100%;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .album_info {
@@ -197,6 +222,40 @@
   }
 
   .track_list_container {
+  }
+}
+
+.max-sized-player--small {
+  gap: 16px;
+
+  .upper-left-content {
+    width: 120px;
+  }
+
+  .upper-right-content {
+    justify-content: space-between;
+  }
+
+  .lower-content {
+    height: calc(100% - 120px - 16px);
+
+    .track_list_container {
+      height: 100%;
+    }
+  }
+}
+
+.max-sized-player--large {
+  .upper-content {
+    width: 100%;
+    height: 100%;
+  }
+
+  .upper-left-content {
+    width: 180px;
+  }
+
+  .upper-right-content .track_list_container {
     height: calc(100% - 50px);
   }
 }
