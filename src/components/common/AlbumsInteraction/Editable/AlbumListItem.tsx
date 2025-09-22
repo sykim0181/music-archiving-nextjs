@@ -19,7 +19,7 @@ const AlbumListItem = (prop: Prop) => {
       }`}
     >
       <div className={styles.album_item_cover}>
-        <Image src={album.imageUrl} alt={`${album.name}`} fill />
+        <Image src={album.imageUrl} alt={`${album.name}`} fill sizes="100px" />
       </div>
       <div className={styles.album_item_description}>
         <p>{album.name}</p>
