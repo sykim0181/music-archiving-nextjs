@@ -50,10 +50,14 @@ const AddAlbumModal = ({ closeModal }: Props) => {
         />
       </div>
 
-      <AddAlbumModalSearchResult
-        input={debouncedInput}
-        albumToAddRef={albumToAdd}
-      />
+      <div className={styles.search_result_container}>
+        {debouncedInput && (
+          <AddAlbumModalSearchResult
+            input={debouncedInput}
+            albumToAddRef={albumToAdd}
+          />
+        )}
+      </div>
 
       <div className="modal_button_container">
         <button className="modal_button bg_black" onClick={onClickAddButton}>

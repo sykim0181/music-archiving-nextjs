@@ -1,13 +1,7 @@
 @use "./commonStyle.scss";
 
 @include commonStyle.mobile {
-  .album_item_cover {
-    width: 70px;
-    height: 70px;
-  }
-
   .album_item_description {
-    width: calc(100% - 70px - 10px);
     p {
       font-size: 14px;
     }
@@ -15,13 +9,7 @@
 }
 
 @include commonStyle.tablet {
-  .album_item_cover {
-    width: 90px;
-    height: 90px;
-  }
-
   .album_item_description {
-    width: calc(100% - 90px - 10px);
     p {
       font-size: 15px;
     }
@@ -29,13 +17,7 @@
 }
 
 @include commonStyle.desktop {
-  .album_item_cover {
-    width: 100px;
-    height: 100px;
-  }
-
   .album_item_description {
-    width: calc(100% - 100px - 10px);
     p {
       font-size: 16px;
     }
@@ -43,10 +25,9 @@
 }
 
 .add_song_modal {
-  width: calc(100vw * 0.8);
-  height: calc(500px - 15px * 2);
-  max-width: calc(600px - 15px * 2);
-  min-width: calc(70px * 2 + 10px + 15px * 2);
+  width: 80vw;
+  max-width: 600px;
+  min-width: 200px;
 }
 
 .search_album {
@@ -60,32 +41,42 @@
   outline: none;
   border-width: 0;
   margin-left: 5px;
-  padding: 10px;
   width: 100%;
   height: 30px;
   font-size: 16px;
   border-bottom: 1px solid black;
-
 }
 
-.modal_button {
-  padding: 10px 30px;
-  border-radius: 10px;
+.search_result_container {
+  width: 100%;
+  height: 350px;
 }
 
 .search_result_album_list {
-  overflow: auto;
-  width: calc(100% - 15px * 2);
-  height: calc(100% - (30px + 10px) - 40px);
+  width: 100%;
+  height: 100%;
   position: relative;
+  overflow: auto;
 }
 .search_result_album_list::-webkit-scrollbar:horizontal {
   display: none;
 }
 
+.search_result_row {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .album_item {
   display: flex;
-  width: calc(100%);
+  gap: 10px;
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   cursor: pointer;
   padding: 10px 0;
@@ -93,10 +84,14 @@
 
   .album_item_cover {
     position: relative;
-    margin-right: 10px;
+    flex-shrink: 0;
+    height: 100%;
+    aspect-ratio: 1;
   }
 
   .album_item_description {
+    flex: 1;
+
     p {
       white-space: nowrap;
     }
@@ -107,20 +102,7 @@
   border: 1px solid black;
 }
 
-.loading_container {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 5px;
-  box-sizing: border-box;
-}
-
-.inview_ref_container {
-  width: 100%;
-  height: 50px;
-}
-
-.blank_space {
-  width: 100%;
-  height: calc(100% - (30px + 10px) - 40px);
+.modal_button {
+  padding: 10px 30px;
+  border-radius: 10px;
 }

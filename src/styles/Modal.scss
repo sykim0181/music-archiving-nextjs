@@ -1,3 +1,5 @@
+$modal-header-size: 40px;
+
 .modal_overlay {
   position: fixed;
   top: 0;
@@ -21,7 +23,7 @@
 .modal_title {
   width: 100%;
   box-sizing: border-box;
-  height: 40px;
+  height: #{$modal-header-size};
   border-bottom: 1px solid black;
   display: flex;
   align-items: center;
@@ -37,7 +39,8 @@
 
 .modal_content_container {
   padding: 15px;
-  height: calc(100% - 40px - 15px * 2);
+  height: calc(100% - #{$modal-header-size});
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,11 +62,4 @@
   & + & {
     margin-left: 10px;
   }
-}
-
-h1 {
-  font-size: 20px;
-  margin: 0;
-  text-align: start;
-  margin-bottom: 10px;
 }
