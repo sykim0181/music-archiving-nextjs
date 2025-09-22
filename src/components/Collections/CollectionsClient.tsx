@@ -64,7 +64,7 @@ const CollectionsClient = ({ category, limit }: Props) => {
         <div
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
-          <Loading size={50} />
+          <Loading size={25} />
         </div>
       ) : (
         <div style={{ width: "100%", height: "100%" }} ref={ref} />
