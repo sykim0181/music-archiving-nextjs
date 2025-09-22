@@ -18,10 +18,10 @@ const AddAlbumModalSearchResult = ({ input, albumToAddRef }: Props) => {
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
 
   useEffect(() => {
-    if (inView && hasNextPage) {
+    if (inView && !isFetchingNextPage && hasNextPage) {
       fetchNextPage();
     }
-  }, [inView, hasNextPage, fetchNextPage]);
+  }, [inView, hasNextPage, isFetchingNextPage]);
 
   const albumList = useMemo(() => data?.pages.flat(), [data]);
   const hasResult = albumList !== undefined && albumList.length > 0;
@@ -40,27 +40,26 @@ const AddAlbumModalSearchResult = ({ input, albumToAddRef }: Props) => {
     <>
       <div className={styles.search_result_album_list}>
         {hasResult ? (
-          <>
-            <ul>
-              {albumList.map((album) => (
-                <li key={album.id} onClick={() => onClickAlbumItem(album)}>
-                  <AlbumListItem
-                    album={album}
-                    selected={selectedAlbum?.id === album.id}
-                  />
-                </li>
-              ))}
-            </ul>
-            {isFetchingNextPage && (
-              <div className={styles.loading_container}>
-                <Loading size={25} />
-              </div>
-            )}
-          </>
+          <ul>
+            {albumList.map((album) => (
+              <li key={album.id} onClick={() => onClickAlbumItem(album)}>
+                <AlbumListItem
+                  album={album}
+                  selected={selectedAlbum?.id === album.id}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className={styles.blank_space} />
+        )}
+        {isFetchingNextPage ? (
+          <div className={styles.loading_container}>
+            <Loading size={15} />
+          </div>
         ) : (
           <>
             <div ref={ref} className={styles.inview_ref_container} />
-            <div className={styles.blank_space} />
           </>
         )}
       </div>

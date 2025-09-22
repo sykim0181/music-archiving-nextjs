@@ -14,11 +14,10 @@ interface Props {
 }
 
 const AddAlbumModal = ({ closeModal }: Props) => {
-  const { addAlbum } =useActionsContext()
+  const { addAlbum } = useActionsContext();
   const [input, setInput] = useState("");
   const debouncedInput = useDebounce({ value: input, delay: 200 });
   const albumToAdd = useRef<Album | null>(null);
-
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
