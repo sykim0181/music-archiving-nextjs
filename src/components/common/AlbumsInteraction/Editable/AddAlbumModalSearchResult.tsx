@@ -13,7 +13,7 @@ interface Props {
 
 const AddAlbumModalSearchResult = ({ input, albumToAddRef }: Props) => {
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } =
-    useSearchAlbumQuery({ keyword: input, limit: 10 });
+    useSearchAlbumQuery({ keyword: input, limit: 30 });
   const [ref, inView] = useInView();
   const [selectedAlbum, setSelectedAlbum] = useState<Album | null>(null);
 
