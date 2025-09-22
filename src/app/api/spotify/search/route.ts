@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const albums = await searchAlbum(
       query,
       limit ? Number(limit) : undefined,
-      offset ? Number(limit) : undefined
+      offset ? Number(offset) : undefined
     );
     return NextResponse.json({ albums }, { status: 200 });
   } catch (error) {
