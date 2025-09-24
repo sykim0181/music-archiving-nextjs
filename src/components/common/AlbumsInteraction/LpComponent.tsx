@@ -65,7 +65,12 @@ const LpComponent = ({ album, className }: Props) => {
       {showVinyl && (
         <div className={styles.vinyl_behind_cover}>
           <div className={styles.vinyl} onMouseDown={onMouseDownVinyl}>
-            <Image src="/vinyl-black.png" alt="vinyl" fill />
+            <Image
+              src="/vinyl-black.png"
+              alt="vinyl"
+              fill
+              sizes="(max-width: 768px) 34vw, (max-width: 992px) 25vw, (max-width: 1200px) 20vw, 240px"
+            />
           </div>
         </div>
       )}

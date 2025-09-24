@@ -89,7 +89,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
     const albumInfoText = `${album.name} · ${album.artists.join(", ")}`;
     const albumCover = (
       <div className="album-cover-container">
-        <Image src={album.imageUrl} alt="" fill />
+        <Image src={album.imageUrl} alt="" fill sizes="120px" />
       </div>
     );
     const prevButton = (
@@ -170,7 +170,7 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
     );
   }
 
-  // playerSize === "MAXiMISED"
+  // playerSize === "MAXIMISED"
   const trackList = (
     <div className="track_list_container">
       <ul className="track-list invisible_scroll">
@@ -191,8 +191,13 @@ const AlbumPlayerContents = ({ album, playerSize }: Props) => {
     </div>
   );
   const albumCover = (
-    <div className="album_cover_container">
-      <Image src={album.imageUrl} alt="" fill />
+    <div className="album-cover-container">
+      <Image
+        src={album.imageUrl}
+        alt=""
+        fill
+        sizes="(max-width: 560px) 120px, 180px"
+      />
     </div>
   );
   const playerButtons = (
