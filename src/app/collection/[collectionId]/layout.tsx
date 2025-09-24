@@ -1,3 +1,5 @@
+export const revalidate = 60 * 10; // 10분
+
 import CollectionProvider from "@/components/Collection/CollectionProvider";
 import { getAlbumsByJoinedIds } from "@/lib/spotify/api/fetchForServer";
 import { getCollection } from "@/lib/supabase/fetchForCommon";
