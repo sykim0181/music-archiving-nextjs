@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "@/styles/AlbumsInteraction.module.scss";
-import { PointerEvent, ReactNode, useContext, useRef } from "react";
+import { PointerEvent, ReactNode, useContext, useEffect, useRef } from "react";
 import {
   DraggingAlbumContext,
   useActionsContext,
@@ -9,6 +9,8 @@ import {
 import Turntable from "./Turntable";
 import Player from "../Player/Player";
 import FloatingVinyl from "./FloatingVinyl";
+import { useAppDispatch } from "@/lib/redux/store";
+import { clearContext } from "@/lib/redux/playerSlice";
 
 interface Props {
   children: ReactNode;
@@ -19,6 +21,14 @@ const Container = ({ children }: Props) => {
   const { dropAlbum, putAlbumOnTurntable, dragAlbum } = useActionsContext();
   const floatingVinylRef = useRef<HTMLDivElement>(null);
   const lpPlatterRef = useRef<HTMLDivElement>(null);
+
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearContext());
+    };
+  }, []);
 
   const onPointerUp = () => {
     if (albumDragInfo) {
