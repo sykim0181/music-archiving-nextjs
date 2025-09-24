@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Database } from "@/types/supabase";
 import { createClient } from "@/utils/supabase/server";
 import { Collection } from "@/types/common";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
@@ -92,6 +93,8 @@ export async function DELETE(request: NextRequest) {
     const error = new Error(`Failed to delete: ${message} (${code})`);
     return NextResponse.json({ error }, { status: 500 });
   }
+
+  revalidatePath(`/collection/${collectionId}`, 'layout');
 
   return NextResponse.json({ collection }, { status: 200 });
 }

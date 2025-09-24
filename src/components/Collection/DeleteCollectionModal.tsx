@@ -22,6 +22,7 @@ const DeleteCollectionModal = ({ collectionId, closeModal }: Props) => {
       onSuccess: () => {
         alert("삭제 완료!");
         closeModal();
+        router.prefetch("/collections");
         router.push("/collections");
       },
     });
