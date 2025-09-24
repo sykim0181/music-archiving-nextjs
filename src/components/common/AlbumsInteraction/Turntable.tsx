@@ -38,7 +38,6 @@ const Turntable = ({ lpPlatterRef }: Props) => {
 
   return (
     <div
-      id="turntable"
       className={`turntable ${albumOnTurntable ? "turntable--pointable" : ""}`}
       onClick={onClickTurntable}
     >

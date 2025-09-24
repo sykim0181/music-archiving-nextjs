@@ -19,7 +19,7 @@ const LpComponent = ({ album, className }: Props) => {
       return 0;
     }
     const { width } = ref.current.getBoundingClientRect();
-    return width;
+    return Math.min(width, 200 * 0.8);
   };
 
   const onMouseOverCover = () => {

@@ -1,4 +1,4 @@
-import { RefObject, useContext, useLayoutEffect } from "react";
+import { RefObject, useContext } from "react";
 import styles from "@/styles/AlbumsInteraction.module.scss";
 import Image from "next/image";
 import { DraggingAlbumContext } from "../../providers/InteractionProvider";
@@ -9,22 +9,6 @@ interface Props {
 
 const FloatingVinyl = ({ ref }: Props) => {
   const albumDragInfo = useContext(DraggingAlbumContext);
-
-  useLayoutEffect(() => {
-    if (!ref.current || !albumDragInfo) {
-      return;
-    }
-    const listItem = document.getElementsByClassName(styles.list_lp_item);
-
-    if (!listItem) {
-      return;
-    }
-
-    const boundingRect = listItem[0].getBoundingClientRect();
-    const size = boundingRect.width;
-    ref.current.style.width = `${size}px`;
-    ref.current.style.height = `${size}px`;
-  }, [albumDragInfo]);
 
   if (!albumDragInfo) {
     return <></>;
