@@ -1,8 +1,8 @@
 import "./page.scss";
-import AlbumCover from "@/components/common/AlbumCover";
 import { IMAGE_SAMPLE_LIST } from "@/constants";
 import { bebasNeue } from "./fonts";
 import { shuffleNumber } from "@/utils/utils";
+import Image from "next/image";
 
 const Home = () => {
   const randomNumbers = shuffleNumber(IMAGE_SAMPLE_LIST.length); // 21
@@ -20,7 +20,12 @@ const Home = () => {
               animationDelay: `${100 * randomNumbers[idx]}ms`,
             }}
           >
-            <AlbumCover imgSrc={`/home/${src}`} />
+            <Image
+              src={`/home/${src}`}
+              alt=""
+              fill
+              sizes="(max-width: 768px) 34vw, (max-width: 992px) 25vw, 20vw"
+            />
           </div>
         ))}
       </div>

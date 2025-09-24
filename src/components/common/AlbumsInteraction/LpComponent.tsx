@@ -1,7 +1,6 @@
 import { Album } from "@/types/common";
 import { MouseEvent, TouchEvent, useRef, useState } from "react";
 import styles from "@/styles/AlbumsInteraction.module.scss";
-import AlbumCover from "../AlbumCover";
 import Image from "next/image";
 import { useActionsContext } from "@/components/providers/InteractionProvider";
 
@@ -56,7 +55,12 @@ const LpComponent = ({ album, className }: Props) => {
       onTouchStart={onTouchStartCover}
     >
       <div className={styles.lp_cover}>
-        <AlbumCover imgSrc={album.imageUrl} />
+        <Image
+          src={album.imageUrl}
+          alt=""
+          fill
+          sizes="(max-width: 768px) 34vw, (max-width: 992px) 25vw, (max-width: 1200px) 20vw, 240px"
+        />
       </div>
       {showVinyl && (
         <div className={styles.vinyl_behind_cover}>
