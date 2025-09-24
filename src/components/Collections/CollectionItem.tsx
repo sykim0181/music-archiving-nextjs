@@ -81,10 +81,10 @@ interface CollectionItemImageProps {
 const CollectionItemImage = (props: CollectionItemImageProps) => {
   const { src, alt, isOne } = props;
 
-  // 768px 이상 -> 4열, 376px 이상 -> 3열, 그 아래는 -> 2열 (최대너비는 1024px)
+  // 768px 이상 -> 4열, 376px 이상 -> 3열, 그 아래는 -> 2열 (최대너비는 1200px)
   const sizes = isOne
-    ? "(max-width: 376px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 25vw, 256px"
-    : "(max-width: 376px) 25vw, (max-width: 768px) 17vw, (max-width: 1024px) 13vw, 128px";
+    ? "(max-width: 376px) 50vw, (max-width: 768px) 33vw, (max-width: 1200px) 25vw, 256px"
+    : "(max-width: 376px) 25vw, (max-width: 768px) 17vw, (max-width: 1200px) 13vw, 128px";
 
   return <Image src={src} alt={alt ?? ""} fill sizes={sizes} />;
 };

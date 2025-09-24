@@ -158,7 +158,7 @@
 .bottom_area {
   width: 100%;
   height: 200px;
-  max-width: 1024px;
+  max-width: var(--default-max-width);
   display: flex;
   justify-content: center;
 }

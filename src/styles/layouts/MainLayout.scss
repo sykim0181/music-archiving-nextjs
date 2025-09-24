@@ -18,7 +18,7 @@
 }
 
 .content_container {
-  max-width: 1024px;
+  max-width: var(--default-max-width);
   min-height: calc(100dvh - #{$header-size});
   box-sizing: border-box;
   margin: 0 auto;

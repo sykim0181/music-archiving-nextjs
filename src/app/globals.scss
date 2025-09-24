@@ -1,6 +1,7 @@
 html,
 body {
   overscroll-behavior-y: none;
+  --default-max-width: 1200px;
 }
 
 body:has(#modal_container) {
