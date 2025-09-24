@@ -57,7 +57,7 @@ const CollectionsServer = async ({
 
   return (
     <HydrationBoundary state={state}>
-      <CollectionsClient category={category} limit={limit} />
+      <CollectionsClient key={category} category={category} limit={limit} />
     </HydrationBoundary>
   );
 };
