@@ -1,6 +1,3 @@
-export const KEY_SPOTIFY_ACCESS_TOKEN = "spotify-access-token";
-export const KEY_SPOTIFY_REFRESH_TOKEN = "spotify-refresh-token";
-
 export const IMAGE_SAMPLE_LIST = [
   "cliche-jukjae.jpg",
   "outbox-john_park.jpg",
@@ -24,5 +21,3 @@ export const IMAGE_SAMPLE_LIST = [
   "the_high_tide_club-the_poles.jpg",
   "hit_me_hard_and_soft-billie_eilish.jpg",
 ];
-
-export const LIMIT_NUM_ALBUM = 50;
