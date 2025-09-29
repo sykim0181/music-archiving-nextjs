@@ -8,6 +8,7 @@ import { useEffect, useMemo } from "react";
 import { useInView } from "react-intersection-observer";
 import CollectionItem from "./CollectionItem";
 import Loading from "../common/Loading";
+import { CollectionItemType } from "@/types/common";
 
 const queryMapper: Record<Category, UseCollectionItemsQuery> = {
   public: usePublicCollectionItemsQuery,
@@ -17,12 +18,14 @@ const queryMapper: Record<Category, UseCollectionItemsQuery> = {
 interface Props {
   category: Category;
   limit: number;
+  initialData?: CollectionItemType[];
 }
 
-const CollectionsClient = ({ category, limit }: Props) => {
+const CollectionsClient = ({ category, limit, initialData }: Props) => {
   const useQuery = queryMapper[category];
   const { data, hasNextPage, fetchNextPage, isFetchingNextPage } = useQuery({
     limit,
+    initialData,
   });
   const collectionItems = useMemo(() => data?.pages.flat(), [data]);
 

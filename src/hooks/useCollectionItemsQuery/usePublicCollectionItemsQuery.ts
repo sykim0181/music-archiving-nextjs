@@ -5,10 +5,13 @@ import {
   UseCollectionItemsQuery,
 } from "./queryOptions";
 
-const usePublicCollectionItemsQuery: UseCollectionItemsQuery = ({ limit }) => {
+const usePublicCollectionItemsQuery: UseCollectionItemsQuery = ({
+  limit,
+  initialData,
+}) => {
   const client = createClient();
   return useInfiniteQuery(
-    getUsePublicCollectionItemsQueryOptions(client, limit)
+    getUsePublicCollectionItemsQueryOptions(client, limit, false, initialData)
   );
 };
 

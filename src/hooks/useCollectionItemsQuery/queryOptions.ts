@@ -9,12 +9,11 @@ import {
   UseInfiniteQueryOptions,
   UseInfiniteQueryResult,
 } from "@tanstack/react-query";
-import { getAlbumsByJoinedIds } from "@/lib/spotify/api/fetchForServer";
-import { fetchAlbums } from "@/lib/spotify/api/fetchForClient";
-import { getCollectionRepresentativeAlbums } from "@/utils/collectionUtils";
+import { getCollectionItems } from "@/utils/collectionUtils";
 
 export interface useCollectionItemsQueryProps {
   limit: number;
+  initialData?: CollectionItemType[];
 }
 
 export type UseCollectionItemsQueryOptions = UseInfiniteQueryOptions<
@@ -40,39 +39,25 @@ export function getUseCollectionItemsQueryOptions(
   limit: number,
   fetchCollections: FetchCollectionsFunc,
   queryKey: string[],
-  forServer?: boolean
+  forServer?: boolean,
+  initialData?: CollectionItemType[]
 ): UseCollectionItemsQueryOptions {
   return {
     queryKey: ["collection-items", ...queryKey],
     queryFn: async ({ pageParam }) => {
       const collections = await fetchCollections(client, pageParam);
-
-      const fetchAlbumsByEnv = forServer
-        ? (ids: string[]) => getAlbumsByJoinedIds(ids.join(","))
-        : fetchAlbums;
-
-      const repAlbumsList = await Promise.all(
-        collections.map((collection) =>
-          getCollectionRepresentativeAlbums(
-            collection.list_album_id,
-            fetchAlbumsByEnv
-          )
-        )
-      );
-
-      const items: CollectionItemType[] = collections.map(
-        (collection, idx) => ({
-          collection,
-          albumImages: repAlbumsList[idx].images,
-          albumArtists: repAlbumsList[idx].artists,
-        })
-      );
-      return items;
+      return getCollectionItems(collections, forServer ?? false);
     },
     initialPageParam: 0,
     getNextPageParam: (lastPage, _, lastPageParam) =>
       lastPage.length < limit ? undefined : lastPageParam + limit,
     staleTime: 1000 * 60 * 1,
+    initialData: initialData
+      ? {
+          pageParams: [0],
+          pages: [initialData],
+        }
+      : undefined,
     // placeholderData: (previousData) => previousData,
   };
 }
@@ -80,7 +65,8 @@ export function getUseCollectionItemsQueryOptions(
 export function getUsePublicCollectionItemsQueryOptions(
   supabaseClient: SupabaseClient,
   limit: number,
-  forServer?: boolean
+  forServer?: boolean,
+  initialData?: CollectionItemType[]
 ) {
   const fetchCollections = (client: SupabaseClient, pageParam: number) =>
     getPublicCollections(client, pageParam, pageParam + limit - 1);
@@ -90,7 +76,8 @@ export function getUsePublicCollectionItemsQueryOptions(
     limit,
     fetchCollections,
     ["public"],
-    forServer
+    forServer,
+    initialData
   );
 }
 
