@@ -2,8 +2,9 @@ import { createClient } from "@/utils/supabase/server";
 import "./page.scss";
 import TabBar from "@/components/Collections/TabBar";
 import { redirect } from "next/navigation";
-import CollectionsServer from "@/components/Collections/CollectionsServer";
+// import CollectionsServer from "@/components/Collections/CollectionsServer";
 import { Suspense } from "react";
+import CollectionsClient from "@/components/Collections/CollectionsClient";
 
 const categories = ["public", "user"] as const;
 export type Category = (typeof categories)[number];
@@ -56,7 +57,11 @@ const Page = async ({
             </div>
           }
         >
-          <CollectionsServer category={currentCategory} limit={limit} />
+          <CollectionsClient
+            key={category}
+            category={category === "user" ? "user" : "public"}
+            limit={limit}
+          />
         </Suspense>
       </div>
     </>
