@@ -50,6 +50,10 @@ const CollectionsServer = async ({
       return true;
     },
   });
+
+  // 서버 메모리 누수 방지 캐시 정리
+  queryClient.clear();
+
   // const q = state.queries.find(
   //   (q) => Array.isArray(q.queryKey) && q.queryKey[0] === "collection-items"
   // );
