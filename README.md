@@ -1,7 +1,6 @@
 ## 프로젝트 소개
 좋아하는 앨범을 아카이브할 수 있는 서비스입니다.
-
-Spotify Web API, Web Playback SDK를 활용해 앨범을 저장하고 재생할 수 있습니다. (재생은 Spotify Premium 회원만 가능)
+Spotify API를 활용해 앨범을 검색하고 재생할 수 있습니다.
 
 **링크**: [https://music-archiving.vercel.app/](https://music-archiving.vercel.app/)   
 
